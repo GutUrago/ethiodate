@@ -6,6 +6,10 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/GutUrago/ethDate/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/GutUrago/ethDate/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/GutUrago/ethDate/graph/badge.svg)](https://app.codecov.io/gh/GutUrago/ethDate)
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
 This package provides a robust and efficient solution for converting
