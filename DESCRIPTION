@@ -1,0 +1,25 @@
+Package: ethDate
+Type: Package
+Title: Ethiopian Date Conversion and Arithmetic in R
+Version: 0.1.0
+Authors@R: c(
+    person(
+      "Gutama Girja", "Urago",
+      email = "girjagutama@gmail.com",
+      role = c("aut", "cre", "cph")
+    )
+  )
+Description: This package provides a robust and efficient solution for converting 
+    between Ethiopian and Gregorian dates. Built with high-performance C++ code via {Rcpp}, 
+    it ensures lightning-fast computations.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.2
+LinkingTo: 
+    Rcpp
+Imports: 
+    Rcpp
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
