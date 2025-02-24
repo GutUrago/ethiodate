@@ -135,26 +135,24 @@ The scalar represent number of days.
 
 ``` r
 date_1 <- as_eth_date("2017-01-01")
-date_1 + 30
-#> [1] "2017-02-01"
+date_1 + 400
+#> [1] "2018-02-06"
 #> attr(,"class")
 #> [1] "ethDate"
-date_1 + 365
-#> [1] "2018-01-01"
+date_1 - 1
+#> [1] "2016-13-05"
 #> attr(,"class")
 #> [1] "ethDate"
-date_1 + 7
-#> [1] "2017-01-08"
-#> attr(,"class")
-#> [1] "ethDate"
-date_1 - 7
-#> [1] "2016-12-29"
-#> attr(,"class")
-#> [1] "ethDate"
-date_1 - 366
-#> [1] "2015-13-06"
-#> attr(,"class")
-#> [1] "ethDate"
+```
+
+You can subtract date object as well.
+
+``` r
+as_eth_date("2017-01-25") - as_eth_date("2017-01-10")
+#> The time difference is 15 days.
+
+as_eth_date("1962-04-23") - as_eth_date(as.Date("1970-01-01"))
+#> The time difference is 0 days.
 ```
 
 ## Example
@@ -198,5 +196,5 @@ all(df$date_eth == df$date_eth2)
 ```
 
 <div>
-<h1 style="text-align: center; color=steelblue">The End!</h1>
+<h1 style="text-align: center; color=blue">The End!</h1>
 </div>
