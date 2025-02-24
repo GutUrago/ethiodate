@@ -52,7 +52,33 @@ test_that("Substract 4555", {
   expect_equal(as_numeric(subs_4555_eth), as.numeric(subs_4555_gre))
 })
 
+test_that("Can substract dates", {
+  expect_no_error(as_eth_date(10) - as_eth_date(5))
+})
+
+# Errors ----
+
+test_that("Non objects are error", {
+  expect_error(as_eth_date("19958"))
+})
 
 
+test_that("Non objects are error", {
+  expect_error(to_ethiopian("19958"))
+})
 
+test_that("Cannot add string to dates", {
+  expect_error(as_eth_date(10) + "5")
+})
+
+test_that("Cannot subtract string to dates", {
+  expect_error(as_eth_date(10) + "5")
+})
+
+test_that("Printing", {
+  dates <- as_eth_date(c(1:10))
+  ints <- as_eth_date(11:20)
+  diffs <- dates - ints
+  expect_output(print(diffs, 5))
+})
 

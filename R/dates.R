@@ -139,8 +139,8 @@ as_numeric <- function(x, ...) {
     difference <- x - y
     difference <- as_eth_date(difference)
   } else {
-    if (!inherits(x, "ethDate")) {
-      stop("Cannot add to an 'ethDate' object.")
+    if (!inherits(y, "ethDate")) {
+      stop("Cannot subtract to an 'ethDate' object.")
     }
     y <- to_numeric_cpp(y)
     difference <- x - y

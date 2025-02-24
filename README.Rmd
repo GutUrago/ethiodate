@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-This package provides a robust and efficient solution for converting between Ethiopian and Gregorian dates. Built with high-performance C++ code via `{Rcpp}`, it ensures lightning-fast computations.
+This package provides a robust and efficient solution for converting between Ethiopian and Gregorian dates. Built with high-performance C++ code via `{Rcpp}`, it ensures lightning-fast computations. It has built-in checks for leap years and 13th month (Pagume).
 
 ## Key Features:
 
@@ -42,13 +42,128 @@ devtools::install_github("GutUrago/ethDate")
 ```
 
 
+## Base Date
+
+The default `base` package origin is '1970-01-01' and `ethDate` does the same with 
+equivalent Ethiopian date.
+
+```{r base-origin}
+as.Date(0)
+```
+
+```{r ethDate-origion}
+library(ethDate)
+as_eth_date(0)
+```
+
+You can convert `ethDate` object to Gregorian calendar to get equivalent date. For 
+the above example we can do:
+
+
+```{r convert-to_gre}
+to_gregorian(as_eth_date(0))
+```
+
+```{r convert-to_eth}
+to_ethiopian(as.Date(0))
+```
+
+## Parse Ethiopian Dates
+
+Ethiopian dates can be parsed from integers (number of days since 1970-01-01), 
+character, and of course, Gregorian dates.
+
+1. **Integers**
+
+Use negative integers to represent date before the base date.
+
+```{r from-int}
+as_eth_date(20000)
+```
+
+```{r negative-int}
+as_eth_date(-20000)
+```
+
+
+2. **Character**
+
+```{r}
+as_eth_date("2017-06-13")
+```
+
+
+```{r}
+as_eth_date("2010/07/13", sep = "/")
+```
+
+```{r}
+as_eth_date("06/13/2011", sep = "/", orders = "dmy")
+```
+
+3. **Date**
+
+```{r}
+as_eth_date(as.Date("2025-01-01"))
+```
+
+
+## Date Arithmetic
+
+You can add or subtract scalar date to and from the `ethDate` object. The scalar represent number of days.
+
+```{r}
+date_1 <- as_eth_date("2017-01-01")
+date_1 + 30
+date_1 + 365
+date_1 + 7
+date_1 - 7
+date_1 - 366
+```
+
+
+
+
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+In this example, we use `lakers` data from `lubridate` package and convert dates 
+back and forth two times to check it's consistency.
 
-```{r example}
-#library(ethDate)
-## basic example code
+```{r warning=FALSE, message=FALSE}
+library(tidyverse)
+
+df <- lakers |> 
+  mutate(date_gre = ymd(date),
+         date_eth = as_eth_date(date_gre),
+         date_gre2 = to_gregorian(date_eth),
+         date_eth2 = to_ethiopian(date_gre2)) |> 
+  select(starts_with("date"))
+
+
+kableExtra::kable(head(df))
 ```
+
+
+Let's confirm it's consistency:
+
+```{r}
+all(df$date_gre == df$date_gre2)
+```
+
+```{r}
+all(df$date_eth == df$date_eth2)
+```
+
+
+
+```{=html}
+<div>
+<h1 style="text-align: center; color=blue">The End!</h1>
+</div>
+```
+
+
+
+
 
 
