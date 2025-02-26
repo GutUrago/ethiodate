@@ -195,6 +195,9 @@ all(df$date_eth == df$date_eth2)
 #> [1] TRUE
 ```
 
+That proves it consistently converted dates back and forth for all 34624
+observations in the `lakers` dataset.
+
 <div>
 <h1 style="text-align: center; color=blue">The End!</h1>
 </div>

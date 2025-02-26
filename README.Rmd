@@ -159,6 +159,7 @@ all(df$date_gre == df$date_gre2)
 all(df$date_eth == df$date_eth2)
 ```
 
+That proves it consistently converted dates back and forth for all 34624 observations in the `lakers` dataset.
 
 
 ```{=html}
@@ -166,9 +167,4 @@ all(df$date_eth == df$date_eth2)
 <h1 style="text-align: center; color=blue">The End!</h1>
 </div>
 ```
-
-
-
-
-
 

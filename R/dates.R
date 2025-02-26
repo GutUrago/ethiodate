@@ -1,4 +1,4 @@
-
+# Return as a list from C++ and then format it
 
 
 
@@ -167,4 +167,10 @@ print.ethDiffDays <- function(x, max = NULL, ...) {
   }
 }
 
+
+#' @export
+print.ethDate <- function(x, ...) {
+  x <- unclass(x)
+  print(x)
+}
 

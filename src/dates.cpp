@@ -63,7 +63,7 @@ CharacterVector as_eth_date_cpp(IntegerVector x) {
     }
   }
 
-  result.attr("class") = "ethDate";
+  result.attr("class") = CharacterVector::create("ethDate", "character");
   return result;
 }
 
@@ -184,7 +184,7 @@ CharacterVector parse_eth_date_cpp(CharacterVector dates, std::string sep = "-",
       (day < 10 ? "0" : "") + std::to_string(day);
   }
 
-  result.attr("class") = "ethDate";
+  result.attr("class") = CharacterVector::create("ethDate", "character");
   return result;
 }
 
