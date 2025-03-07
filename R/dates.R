@@ -30,13 +30,6 @@ as_eth_date.numeric <- function(x, ...) {
   as_eth_date_cpp(as.integer(x))
 }
 
-
-#' @export
-#' @rdname as_eth_date
-as_eth_date.integer <- function(x, ...) {
-  as_eth_date_cpp(x)
-}
-
 #' @export
 #' @rdname as_eth_date
 as_eth_date.character <- function(x, ..., sep = "-", orders = "ymd") {
@@ -113,9 +106,17 @@ as_gre_date <- function(x, ...) {
 
 #' @export
 #' @rdname to_gregorian
+as.Date.ethDate <- function(x, ...) {
+  to_gregorian(x, ...)
+}
+
+#' @export
+#' @rdname to_gregorian
 as_numeric <- function(x, ...) {
   to_numeric_cpp(x)
 }
+
+
 
 # Operators ----
 
@@ -148,29 +149,3 @@ as_numeric <- function(x, ...) {
   }
   return(difference)
 }
-
-
-#' @export
-print.ethDiffDays <- function(x, max = NULL, ...) {
-  if(is.null(max)) max <- getOption("max.print", 9999L)
-  is_longer <- length(x) > max
-  if (is_longer) {
-    omit <- length(x) - max
-    x <- x[1:max]
-  }
-  for (i in seq_along(x)) {
-    cat("The time difference is", x[i], "days.\n")
-  }
-  if (is_longer) {
-    cat(' [ reached getOption("max.print") -- omitted',
-        omit, 'entries ]\n')
-  }
-}
-
-
-#' @export
-print.ethDate <- function(x, ...) {
-  x <- unclass(x)
-  print(x)
-}
-

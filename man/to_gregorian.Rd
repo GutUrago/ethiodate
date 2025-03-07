@@ -4,6 +4,7 @@
 \alias{to_gregorian}
 \alias{to_ethiopian}
 \alias{as_gre_date}
+\alias{as.Date.ethDate}
 \alias{as_numeric}
 \title{Date Conversion Functions to and from Ethiopian Date}
 \usage{
@@ -12,6 +13,8 @@ to_gregorian(x, ...)
 to_ethiopian(x)
 
 as_gre_date(x, ...)
+
+\method{as.Date}{ethDate}(x, ...)
 
 as_numeric(x, ...)
 }

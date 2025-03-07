@@ -3,7 +3,6 @@
 \name{as_eth_date}
 \alias{as_eth_date}
 \alias{as_eth_date.numeric}
-\alias{as_eth_date.integer}
 \alias{as_eth_date.character}
 \alias{as_eth_date.Date}
 \title{Date Conversion Functions to Ethiopian Date}
@@ -11,8 +10,6 @@
 as_eth_date(x, ...)
 
 \method{as_eth_date}{numeric}(x, ...)
-
-\method{as_eth_date}{integer}(x, ...)
 
 \method{as_eth_date}{character}(x, ..., sep = "-", orders = "ymd")
 
