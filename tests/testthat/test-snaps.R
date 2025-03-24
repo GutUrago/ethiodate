@@ -48,6 +48,7 @@ test_that("Formattig test", {
     format = "The origin is %B (%b) %m %A (%a) %d, %Y (%y)",
     lang = "en"
   ))
+  expect_equal(format(eth_date(c(1, NA))), c("1962-04-24", NA))
 })
 
 
