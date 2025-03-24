@@ -10,47 +10,58 @@ Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
 Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 #endif
 
-// as_eth_date_cpp
-CharacterVector as_eth_date_cpp(IntegerVector x);
-RcppExport SEXP _ethDate_as_eth_date_cpp(SEXP xSEXP) {
+// weekday_index
+IntegerVector weekday_index(IntegerVector x);
+RcppExport SEXP _ethDate_weekday_index(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< IntegerVector >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(as_eth_date_cpp(x));
+    rcpp_result_gen = Rcpp::wrap(weekday_index(x));
     return rcpp_result_gen;
 END_RCPP
 }
-// to_numeric_cpp
-IntegerVector to_numeric_cpp(CharacterVector dates, std::string sep);
-RcppExport SEXP _ethDate_to_numeric_cpp(SEXP datesSEXP, SEXP sepSEXP) {
+// eth_date_components
+List eth_date_components(IntegerVector x);
+RcppExport SEXP _ethDate_eth_date_components(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< CharacterVector >::type dates(datesSEXP);
-    Rcpp::traits::input_parameter< std::string >::type sep(sepSEXP);
-    rcpp_result_gen = Rcpp::wrap(to_numeric_cpp(dates, sep));
+    Rcpp::traits::input_parameter< IntegerVector >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(eth_date_components(x));
     return rcpp_result_gen;
 END_RCPP
 }
-// parse_eth_date_cpp
-CharacterVector parse_eth_date_cpp(CharacterVector dates, std::string sep, std::string orders);
-RcppExport SEXP _ethDate_parse_eth_date_cpp(SEXP datesSEXP, SEXP sepSEXP, SEXP ordersSEXP) {
+// eth_date_validate
+IntegerVector eth_date_validate(IntegerVector year, IntegerVector month, IntegerVector day);
+RcppExport SEXP _ethDate_eth_date_validate(SEXP yearSEXP, SEXP monthSEXP, SEXP daySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< CharacterVector >::type dates(datesSEXP);
-    Rcpp::traits::input_parameter< std::string >::type sep(sepSEXP);
-    Rcpp::traits::input_parameter< std::string >::type orders(ordersSEXP);
-    rcpp_result_gen = Rcpp::wrap(parse_eth_date_cpp(dates, sep, orders));
+    Rcpp::traits::input_parameter< IntegerVector >::type year(yearSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type month(monthSEXP);
+    Rcpp::traits::input_parameter< IntegerVector >::type day(daySEXP);
+    rcpp_result_gen = Rcpp::wrap(eth_date_validate(year, month, day));
+    return rcpp_result_gen;
+END_RCPP
+}
+// eth_leap_year
+LogicalVector eth_leap_year(IntegerVector x);
+RcppExport SEXP _ethDate_eth_leap_year(SEXP xSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< IntegerVector >::type x(xSEXP);
+    rcpp_result_gen = Rcpp::wrap(eth_leap_year(x));
     return rcpp_result_gen;
 END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_ethDate_as_eth_date_cpp", (DL_FUNC) &_ethDate_as_eth_date_cpp, 1},
-    {"_ethDate_to_numeric_cpp", (DL_FUNC) &_ethDate_to_numeric_cpp, 2},
-    {"_ethDate_parse_eth_date_cpp", (DL_FUNC) &_ethDate_parse_eth_date_cpp, 3},
+    {"_ethDate_weekday_index", (DL_FUNC) &_ethDate_weekday_index, 1},
+    {"_ethDate_eth_date_components", (DL_FUNC) &_ethDate_eth_date_components, 1},
+    {"_ethDate_eth_date_validate", (DL_FUNC) &_ethDate_eth_date_validate, 3},
+    {"_ethDate_eth_leap_year", (DL_FUNC) &_ethDate_eth_leap_year, 1},
     {NULL, NULL, 0}
 };
 

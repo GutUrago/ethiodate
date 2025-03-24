@@ -1,151 +1,116 @@
-# Return as a list from C++ and then format it
 
 
-
-#' @title Date Conversion Functions to Ethiopian Date
-#'
+#' Create Ethiopian Dates
 #' @description
-#' These functions can parse an Ethiopian date from integers, and characters.
-#' It can seamlessly convert Ethiopian date to and from Gregorian calendar.
-#' At the moment, there's no function that supports timezone and hours.
+#' Convert or create an Ethiopian date.
 #'
-#' @param x an integer, character, or date objects to be parsed as an Ethiopian date
-#' @param sep if `x` is a character, an separator of year, month and day.
-#' @param orders if `x` is a character, the order of year (y), month (m) and day (d)
-#' in the character. Default is "ymd".
-#' @param ... Arguments that passes to and from methods. Must be empty.
 #'
-#' @return A vector of "ethDate" class.
+#' @param x a numeric, Date, POSIXct or POSIXt vector used to construct an Ethiopian date.
+#'
+#' @details
+#' `eth_date()` internally stores number of days since 1962-04-23 EC (equivalent to 1970-01-01 GC).
+#' Days before 1962-04-23 EC are represented as negative integers.
+#' This makes it easy to convert from and to base `Date` objects. This function does not
+#' support time and timezone.
+#'
+#' @seealso [eth_make_date()]
+#'
+#' @returns
+#' Returns a vector with an 'ethDate' class that can further be used as an Ethiopian date.
 #'
 #' @author Gutama Girja Urago
-#'
 #' @export
+#'
 #' @examples
-#' as_eth_date("2000-01-01")
-as_eth_date <- function(x, ...) UseMethod("as_eth_date")
-
-#' @export
-#' @rdname as_eth_date
-as_eth_date.numeric <- function(x, ...) {
-  as_eth_date_cpp(as.integer(x))
+#' eth_date(as.Date(0))
+eth_date <- function(x) {
+  UseMethod("eth_date")
 }
 
 #' @export
-#' @rdname as_eth_date
-as_eth_date.character <- function(x, ..., sep = "-", orders = "ymd") {
-  eth_date <- parse_eth_date_cpp(x, ..., sep = sep, orders = orders)
-  if (all(is.na(eth_date))) {
-    stop("Could not parse the date.")
-  }
-  return(eth_date)
+eth_date.numeric <- function(x) {
+  new_ethDate(x)
+}
+
+
+#' @export
+eth_date.Date <- function(x) {
+  x <- as.numeric(x)
+  new_ethDate(x)
 }
 
 #' @export
-#' @rdname as_eth_date
-as_eth_date.Date <- function(x, ...) {
-  numeric_date <- as.numeric(x)
-  as_eth_date(numeric_date)
+eth_date.POSIXct <- function(x) {
+  x <- as.Date(x)
+  eth_date(x)
 }
 
-# # Think about timezones
-# #' @export
-# #' @rdname as_eth_date
-# as_eth_date.POSIXlt <- function(x, ...) {
-#   gre_date <- as.Date(x)
-#   as_eth_date(gre_date)
-# }
 
-
-
-
-#' @title Date Conversion Functions to and from Ethiopian Date
-#'
-#' @description
-#' Functions to convert an Ethiopian date to and from Gregorian calendar.
-#' At the moment, there's no function that supports timezone and hours.
-#'
-#' @param x a Date or ethDate object
-#'
-#' @param ... Arguments that passes to and from methods. Must be empty.
-#'
-#' @return Except `as_numeric`, return an object with "Date" class if converted to Gregorian,
-#' else an object with "ethDate" class. `as_numeric` returns number of days since 1970-01-01,
-#' which can easily be converted to Gregorian date using `as.Date`.
-#'
-#' @author Gutama Girja Urago
-#'
 #' @export
-#' @examples
-#' date <- as.Date("2025-01-01")
-#' eth_date <- to_ethiopian(date)
-to_gregorian <- function(x, ...) {
-  if (!inherits(x, "ethDate")) {
-    stop("Only objects with 'ethDate' can be converted.")
-  }
-  eth_numeric <- to_numeric_cpp(x)
-  gre_date <- as.Date(eth_numeric, ...)
-  return(gre_date)
+eth_date.POSIXt <- function(x) {
+  x <- as.Date(x)
+  eth_date(x)
 }
 
-#' @export
-#' @rdname to_gregorian
-to_ethiopian <- function(x) {
-  if (!inherits(x, "Date")) {
-    stop("Only objects with 'Date' can be converted.")
-  }
-  gre_numeric <- base::as.numeric(x)
-  gre_date <- as_eth_date(gre_numeric)
-  return(gre_date)
-}
+# Casting ----
 
 #' @export
-#' @rdname to_gregorian
-as_gre_date <- function(x, ...) {
-  to_gregorian(x, ...)
-}
-
-#' @export
-#' @rdname to_gregorian
 as.Date.ethDate <- function(x, ...) {
-  to_gregorian(x, ...)
+  x <- as.numeric(x)
+  as.Date(x)
 }
 
 #' @export
-#' @rdname to_gregorian
-as_numeric <- function(x, ...) {
-  to_numeric_cpp(x)
+as.double.ethDate <- function(x, ...) {
+  x <- unclass(x)
+  as.double(x)
+}
+
+#' @export
+as.character.ethDate <- function(x, ...) {
+  format(x, ...)
 }
 
 
+# Parsing ----
 
-# Operators ----
-
+#' Make Ethiopian Date
+#'
+#' @description
+#' Make Ethiopian date object from year, month and day.
+#'
+#'
+#' @param year an integer vector of Ethiopian year.
+#' @param month an integer vector of Ethiopian month.
+#' @param day an integer vector of Ethiopian day.
+#'
+#' @details
+#' This function constructs an Ethiopian date object from three vectors of an equal length.
+#' It validates the date and returns `NA` for invalid dates. It accounts for leap years.
+#' The returned object can further be used.
+#' If you want to convert it to Gregorian calendar, use `as.Date()`.
+#'
+#'
+#' @returns
+#' Returns a vector with an 'ethDate' class that can further be used as an Ethiopian date.
+#'
+#'
+#' @author Gutama Girja Urago
+#'
+#' @seealso [eth_date()]
+#'
 #' @export
-`+.ethDate` <- function(x, y) {
-  if (!is.numeric(y)) {
-    stop("Only 'numeric' can be added to an object with 'ethDate' class.")
+#'
+#' @examples
+#' eth_make_date(2017, 01, 15)
+eth_make_date <- function(year, month, day) {
+
+  if (!is.numeric(year) | !is.numeric(month) | !is.numeric(day)) {
+    stop("Year, month, and day must be integer vectors.")
   }
-  x <- to_numeric_cpp(x)
-  date_integer <- x + y
-  eth_date <- as_eth_date(date_integer)
-  return(eth_date)
-}
 
-
-#' @export
-`-.ethDate` <- function(x, y) {
-  # Add for date differences
-  x <- to_numeric_cpp(x)
-  if (is.numeric(y)) {
-    difference <- x - y
-    difference <- as_eth_date(difference)
-  } else {
-    if (!inherits(y, "ethDate")) {
-      stop("Cannot subtract to an 'ethDate' object.")
-    }
-    y <- to_numeric_cpp(y)
-    difference <- x - y
-    class(difference) <- "ethDiffDays"
-  }
-  return(difference)
+  x <- eth_date_validate(year = year,
+                         month = month,
+                         day = day)
+  new_ethDate(x)
 }

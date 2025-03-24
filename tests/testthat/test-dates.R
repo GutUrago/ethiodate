@@ -1,84 +1,69 @@
+df <- data.frame(x = -100000:100000)
 
-x <- 15000:30000
-eth_date <- as_eth_date(x)
-to_gre_date <- to_gregorian(eth_date)
-eth_numeric <- to_numeric_cpp(eth_date)
-gre_date <- as.Date(x)
-to_eth_date <- to_ethiopian(gre_date)
-gre_numeric <- as.numeric(gre_date)
+df$gre_d <- as.Date(df$x)
+df$eth_d <- eth_date(df$x)
+df$gre_x <- as.numeric(df$gre_d)
+df$eth_x <- as.numeric(df$eth_d)
+df$gre_add_7 <- df$gre_d + 7
+df$gre_sub_7 <- df$gre_d - 7
+df$eth_add_7 <- df$eth_d + 7
+df$eth_sub_7 <- df$eth_d - 7
+df$eth_leap <- is_eth_leap(df$eth_d)
+df$gre_leap <- as.numeric(format(df$gre_d, "%Y")) %% 4 == 0 & (as.numeric(format(df$gre_d, "%Y")) %% 100 != 0 | as.numeric(format(df$gre_d, "%Y")) %% 400 == 0)
 
+df$eth_y <- eth_year(df$eth_d)
+df$eth_m <- eth_month(df$eth_d)
+df$eth_d1 <- eth_day(df$eth_d)
+df$eth_new_d <- eth_make_date(df$eth_y, df$eth_m, df$eth_d1)
 
+df$eth_as_date <- as.Date(df$eth_d)
+df$eth_from_gre <- eth_date(df$gre_d)
+df$posix_1 <- as.POSIXct(df$gre_d)
+df$posix_2 <- as.POSIXlt(df$gre_d)
+df$eth_from_1 <- eth_date(df$posix_1)
+df$eth_from_2 <- eth_date(df$posix_2)
 
-test_that("Converts to gregorian", {
-  expect_equal(to_gre_date, gre_date)
+test_that("Internally stored values are the same as base Date", {
+  expect_equal(df$gre_x, df$eth_x)
 })
 
-test_that("Converts to ethiopian", {
-  expect_equal(to_eth_date, eth_date)
+test_that("Additions works", {
+  expect_equal(unclass(df$gre_add_7), unclass(df$eth_add_7))
 })
 
-test_that("Both have numeric underhood", {
-  expect_equal(eth_numeric, gre_numeric)
+test_that("Subtraction works", {
+  expect_equal(unclass(df$gre_sub_7), unclass(df$eth_sub_7))
 })
 
-
-# Operators ----
-
-eth_date <- as_eth_date(c("2000-01-01", "2011-13-06"))
-add_7_eth <- eth_date + 7
-add_999_eth <- eth_date + 999
-subs_77_eth <- eth_date - 77
-subs_4555_eth <- eth_date - 4555
-
-gre_date <- as.Date(as_numeric(eth_date))
-add_7_gre <- gre_date + 7
-add_999_gre <- gre_date + 999
-subs_77_gre <- gre_date - 77
-subs_4555_gre <- gre_date - 4555
-
-test_that("Adding 7", {
-  expect_equal(as_numeric(add_7_eth), as.numeric(add_7_gre))
+test_that("Leap years", {
+  expect_equal(sum(df$eth_leap), 50142)
 })
 
-test_that("Adding 999", {
-  expect_equal(as_numeric(add_999_eth), as.numeric(add_999_gre))
+test_that("Ethiopia has more leap years", {
+  expect_gt(sum(df$eth_leap), sum(df$gre_leap))
 })
 
-test_that("Substract 77", {
-  expect_equal(as_numeric(subs_77_eth), as.numeric(subs_77_gre))
+test_that("Extract components and make date again", {
+  expect_equal(df$eth_d, df$eth_new_d)
 })
 
-test_that("Substract 4555", {
-  expect_equal(as_numeric(subs_4555_eth), as.numeric(subs_4555_gre))
+test_that("Conversion to date", {
+  expect_equal(df$eth_as_date, df$gre_d)
 })
 
-test_that("Can substract dates", {
-  expect_no_error(as_eth_date(10) - as_eth_date(5))
+test_that("Conversion from date", {
+  expect_equal(df$eth_d, df$eth_from_gre)
 })
 
-# Errors ----
-
-test_that("Non objects are error", {
-  expect_error(as_eth_date("19958"))
+test_that("Conversion from POSIXct", {
+  expect_equal(df$eth_d, df$eth_from_1)
 })
 
-
-test_that("Non objects are error", {
-  expect_error(to_ethiopian("19958"))
+test_that("Conversion from POSIXlt", {
+  expect_equal(df$eth_d, df$eth_from_2)
 })
 
-test_that("Cannot add string to dates", {
-  expect_error(as_eth_date(10) + "5")
-})
-
-test_that("Cannot subtract string to dates", {
-  expect_error(as_eth_date(10) + "5")
-})
-
-test_that("Printing", {
-  dates <- as_eth_date(c(1:10))
-  ints <- as_eth_date(11:20)
-  diffs <- dates - ints
-  expect_output(print(diffs, 5))
+test_that("Can be coerced to character", {
+  expect_no_error(as.character(df$eth_d[1:10]))
 })
 

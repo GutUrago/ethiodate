@@ -3,38 +3,45 @@
 \name{eth_year}
 \alias{eth_year}
 \alias{eth_month}
+\alias{eth_monthname}
 \alias{eth_day}
 \alias{eth_weekday}
-\alias{eth_monthname}
-\title{Extract Components of Dates}
+\alias{is_eth_date}
+\alias{is_eth_leap}
+\title{Ethiopian Date Utils}
 \usage{
 eth_year(x)
 
 eth_month(x)
 
+eth_monthname(x, lang = c("amh", "lat", "en"), abbreviate = FALSE)
+
 eth_day(x)
 
-eth_weekday(x)
+eth_weekday(x, lang = c("amh", "lat", "en"), abbreviate = FALSE)
 
-eth_monthname(x)
+is_eth_date(x)
+
+is_eth_leap(x)
 }
 \arguments{
-\item{x}{a vector of class Ethiopian dates}
+\item{x}{a vector of an Ethiopian date object}
+
+\item{lang}{a language. 'amh' for Amharic, 'lat' for Amharic written in Latin alphabets and
+'en' for English}
+
+\item{abbreviate}{Do you want to get an abbreviated month or weekday names?}
 }
 \value{
-An integer vector
+a vector
 }
 \description{
-Extract Components of Dates
+Small functions that helps to extract parts of Ethiopian date objects.
 }
 \examples{
 if (FALSE) {
-x <- as_eth_date("2017-01-01")
-year <- eth_year(x)
-month <- eth_month(x)
-day <- eth_day(x)
-weekday <- eth_weekday(x)
-monthname <- eth_monthname(x)
+x <- eth_date("2017-01-01")
+eth_year(x)
 }
 }
 \author{

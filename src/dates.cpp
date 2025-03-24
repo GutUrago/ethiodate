@@ -2,16 +2,51 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-CharacterVector as_eth_date_cpp(IntegerVector x) {
+IntegerVector weekday_index(IntegerVector x) {
+  int n = x.size();
+  IntegerVector result(n);
+
+  for (int i = 0; i < n; i++) {
+    if (x[i] == NA_INTEGER) {
+      result[i] = NA_INTEGER;
+    } else if (x[i] > 0) {
+      result[i] = (x[i] + 4) % 7;
+      if (result[i] == 0) {
+        result[i] = 7;
+      }
+    } else {
+      int mod_val = ((x[i] % 7) + 7) % 7;
+      result[i] = mod_val + 4;
+      if (result[i] > 7) {
+        result[i] -= 7;
+      }
+    }
+    if (i % 1000 == 0) {
+      checkUserInterrupt();
+    }
+  }
+  return result;
+}
+
+
+// [[Rcpp::export]]
+List eth_date_components(IntegerVector x) {
   int base_year = 1962;
   int base_month = 4;
   int base_offset = 23;
   int n = x.size();
-  CharacterVector result(n);
+  List result(n);
 
   for (int i = 0; i < n; i++) {
+
     if (x[i] == NA_INTEGER) {
-      result[i] = NA_STRING;
+      result[i] = List::create(
+        Named("year") = NA_INTEGER,
+        Named("month") = NA_INTEGER,
+        Named("day") = NA_INTEGER,
+        Named("td") = NA_INTEGER,
+        Named("wx") = NA_INTEGER
+      );
       continue;
     }
 
@@ -19,10 +54,20 @@ CharacterVector as_eth_date_cpp(IntegerVector x) {
     int year = base_year;
     int month = base_month;
 
-    // Prevent infinite loops or invalid negative years
-    if (days < -365 * 1000 || days > 365 * 1000) {
-      result[i] = NA_STRING;
-      continue;
+    int td = x[i];
+
+    int wx = 0;
+    if (x[i] > 0) {
+      wx = (x[i] + 4) % 7;
+      if (wx == 0) {
+        wx = 7;
+      }
+    } else {
+      int mod_val = ((x[i] % 7) + 7) % 7;
+      wx = mod_val + 4;
+      if (wx > 7) {
+        wx -= 7;
+      }
     }
 
     while (days > 30 || days <= 0) {
@@ -33,10 +78,6 @@ CharacterVector as_eth_date_cpp(IntegerVector x) {
         days -= year_days;
         year++;
       } else if (days <= 0) {
-        if (year <= -10000) {  // Prevent unrealistic negative years
-          result[i] = NA_STRING;
-          break;
-        }
         year--;
         bool prev_leap = (year % 4) == 3;
         int prev_year_days = prev_leap ? 366 : 365;
@@ -55,136 +96,99 @@ CharacterVector as_eth_date_cpp(IntegerVector x) {
         }
       }
     }
-
-    if (result[i] != NA_STRING) {
-      result[i] = std::to_string(year) + "-" +
-        (month < 10 ? "0" : "") + std::to_string(month) + "-" +
-        (days < 10 ? "0" : "") + std::to_string(days);
+    result[i] = List::create(
+      Named("year") = year,
+      Named("month") = month,
+      Named("day") = days,
+      Named("td") = td,
+      Named("wx") = wx
+    );
+    if (i % 1000 == 0) {
+      checkUserInterrupt();
     }
   }
-
-  result.attr("class") = CharacterVector::create("ethDate", "character");
   return result;
 }
 
 
 // [[Rcpp::export]]
-IntegerVector to_numeric_cpp(CharacterVector dates, std::string sep = "-") {
-  int n = dates.size();
-  IntegerVector result(n, NA_INTEGER);
+IntegerVector eth_date_validate(IntegerVector year,
+                                IntegerVector month,
+                                IntegerVector day) {
+
+  if (year.size() != month.size() || year.size() != day.size()) {
+    stop("Year, month, and day must be integer vectors of the same length.");
+  }
+
+  int n = year.size();
+  int base_offset = 113;
+  IntegerVector result(n);
 
   for (int i = 0; i < n; i++) {
-    std::vector<std::string> parts;
-    std::string date = Rcpp::as<std::string>(dates[i]);
-    size_t pos = 0;
-    while ((pos = date.find(sep)) != std::string::npos) {
-      parts.push_back(date.substr(0, pos));
-      date.erase(0, pos + sep.length());
-    }
-    parts.push_back(date);
-
-    if (parts.size() != 3) {
+    if (year[i] == NA_INTEGER || month[i] == NA_INTEGER || day[i] == NA_INTEGER) {
+      result[i] = NA_INTEGER;
       continue;
     }
-
-    int year, month, days;
-    try {
-      year = std::stoi(parts[0]);
-      month = std::stoi(parts[1]);
-      days = std::stoi(parts[2]);
-    } catch (...) {
+    if (day[i] < 1 || day[i] > 30) {
+      warning("Invalid day detected; coercing to NA.");
+      result[i] = NA_INTEGER;
       continue;
     }
-
-    bool is_leap = (year % 4 == 3);
-    int max_days = (month == 13) ? (is_leap ? 6 : 5) : 30;
-
-    if (month < 1 || month > 13 || days < 1 || days > max_days) {
+    if (month[i] < 1 || month[i] > 13) {
+      warning("Invalid month detected; coercing to NA.");
+      result[i] = NA_INTEGER;
       continue;
     }
-
-    if (month == 1) {
-      month -= 1;
+    if (month[i] == 13 && day[i] > 5 && year[i] % 4 != 3) {
+      warning("Invalid day detected; coercing to NA.");
+      result[i] = NA_INTEGER;
+      continue;
     }
-
-    while (month > 1) {
-      days += 30;
-      month--;
+    if (month[i] == 13 && day[i] > 6) {
+      warning("Invalid day detected; coercing to NA.");
+      result[i] = NA_INTEGER;
+      continue;
     }
-
-    while (year > 1962) {
-      int year_days = ((year - 1) % 4 == 3) ? 366 : 365;
+    int days = 0;
+    int cur_year = year[i];
+    if (month[i] > 1) {
+      days += (month[i] - 1) * 30;
+      days += day[i];
+    } else {
+      days += day[i];
+    }
+    while (cur_year > 1962) {
+      int year_days = ((cur_year - 1) % 4 == 3) ? 366 : 365;
       days += year_days;
-      year--;
+      cur_year--;
     }
-
-    while (year < 1962) {
-      int year_days = (year % 4 == 3) ? 366 : 365;
+    while (cur_year < 1962) {
+      int year_days = (cur_year % 4 == 3) ? 366 : 365;
       days -= year_days;
-      year++;
+      cur_year++;
     }
-
-    result[i] = days - 113;
+    result[i] = days - base_offset;
+    if (i % 1000 == 0) {
+      checkUserInterrupt();
+    }
   }
-
   return result;
 }
 
 
 // [[Rcpp::export]]
-CharacterVector parse_eth_date_cpp(CharacterVector dates, std::string sep = "-", std::string orders = "ymd") {
-  int n = dates.size();
-  CharacterVector result(n, NA_STRING);
-
-  if (orders.size() != 3 || orders.find("y") == std::string::npos ||
-      orders.find("m") == std::string::npos || orders.find("d") == std::string::npos) {
-    stop("Invalid order format. Use 'y' for year, 'm' for month, and 'd' for day.");
-  }
-
-  size_t y_index = orders.find("y");
-  size_t m_index = orders.find("m");
-  size_t d_index = orders.find("d");
-
+LogicalVector eth_leap_year(IntegerVector x) {
+  int n = x.size();
+  LogicalVector result(n);
   for (int i = 0; i < n; i++) {
-    if (dates[i] == NA_STRING) continue;
-
-    std::vector<std::string> parts;
-    std::string date = Rcpp::as<std::string>(dates[i]);
-    size_t pos = 0;
-
-    while ((pos = date.find(sep)) != std::string::npos) {
-      parts.push_back(date.substr(0, pos));
-      date.erase(0, pos + sep.length());
+    if (x[i] == NA_INTEGER) {
+      result[i] = NA_INTEGER;
+      continue;
     }
-    parts.push_back(date);
-
-    if (parts.size() != 3) continue;
-
-    int year, month, day;
-
-    try {
-      year = std::stoi(parts[y_index]);
-      month = std::stoi(parts[m_index]);
-      day = std::stoi(parts[d_index]);
-    } catch (...) {
-      continue;  // Skip invalid numeric conversion
+    result[i] = (x[i] + 1) % 4 == 0;
+    if (i % 1000 == 0) {
+      checkUserInterrupt();
     }
-
-    // Leap year check
-    bool is_leap = (year % 4 == 3);
-
-    // Validate month and day
-    if (month < 1 || month > 13) continue;
-    if (day < 1 || day > 30) continue;
-    if (month == 13 && day > (is_leap ? 6 : 5)) continue;  // Ensure Pagumē constraints
-
-    // Valid date, format correctly
-    result[i] = std::to_string(year) + "-" +
-      (month < 10 ? "0" : "") + std::to_string(month) + "-" +
-      (day < 10 ? "0" : "") + std::to_string(day);
   }
-
-  result.attr("class") = CharacterVector::create("ethDate", "character");
   return result;
 }
-
