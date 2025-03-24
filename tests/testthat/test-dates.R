@@ -67,3 +67,49 @@ test_that("Can be coerced to character", {
   expect_no_error(as.character(df$eth_d[1:10]))
 })
 
+test_that("new_ethDate accept only numeric", {
+  expect_error(new_ethDate("0"))
+  expect_error(new_ethDiffDay("0"))
+})
+
+test_that("2011 is leap year", {
+  expect_true(is_eth_leap(2011))
+})
+
+test_that("NA for NAs", {
+  expect_equal(is_eth_leap(eth_date(c(NA, 0))), c(NA, FALSE))
+})
+
+
+test_that("Week_index", {
+  x <- c(NA, 1,  2,  3,  4,  5,  6,  7,  1,  2,  3,  4,  5,  6,  7,  1,  2,  3,  4,  5,  6, 7)
+  expect_equal(weekday_index(c(NA, -10:10)), x)
+})
+
+test_that("NA components are NA", {
+  x <- list(
+    list(
+      year = NA_integer_,
+      month = NA_integer_,
+      day = NA_integer_,
+      td = NA_integer_,
+      wx = NA_integer_
+    )
+  )
+  expect_equal(eth_date_components(NA), x)
+})
+
+test_that("eth_date_validate", {
+  expect_true(is.na(eth_date_validate(2015, NA, NA)))
+  expect_warning(eth_date_validate(2015, 01, 40))
+  expect_warning(eth_date_validate(2015, 15, 01))
+  expect_warning(eth_date_validate(2012, 13, 06))
+  expect_warning(eth_date_validate(2012, 13, 08))
+})
+
+
+
+
+
+
+

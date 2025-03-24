@@ -7,6 +7,8 @@ summary.ethDate <- function(object, digits = 12L, ...) {
     NAs <- as.character(as.integer(x[m]))
     x <- as.character(new_ethDate(x[-m]))
     x <- c(x, "NA's" = NAs)
+  } else {
+    x <- as.character(new_ethDate(x))
     }
   x
   }

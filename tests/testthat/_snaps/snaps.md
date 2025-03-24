@@ -1,3 +1,21 @@
+# Summary works for NAs too
+
+    Code
+      summary(eth_date(0:10))
+    Output
+              Min.      1st Qu.       Median         Mean      3rd Qu.         Max. 
+      "1962-04-23" "1962-04-25" "1962-04-28" "1962-04-28" "1962-04-30" "1962-05-03" 
+
+---
+
+    Code
+      summary(eth_date(c(NA, 0:10, NA)))
+    Output
+              Min.      1st Qu.       Median         Mean      3rd Qu.         Max. 
+      "1962-04-23" "1962-04-25" "1962-04-28" "1962-04-28" "1962-04-30" "1962-05-03" 
+              NA's 
+               "2" 
+
 # eth_components works only on ethDate
 
     Code
