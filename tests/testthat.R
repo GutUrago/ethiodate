@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(ethDate)
+library(ethiodate)
 
-test_check("ethDate")
+test_check("ethiodate")
