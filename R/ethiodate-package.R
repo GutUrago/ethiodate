@@ -1,5 +1,5 @@
 ## usethis namespace: start
 #' @importFrom Rcpp sourceCpp
-#' @useDynLib ethDate, .registration = TRUE
+#' @useDynLib ethiodate, .registration = TRUE
 ## usethis namespace: end
 NULL

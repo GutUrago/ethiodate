@@ -56,8 +56,8 @@ test_that("Formattig test", {
 # Printing ----
 
 test_that("Printing test", {
-  expect_snapshot(eth_date(1:17))
-  expect_snapshot(eth_date(1:17) - eth_date(1))
+  expect_snapshot(print(eth_date(1:5), max=3))
+  expect_snapshot(print(eth_date(1:5) - eth_date(1), max=3))
 })
 
 # Month and weekday names ----

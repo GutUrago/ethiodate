@@ -29,14 +29,14 @@ eth_date <- function(x) {
 
 #' @export
 eth_date.numeric <- function(x) {
-  new_ethDate(x)
+  new_ethdate(x)
 }
 
 
 #' @export
 eth_date.Date <- function(x) {
   x <- as.numeric(x)
-  new_ethDate(x)
+  new_ethdate(x)
 }
 
 #' @export
@@ -55,19 +55,19 @@ eth_date.POSIXt <- function(x) {
 # Casting ----
 
 #' @export
-as.Date.ethDate <- function(x, ...) {
+as.Date.ethdate <- function(x, ...) {
   x <- as.numeric(x)
   as.Date(x)
 }
 
 #' @export
-as.double.ethDate <- function(x, ...) {
+as.double.ethdate <- function(x, ...) {
   x <- unclass(x)
   as.double(x)
 }
 
 #' @export
-as.character.ethDate <- function(x, ...) {
+as.character.ethdate <- function(x, ...) {
   format(x, ...)
 }
 
@@ -112,5 +112,5 @@ eth_make_date <- function(year, month, day) {
   x <- eth_date_validate(year = year,
                          month = month,
                          day = day)
-  new_ethDate(x)
+  new_ethdate(x)
 }

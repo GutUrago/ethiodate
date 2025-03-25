@@ -106,16 +106,3 @@ test_that("eth_date_validate", {
   expect_warning(eth_date_validate(2012, 13, 06))
   expect_warning(eth_date_validate(2011, 13, 08))
 })
-
-test_that("Print", {
-  expect_no_error(print(eth_date(1:20), 5))
-  expect_no_error(print(eth_date(1:20) - eth_date(0:19), 5))
-})
-
-
-
-
-
-
-
-

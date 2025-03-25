@@ -1,6 +1,6 @@
 
 #' @export
-format.ethDate <- function(x, format = "%Y-%m-%d",
+format.ethdate <- function(x, format = "%Y-%m-%d",
                            lang = c("amh", "lat", "en"), ...) {
   lang <- match.arg(lang, c("amh", "lat", "en"))
   date_components <- eth_date_components(x)
@@ -10,7 +10,7 @@ format.ethDate <- function(x, format = "%Y-%m-%d",
 }
 
 #' @export
-print.ethDate <- function(x, max = NULL, ...) {
+print.ethdate <- function(x, max = NULL, ...) {
   if(is.null(max)) max <- getOption("max.print", 9999L)
   if(max < length(x)) {
     print(format(x[seq_len(max)]), max=max, ...)
@@ -22,7 +22,7 @@ print.ethDate <- function(x, max = NULL, ...) {
 
 
 #' @export
-print.ethDiffDay <- function(x, max = NULL, ...) {
+print.ethdiffday <- function(x, max = NULL, ...) {
   if(is.null(max)) max <- getOption("max.print", 9999L)
   x <- unclass(x)
   x <- paste("Time difference of", x, "days")

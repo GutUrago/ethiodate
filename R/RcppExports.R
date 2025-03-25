@@ -2,18 +2,18 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 weekday_index <- function(x) {
-    .Call(`_ethDate_weekday_index`, x)
+    .Call(`_ethiodate_weekday_index`, x)
 }
 
 eth_date_components <- function(x) {
-    .Call(`_ethDate_eth_date_components`, x)
+    .Call(`_ethiodate_eth_date_components`, x)
 }
 
 eth_date_validate <- function(year, month, day) {
-    .Call(`_ethDate_eth_date_validate`, year, month, day)
+    .Call(`_ethiodate_eth_date_validate`, year, month, day)
 }
 
 eth_leap_year <- function(x) {
-    .Call(`_ethDate_eth_leap_year`, x)
+    .Call(`_ethiodate_eth_leap_year`, x)
 }
 

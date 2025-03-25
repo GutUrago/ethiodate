@@ -115,7 +115,7 @@ eth_weekday <- function(x, lang = c("amh", "lat", "en"),
 #' @export
 #' @rdname eth_year
 is_eth_date <- function(x) {
-  inherits(x, "ethDate")
+  inherits(x, "ethdate")
 }
 
 #' @export
@@ -128,7 +128,7 @@ is_eth_leap.numeric <- function(x) {
 }
 
 #' @export
-is_eth_leap.ethDate <- function(x) {
+is_eth_leap.ethdate <- function(x) {
   x <- eth_date_components(x)
   y <- sapply(x, \(x) x[["year"]])
   eth_leap_year(y)
@@ -136,19 +136,28 @@ is_eth_leap.ethDate <- function(x) {
 
 # Classes ----
 
-new_ethDate <- function(x = integer()) {
+new_ethdate <- function(x = integer()) {
   if (!is.numeric(x)) {
     stop("`x` must be an integer vector.")
   }
-  vctrs::new_vctr(x, class = "ethDate")
+  vctrs::new_vctr(x, class = "ethdate")
 }
 
-new_ethDiffDay <- function(x = integer()) {
+new_ethdiffday <- function(x = integer()) {
   if (!is.numeric(x)) {
     stop("`x` must be an integer vector.")
   }
-  vctrs::new_vctr(x, class = "ethDiffDay")
+  vctrs::new_vctr(x, class = "ethdiffday")
 }
+
+vec_ptype_abbr.ethdate <- function(x, ...) {
+  "ethd"
+}
+
+vec_ptype_abbr.ethdiffday <- function(x, ...) {
+  "ethdd"
+}
+
 
 # Month and weekday names ----
 

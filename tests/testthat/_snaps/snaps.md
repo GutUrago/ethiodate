@@ -77,16 +77,16 @@
     Code
       eth_date(0) + eth_date(0)
     Condition
-      Error in `+.ethDate`:
-      ! binary + is not defined for "ethDate" objects
+      Error in `+.ethdate`:
+      ! binary + is not defined for "ethdate" objects
 
 ---
 
     Code
       1 - eth_date(0)
     Condition
-      Error in `-.ethDate`:
-      ! can only subtract from "ethDate" objects
+      Error in `-.ethdate`:
+      ! can only subtract from "ethdate" objects
 
 # Formattig test
 
@@ -114,25 +114,17 @@
 # Printing test
 
     Code
-      eth_date(1:17)
+      print(eth_date(1:5), max = 3)
     Output
-       [1] "1962-04-24" "1962-04-25" "1962-04-26" "1962-04-27" "1962-04-28"
-       [6] "1962-04-29" "1962-04-30" "1962-05-01" "1962-05-02" "1962-05-03"
-      [11] "1962-05-04" "1962-05-05" "1962-05-06" "1962-05-07" "1962-05-08"
-      [16] "1962-05-09" "1962-05-10"
+      [1] "1962-04-24" "1962-04-25" "1962-04-26"
+       [ reached getOption("max.print") -- omitted 2 entries ]
 
 ---
 
     Code
-      eth_date(1:17) - eth_date(1)
+      print(eth_date(1:5) - eth_date(1), max = 3)
     Output
-       [1] "Time difference of 0 days " "Time difference of 1 days "
-       [3] "Time difference of 2 days " "Time difference of 3 days "
-       [5] "Time difference of 4 days " "Time difference of 5 days "
-       [7] "Time difference of 6 days " "Time difference of 7 days "
-       [9] "Time difference of 8 days " "Time difference of 9 days "
-      [11] "Time difference of 10 days" "Time difference of 11 days"
-      [13] "Time difference of 12 days" "Time difference of 13 days"
-      [15] "Time difference of 14 days" "Time difference of 15 days"
-      [17] "Time difference of 16 days"
+      [1] "Time difference of 0 days" "Time difference of 1 days"
+      [3] "Time difference of 2 days"
+       [ reached getOption("max.print") -- omitted 2 entries ]
 

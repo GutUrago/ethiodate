@@ -12,7 +12,7 @@ Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
 
 // weekday_index
 IntegerVector weekday_index(IntegerVector x);
-RcppExport SEXP _ethDate_weekday_index(SEXP xSEXP) {
+RcppExport SEXP _ethiodate_weekday_index(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -23,7 +23,7 @@ END_RCPP
 }
 // eth_date_components
 List eth_date_components(IntegerVector x);
-RcppExport SEXP _ethDate_eth_date_components(SEXP xSEXP) {
+RcppExport SEXP _ethiodate_eth_date_components(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -34,7 +34,7 @@ END_RCPP
 }
 // eth_date_validate
 IntegerVector eth_date_validate(IntegerVector year, IntegerVector month, IntegerVector day);
-RcppExport SEXP _ethDate_eth_date_validate(SEXP yearSEXP, SEXP monthSEXP, SEXP daySEXP) {
+RcppExport SEXP _ethiodate_eth_date_validate(SEXP yearSEXP, SEXP monthSEXP, SEXP daySEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -47,7 +47,7 @@ END_RCPP
 }
 // eth_leap_year
 LogicalVector eth_leap_year(IntegerVector x);
-RcppExport SEXP _ethDate_eth_leap_year(SEXP xSEXP) {
+RcppExport SEXP _ethiodate_eth_leap_year(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -58,14 +58,14 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_ethDate_weekday_index", (DL_FUNC) &_ethDate_weekday_index, 1},
-    {"_ethDate_eth_date_components", (DL_FUNC) &_ethDate_eth_date_components, 1},
-    {"_ethDate_eth_date_validate", (DL_FUNC) &_ethDate_eth_date_validate, 3},
-    {"_ethDate_eth_leap_year", (DL_FUNC) &_ethDate_eth_leap_year, 1},
+    {"_ethiodate_weekday_index", (DL_FUNC) &_ethiodate_weekday_index, 1},
+    {"_ethiodate_eth_date_components", (DL_FUNC) &_ethiodate_eth_date_components, 1},
+    {"_ethiodate_eth_date_validate", (DL_FUNC) &_ethiodate_eth_date_validate, 3},
+    {"_ethiodate_eth_leap_year", (DL_FUNC) &_ethiodate_eth_leap_year, 1},
     {NULL, NULL, 0}
 };
 
-RcppExport void R_init_ethDate(DllInfo *dll) {
+RcppExport void R_init_ethiodate(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
 }

@@ -1,4 +1,4 @@
-Package: ethDate
+Package: ethiodate
 Type: Package
 Title: Ethiopian Date Conversion and Arithmetic in R
 Version: 0.1.0
