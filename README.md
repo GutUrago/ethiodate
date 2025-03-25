@@ -5,9 +5,9 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/GutUrago/ethDate/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/GutUrago/ethDate/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/GutUrago/ethiodate/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/GutUrago/ethiodate/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
-coverage](https://codecov.io/gh/GutUrago/ethDate/graph/badge.svg)](https://app.codecov.io/gh/GutUrago/ethDate)
+coverage](https://codecov.io/gh/GutUrago/ethiodate/graph/badge.svg)](https://app.codecov.io/gh/GutUrago/ethiodate)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
