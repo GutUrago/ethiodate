@@ -114,6 +114,22 @@
 # Printing test
 
     Code
+      print(eth_date(1:5))
+    Output
+      [1] "1962-04-24" "1962-04-25" "1962-04-26" "1962-04-27" "1962-04-28"
+
+---
+
+    Code
+      print(eth_date(1:5) - eth_date(1))
+    Output
+      [1] "Time difference of 0 days" "Time difference of 1 days"
+      [3] "Time difference of 2 days" "Time difference of 3 days"
+      [5] "Time difference of 4 days"
+
+---
+
+    Code
       print(eth_date(1:5), max = 3)
     Output
       [1] "1962-04-24" "1962-04-25" "1962-04-26"
