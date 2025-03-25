@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# ethDate
+# ethiodate
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/GutUrago/ethiodate/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/GutUrago/ethiodate/actions/workflows/R-CMD-check.yaml)
@@ -21,90 +21,78 @@ knitr::opts_chunk$set(
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-This package provides a robust and efficient solution for converting between Ethiopian and Gregorian dates. Built with high-performance C++ code via `{Rcpp}`, it ensures lightning-fast computations. It has built-in checks for leap years and 13th month (Pagume).
+This package provides a robust and efficient solution for working with Ethiopian dates. It can seamlessly convert to and from Gregorian dates. It ensures lightning-fast computations thanks to the `{Rcpp}` package that enables the integration of high-performance C++ code. It has built-in checks for leap years and the 13th month (Pagume).
 
 ## Key Features:
 
 - **Seamless Date Conversion:** Effortlessly convert Ethiopian dates to and from Gregorian dates.
 - **High-Speed Computation:** Optimized with {Rcpp} for maximum efficiency.
 - **Date Arithmetic:** Perform date additions and subtractions with precision.
-- **Day-Based Units:** Dates are represented as the number of days since a defined base date (1970-01-01).
+- **Day-Based Units:** Dates are represented as the number of days since 1963-04-23 EC (1970-01-01 GC).
 
 🚀 **Upcoming Features:** Future versions will extend support for time and time zones.
 
 ## Installation
 
-You can install the development version of ethDate like so:
+You can install the development version of `ethiodate` package like so:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("GutUrago/ethDate")
+devtools::install_github("GutUrago/ethiodate")
 ```
 
 
-## Base Date
+## Origin Date
 
-The default `base` package origin is '1970-01-01' and `ethDate` does the same with 
-equivalent Ethiopian date.
+The default `base` package origin date is '1970-01-01 GC' and `ethiodate` does the same with equivalent Ethiopian date, which is '1962-04-23 EC'. Both base `Date` object and `ethdate` internally stores number of days since origin date. The days before the origin date are represented with negative values. This makes computation easier.
 
 ```{r base-origin}
+# The same origin as 'Date' object
+library(ethiodate)
+as.Date(0) == vctrs::vec_data(eth_date(0))
+
 as.Date(0)
+eth_date(0)
 ```
 
-```{r ethDate-origion}
-library(ethDate)
-as_eth_date(0)
-```
-
-You can convert `ethDate` object to Gregorian calendar to get equivalent date. For 
-the above example we can do:
+You can convert `ethdate` object to Gregorian calendar to get equivalent date. For the above example we can do:
 
 
 ```{r convert-to_gre}
-to_gregorian(as_eth_date(0))
+as.Date(eth_date(0))
 ```
 
 ```{r convert-to_eth}
-to_ethiopian(as.Date(0))
+eth_date(as.Date(0))
 ```
 
-## Parse Ethiopian Dates
+## Parsing
 
-Ethiopian dates can be parsed from integers (number of days since 1970-01-01), 
-character, and of course, Gregorian dates.
+Ethiopian dates can be parsed from integers (number of days since 1962-04-23 EC / 1970-01-01 GC), separate vector of year components, and of course, Gregorian dates.
 
 1. **Integers**
 
-Use negative integers to represent date before the base date.
+Use negative integers to represent date before the origin date.
 
 ```{r from-int}
-as_eth_date(20000)
+eth_date(20000)
 ```
 
 ```{r negative-int}
-as_eth_date(-20000)
+eth_date(-20000)
 ```
 
 
-2. **Character**
+2. **Year components**
 
 ```{r}
-as_eth_date("2017-06-13")
-```
-
-
-```{r}
-as_eth_date("2010/07/13", sep = "/")
-```
-
-```{r}
-as_eth_date("06/13/2011", sep = "/", orders = "dmy")
+eth_make_date(2017, 01, 01)
 ```
 
 3. **Date**
 
 ```{r}
-as_eth_date(as.Date("2025-01-01"))
+eth_date(as.Date("2025-01-01"))
 ```
 
 
@@ -113,7 +101,7 @@ as_eth_date(as.Date("2025-01-01"))
 You can add or subtract scalar date to and from the `ethDate` object. The scalar represent number of days.
 
 ```{r}
-date_1 <- as_eth_date("2017-01-01")
+date_1 <- eth_make_date(2017,01,01)
 date_1 + 400
 date_1 - 1
 ```
@@ -121,31 +109,46 @@ date_1 - 1
 You can subtract date object as well.
 
 ```{r}
-as_eth_date("2017-01-25") - as_eth_date("2017-01-10")
+eth_make_date(2017, 01, 25) - eth_make_date(2017, 01, 10)
 
-as_eth_date("1962-04-23") - as_eth_date(as.Date("1970-01-01"))
+eth_date(0) - eth_date(as.Date("1970-01-01"))
 
 ```
 
+## Formatting
+
+You can nicely format Ethiopian like you do with base `Date` object. This makes it easy to use with inline code for reports and exporting files.
+
+```{r formatting}
+x <- eth_make_date(2000, 1, 15)
+format(x, format = "%B %d, %Y")
+```
+```{r more-format}
+format(x, format = "%B %d, %Y", lang = "lat")
+```
+
+
+```{r systime}
+format(eth_date(Sys.Date()), format = "This file was updated on %B %d, %Y EC.", lang = "en")
+```
 
 
 ## Example
 
-In this example, we use `lakers` data from `lubridate` package and convert dates 
-back and forth two times to check it's consistency.
+In this example, we use `lakers` data from `lubridate` package and convert dates back and forth two times to check it's consistency.
 
 ```{r warning=FALSE, message=FALSE}
 library(tidyverse)
 
 df <- lakers |> 
   mutate(date_gre = ymd(date),
-         date_eth = as_eth_date(date_gre),
-         date_gre2 = to_gregorian(date_eth),
-         date_eth2 = to_ethiopian(date_gre2)) |> 
+         date_eth = eth_date(date_gre),
+         date_gre2 = as.Date(date_eth),
+         date_eth2 = eth_date(date_gre2)) |> 
   select(starts_with("date"))
 
 
-kableExtra::kable(head(df))
+kableExtra::kable(sample_n(df, 5))
 ```
 
 
@@ -159,7 +162,7 @@ all(df$date_gre == df$date_gre2)
 all(df$date_eth == df$date_eth2)
 ```
 
-That proves it consistently converted dates back and forth for all 34624 observations in the `lakers` dataset.
+That proves it consistently converted dates back and forth for all **34624** observations in the `lakers` dataset.
 
 
 ```{=html}

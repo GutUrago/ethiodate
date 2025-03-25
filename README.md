@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# ethDate
+# ethiodate
 
 <!-- badges: start -->
 
@@ -12,10 +12,11 @@ coverage](https://codecov.io/gh/GutUrago/ethiodate/graph/badge.svg)](https://app
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
-This package provides a robust and efficient solution for converting
-between Ethiopian and Gregorian dates. Built with high-performance C++
-code via `{Rcpp}`, it ensures lightning-fast computations. It has
-built-in checks for leap years and 13th month (Pagume).
+This package provides a robust and efficient solution for working with
+Ethiopian dates. It can seamlessly convert to and from Gregorian dates.
+It ensures lightning-fast computations thanks to the `{Rcpp}` package
+that enables the integration of high-performance C++ code. It has
+built-in checks for leap years and the 13th month (Pagume).
 
 ## Key Features:
 
@@ -26,106 +27,85 @@ built-in checks for leap years and 13th month (Pagume).
 - **Date Arithmetic:** Perform date additions and subtractions with
   precision.
 - **Day-Based Units:** Dates are represented as the number of days since
-  a defined base date (1970-01-01).
+  1963-04-23 EC (1970-01-01 GC).
 
 🚀 **Upcoming Features:** Future versions will extend support for time
 and time zones.
 
 ## Installation
 
-You can install the development version of ethDate like so:
+You can install the development version of `ethiodate` package like so:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("GutUrago/ethDate")
+devtools::install_github("GutUrago/ethiodate")
 ```
 
-## Base Date
+## Origin Date
 
-The default `base` package origin is ‘1970-01-01’ and `ethDate` does the
-same with equivalent Ethiopian date.
+The default `base` package origin date is ‘1970-01-01 GC’ and
+`ethiodate` does the same with equivalent Ethiopian date, which is
+‘1962-04-23 EC’. Both base `Date` object and `ethdate` internally stores
+number of days since origin date. The days before the origin date are
+represented with negative values. This makes computation easier.
 
 ``` r
+# The same origin as 'Date' object
+library(ethiodate)
+as.Date(0) == vctrs::vec_data(eth_date(0))
+#> [1] TRUE
+
 as.Date(0)
 #> [1] "1970-01-01"
-```
-
-``` r
-library(ethDate)
-as_eth_date(0)
+eth_date(0)
 #> [1] "1962-04-23"
-#> attr(,"class")
-#> [1] "ethDate"
 ```
 
-You can convert `ethDate` object to Gregorian calendar to get equivalent
+You can convert `ethdate` object to Gregorian calendar to get equivalent
 date. For the above example we can do:
 
 ``` r
-to_gregorian(as_eth_date(0))
+as.Date(eth_date(0))
 #> [1] "1970-01-01"
 ```
 
 ``` r
-to_ethiopian(as.Date(0))
+eth_date(as.Date(0))
 #> [1] "1962-04-23"
-#> attr(,"class")
-#> [1] "ethDate"
 ```
 
-## Parse Ethiopian Dates
+## Parsing
 
 Ethiopian dates can be parsed from integers (number of days since
-1970-01-01), character, and of course, Gregorian dates.
+1962-04-23 EC / 1970-01-01 GC), separate vector of year components, and
+of course, Gregorian dates.
 
 1.  **Integers**
 
-Use negative integers to represent date before the base date.
+Use negative integers to represent date before the origin date.
 
 ``` r
-as_eth_date(20000)
+eth_date(20000)
 #> [1] "2017-01-24"
-#> attr(,"class")
-#> [1] "ethDate"
 ```
 
 ``` r
-as_eth_date(-20000)
+eth_date(-20000)
 #> [1] "1907-07-22"
-#> attr(,"class")
-#> [1] "ethDate"
 ```
 
-2.  **Character**
+2.  **Year components**
 
 ``` r
-as_eth_date("2017-06-13")
-#> [1] "2017-06-13"
-#> attr(,"class")
-#> [1] "ethDate"
-```
-
-``` r
-as_eth_date("2010/07/13", sep = "/")
-#> [1] "2010-07-13"
-#> attr(,"class")
-#> [1] "ethDate"
-```
-
-``` r
-as_eth_date("06/13/2011", sep = "/", orders = "dmy")
-#> [1] "2011-13-06"
-#> attr(,"class")
-#> [1] "ethDate"
+eth_make_date(2017, 01, 01)
+#> [1] "2017-01-01"
 ```
 
 3.  **Date**
 
 ``` r
-as_eth_date(as.Date("2025-01-01"))
+eth_date(as.Date("2025-01-01"))
 #> [1] "2017-04-23"
-#> attr(,"class")
-#> [1] "ethDate"
 ```
 
 ## Date Arithmetic
@@ -134,25 +114,43 @@ You can add or subtract scalar date to and from the `ethDate` object.
 The scalar represent number of days.
 
 ``` r
-date_1 <- as_eth_date("2017-01-01")
+date_1 <- eth_make_date(2017,01,01)
 date_1 + 400
 #> [1] "2018-02-06"
-#> attr(,"class")
-#> [1] "ethDate"
 date_1 - 1
 #> [1] "2016-13-05"
-#> attr(,"class")
-#> [1] "ethDate"
 ```
 
 You can subtract date object as well.
 
 ``` r
-as_eth_date("2017-01-25") - as_eth_date("2017-01-10")
-#> The time difference is 15 days.
+eth_make_date(2017, 01, 25) - eth_make_date(2017, 01, 10)
+#> [1] "Time difference of 15 days"
 
-as_eth_date("1962-04-23") - as_eth_date(as.Date("1970-01-01"))
-#> The time difference is 0 days.
+eth_date(0) - eth_date(as.Date("1970-01-01"))
+#> [1] "Time difference of 0 days"
+```
+
+## Formatting
+
+You can nicely format Ethiopian like you do with base `Date` object.
+This makes it easy to use with inline code for reports and exporting
+files.
+
+``` r
+x <- eth_make_date(2000, 1, 15)
+format(x, format = "%B %d, %Y")
+#> [1] "መስከረም 15, 2000"
+```
+
+``` r
+format(x, format = "%B %d, %Y", lang = "lat")
+#> [1] "Meskerem 15, 2000"
+```
+
+``` r
+format(eth_date(Sys.Date()), format = "This file was updated on %B %d, %Y EC.", lang = "en")
+#> [1] "This file was updated on March 16, 2017 EC."
 ```
 
 ## Example
@@ -165,23 +163,22 @@ library(tidyverse)
 
 df <- lakers |> 
   mutate(date_gre = ymd(date),
-         date_eth = as_eth_date(date_gre),
-         date_gre2 = to_gregorian(date_eth),
-         date_eth2 = to_ethiopian(date_gre2)) |> 
+         date_eth = eth_date(date_gre),
+         date_gre2 = as.Date(date_eth),
+         date_eth2 = eth_date(date_gre2)) |> 
   select(starts_with("date"))
 
 
-kableExtra::kable(head(df))
+kableExtra::kable(sample_n(df, 5))
 ```
 
-|     date | date_gre   | date_eth   | date_gre2  | date_eth2  |
-|---------:|:-----------|:-----------|:-----------|:-----------|
-| 20081028 | 2008-10-28 | 2001-02-18 | 2008-10-28 | 2001-02-18 |
-| 20081028 | 2008-10-28 | 2001-02-18 | 2008-10-28 | 2001-02-18 |
-| 20081028 | 2008-10-28 | 2001-02-18 | 2008-10-28 | 2001-02-18 |
-| 20081028 | 2008-10-28 | 2001-02-18 | 2008-10-28 | 2001-02-18 |
-| 20081028 | 2008-10-28 | 2001-02-18 | 2008-10-28 | 2001-02-18 |
-| 20081028 | 2008-10-28 | 2001-02-18 | 2008-10-28 | 2001-02-18 |
+|     date | date_gre   |   date_eth | date_gre2  |  date_eth2 |
+|---------:|:-----------|-----------:|:-----------|-----------:|
+| 20081029 | 2008-10-29 | 2001-02-19 | 2008-10-29 | 2001-02-19 |
+| 20090324 | 2009-03-24 | 2001-07-15 | 2009-03-24 | 2001-07-15 |
+| 20081207 | 2008-12-07 | 2001-03-28 | 2008-12-07 | 2001-03-28 |
+| 20090401 | 2009-04-01 | 2001-07-23 | 2009-04-01 | 2001-07-23 |
+| 20090315 | 2009-03-15 | 2001-07-06 | 2009-03-15 | 2001-07-06 |
 
 Let’s confirm it’s consistency:
 
@@ -195,8 +192,8 @@ all(df$date_eth == df$date_eth2)
 #> [1] TRUE
 ```
 
-That proves it consistently converted dates back and forth for all 34624
-observations in the `lakers` dataset.
+That proves it consistently converted dates back and forth for all
+**34624** observations in the `lakers` dataset.
 
 <div>
 <h1 style="text-align: center; color=blue">The End!</h1>
