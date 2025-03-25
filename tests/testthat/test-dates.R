@@ -68,8 +68,8 @@ test_that("Can be coerced to character", {
 })
 
 test_that("new_ethDate accept only numeric", {
-  expect_error(new_ethDate("0"))
-  expect_error(new_ethDiffDay("0"))
+  expect_error(new_ethdate("0"))
+  expect_error(new_ethdiffday("0"))
 })
 
 test_that("2011 is leap year", {

@@ -150,14 +150,6 @@ new_ethdiffday <- function(x = integer()) {
   vctrs::new_vctr(x, class = "ethdiffday")
 }
 
-vec_ptype_abbr.ethdate <- function(x, ...) {
-  "ethd"
-}
-
-vec_ptype_abbr.ethdiffday <- function(x, ...) {
-  "ethdd"
-}
-
 
 # Month and weekday names ----
 
