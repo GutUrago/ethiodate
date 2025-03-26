@@ -117,7 +117,7 @@ eth_date(0) - eth_date(as.Date("1970-01-01"))
 
 ## Formatting
 
-You can nicely format Ethiopian like you do with base `Date` object. This makes it easy to use with inline code for reports and exporting files.
+You can nicely format Ethiopian dates like you do with base `Date` object. This makes it easy to use with inline code for reports and exporting files.
 
 ```{r formatting}
 x <- eth_make_date(2000, 1, 15)

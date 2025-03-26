@@ -56,12 +56,26 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// eth_format_date
+CharacterVector eth_format_date(List x, std::string format, std::string lang);
+RcppExport SEXP _ethiodate_eth_format_date(SEXP xSEXP, SEXP formatSEXP, SEXP langSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< List >::type x(xSEXP);
+    Rcpp::traits::input_parameter< std::string >::type format(formatSEXP);
+    Rcpp::traits::input_parameter< std::string >::type lang(langSEXP);
+    rcpp_result_gen = Rcpp::wrap(eth_format_date(x, format, lang));
+    return rcpp_result_gen;
+END_RCPP
+}
 
 static const R_CallMethodDef CallEntries[] = {
     {"_ethiodate_weekday_index", (DL_FUNC) &_ethiodate_weekday_index, 1},
     {"_ethiodate_eth_date_components", (DL_FUNC) &_ethiodate_eth_date_components, 1},
     {"_ethiodate_eth_date_validate", (DL_FUNC) &_ethiodate_eth_date_validate, 3},
     {"_ethiodate_eth_leap_year", (DL_FUNC) &_ethiodate_eth_leap_year, 1},
+    {"_ethiodate_eth_format_date", (DL_FUNC) &_ethiodate_eth_format_date, 3},
     {NULL, NULL, 0}
 };
 

@@ -133,9 +133,9 @@ eth_date(0) - eth_date(as.Date("1970-01-01"))
 
 ## Formatting
 
-You can nicely format Ethiopian like you do with base `Date` object.
-This makes it easy to use with inline code for reports and exporting
-files.
+You can nicely format Ethiopian dates like you do with base `Date`
+object. This makes it easy to use with inline code for reports and
+exporting files.
 
 ``` r
 x <- eth_make_date(2000, 1, 15)
@@ -150,7 +150,7 @@ format(x, format = "%B %d, %Y", lang = "lat")
 
 ``` r
 format(eth_date(Sys.Date()), format = "This file was updated on %B %d, %Y EC.", lang = "en")
-#> [1] "This file was updated on March 16, 2017 EC."
+#> [1] "This file was updated on March 17, 2017 EC."
 ```
 
 ## Example
@@ -174,11 +174,11 @@ kableExtra::kable(sample_n(df, 5))
 
 |     date | date_gre   |   date_eth | date_gre2  |  date_eth2 |
 |---------:|:-----------|-----------:|:-----------|-----------:|
-| 20081029 | 2008-10-29 | 2001-02-19 | 2008-10-29 | 2001-02-19 |
-| 20090324 | 2009-03-24 | 2001-07-15 | 2009-03-24 | 2001-07-15 |
-| 20081207 | 2008-12-07 | 2001-03-28 | 2008-12-07 | 2001-03-28 |
-| 20090401 | 2009-04-01 | 2001-07-23 | 2009-04-01 | 2001-07-23 |
-| 20090315 | 2009-03-15 | 2001-07-06 | 2009-03-15 | 2001-07-06 |
+| 20081223 | 2008-12-23 | 2001-04-14 | 2008-12-23 | 2001-04-14 |
+| 20090109 | 2009-01-09 | 2001-05-01 | 2009-01-09 | 2001-05-01 |
+| 20081203 | 2008-12-03 | 2001-03-24 | 2008-12-03 | 2001-03-24 |
+| 20090204 | 2009-02-04 | 2001-05-27 | 2009-02-04 | 2001-05-27 |
+| 20081109 | 2008-11-09 | 2001-02-30 | 2008-11-09 | 2001-02-30 |
 
 Let’s confirm it’s consistency:
 
