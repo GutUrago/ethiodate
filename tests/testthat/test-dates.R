@@ -23,6 +23,11 @@ df$posix_2 <- as.POSIXlt(df$gre_d)
 df$eth_from_1 <- eth_date(df$posix_1)
 df$eth_from_2 <- eth_date(df$posix_2)
 
+# weird format for testing purpose
+# df$eth_char <- as.character(df$eth_from_1, format = "%Y - %d -%m")
+# df$eth_prs <- eth_date(df$eth_char, format = "%Y - %d -%m")
+
+
 test_that("Internally stored values are the same as base Date", {
   expect_equal(df$gre_x, df$eth_x)
 })

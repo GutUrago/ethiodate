@@ -17,7 +17,3 @@ eth_leap_year <- function(x) {
     .Call(`_ethiodate_eth_leap_year`, x)
 }
 
-eth_format_date <- function(x, format, lang) {
-    .Call(`_ethiodate_eth_format_date`, x, format, lang)
-}
-

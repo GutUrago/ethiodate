@@ -2,12 +2,20 @@
 % Please edit documentation in R/dates.R
 \name{eth_date}
 \alias{eth_date}
+\alias{eth_date.character}
 \title{Create Ethiopian Dates}
 \usage{
-eth_date(x)
+eth_date(x, ...)
+
+\method{eth_date}{character}(x, format = "\%Y-\%m-\%d", ...)
 }
 \arguments{
 \item{x}{a numeric, Date, POSIXct or POSIXt vector used to construct an Ethiopian date.}
+
+\item{...}{arguments that pass into methods.}
+
+\item{format}{a character that specifies format of the date. Must include \%Y for year,
+\%m for month, and \%d for day}
 }
 \value{
 Returns a vector with an 'ethDate' class that can further be used as an Ethiopian date.

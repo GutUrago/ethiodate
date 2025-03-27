@@ -6,6 +6,9 @@
 #'
 #'
 #' @param x a numeric, Date, POSIXct or POSIXt vector used to construct an Ethiopian date.
+#' @param format a character that specifies format of the date. Must include %Y for year,
+#' %m for month, and %d for day
+#' @param ... arguments that pass into methods.
 #'
 #' @details
 #' `eth_date()` internally stores number of days since 1962-04-23 EC (equivalent to 1970-01-01 GC).
@@ -23,33 +26,73 @@
 #'
 #' @examples
 #' eth_date(as.Date(0))
-eth_date <- function(x) {
+eth_date <- function(x, ...) {
   UseMethod("eth_date")
 }
 
 #' @export
-eth_date.numeric <- function(x) {
+eth_date.default <- function(x, ...) {
   new_ethdate(x)
 }
 
-
 #' @export
-eth_date.Date <- function(x) {
+eth_date.Date <- function(x, ...) {
   x <- as.numeric(x)
   new_ethdate(x)
 }
 
 #' @export
-eth_date.POSIXct <- function(x) {
+eth_date.POSIXct <- function(x, ...) {
   x <- as.Date(x)
   eth_date(x)
 }
 
-
 #' @export
-eth_date.POSIXt <- function(x) {
+eth_date.POSIXt <- function(x, ...) {
   x <- as.Date(x)
   eth_date(x)
+}
+
+#' @export
+#' @rdname eth_date
+eth_date.character <- function(x, format = "%Y-%m-%d", ...) {
+
+  if (!is.character(format) | length(format) != 1L) {
+    stop("\"Format\" must be a characteter of length 1.")
+  }
+
+  pattern <- format
+
+  valid_pattern <- stringr::str_count(pattern, "%\\w") == 3L &
+    stringr::str_detect(pattern, "%Y") & stringr::str_detect(pattern, "%m") &
+    stringr::str_detect(pattern, "%d")
+
+  if (valid_pattern) {
+
+    orders <- c(
+      "year" = stringr::str_locate(format, "%Y")[1],
+      "month" = stringr::str_locate(format, "%m")[1],
+      "day" = stringr::str_locate(format, "%d")[1])
+
+    orders <- sort(orders)
+    orders[1:3] <- c(2, 3, 4)
+
+    pattern <- stringr::str_replace(pattern, "%Y", "(\\\\d{4})")
+    pattern <- stringr::str_replace(pattern, "%m", "(\\\\d{1,2})")
+    pattern <- stringr::str_replace(pattern, "%d", "(\\\\d{1,2})")
+
+  } else {
+    stop("Format should be specied as %Y for year, %m for month, and %d for day.")
+  }
+
+  matches <- stringr::str_match(x, pattern)
+
+  year <- as.integer(matches[,orders["year"]])
+  month <- as.integer(matches[,orders["month"]])
+  day <- as.integer(matches[,orders["day"]])
+
+  eth_make_date(year, month, day)
+
 }
 
 # Casting ----

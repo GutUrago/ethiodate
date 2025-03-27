@@ -49,6 +49,7 @@ test_that("Formattig test", {
     lang = "en"
   ))
   expect_equal(format(eth_date(c(1, NA))), c("1962-04-24", NA))
+  expect_error(format(eth_date(0), c("%Y", "%y")))
 })
 
 
