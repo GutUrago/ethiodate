@@ -7,7 +7,7 @@
 #' Small functions that helps to extract parts of Ethiopian date objects.
 #'
 #'
-#' @param x a vector of an Ethiopian date object
+#' @param x a vector of an Ethiopian date object.
 #' @param lang a language. 'amh' for Amharic, 'lat' for Amharic written in Latin alphabets and
 #' 'en' for English
 #' @param abbreviate Do you want to get an abbreviated month or weekday names?
