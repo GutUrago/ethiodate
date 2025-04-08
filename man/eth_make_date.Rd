@@ -2,7 +2,7 @@
 % Please edit documentation in R/dates.R
 \name{eth_make_date}
 \alias{eth_make_date}
-\title{Make Ethiopian Date}
+\title{Parse Ethiopian Date}
 \usage{
 eth_make_date(year, month, day)
 }
@@ -14,22 +14,20 @@ eth_make_date(year, month, day)
 \item{day}{an integer vector of Ethiopian day.}
 }
 \value{
-Returns a vector with an 'ethDate' class that can further be used as an Ethiopian date.
+a vector of 'ethdate' objects.
 }
 \description{
-Make Ethiopian date object from year, month and day.
+Parse Ethiopian date from year, month and day components.
 }
 \details{
-This function constructs an Ethiopian date object from three vectors of an equal length.
+This function parses an Ethiopian date object from three vectors of an equal length.
 It validates the date and returns \code{NA} for invalid dates. It accounts for leap years.
-The returned object can further be used.
-If you want to convert it to Gregorian calendar, use \code{as.Date()}.
 }
 \examples{
 eth_make_date(2017, 01, 15)
 }
 \seealso{
-\code{\link[=eth_date]{eth_date()}}
+\code{\link[=eth_date]{eth_date()}} \code{\link[=eth_parse_date]{eth_parse_date()}}
 }
 \author{
 Gutama Girja Urago

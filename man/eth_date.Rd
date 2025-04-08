@@ -2,38 +2,55 @@
 % Please edit documentation in R/dates.R
 \name{eth_date}
 \alias{eth_date}
+\alias{eth_date.numeric}
 \alias{eth_date.character}
-\title{Create Ethiopian Dates}
+\alias{eth_date.Date}
+\alias{eth_date.POSIXct}
+\alias{eth_date.POSIXt}
+\title{Create an Ethiopian Date Object}
 \usage{
 eth_date(x, ...)
 
-\method{eth_date}{character}(x, format = "\%Y-\%m-\%d", ...)
+\method{eth_date}{numeric}(x, origin = NULL, ...)
+
+\method{eth_date}{character}(x, format = "\%Y-\%m-\%d", lang = c("amh", "lat", "en"), ...)
+
+\method{eth_date}{Date}(x, ...)
+
+\method{eth_date}{POSIXct}(x, ...)
+
+\method{eth_date}{POSIXt}(x, ...)
 }
 \arguments{
-\item{x}{a numeric, Date, POSIXct or POSIXt vector used to construct an Ethiopian date.}
+\item{x}{a Date, POSIXct, POSIXt, numeric or character vector.}
 
-\item{...}{arguments that pass into methods.}
+\item{...}{further arguments to be passed to specific methods (see above).}
 
-\item{format}{a character that specifies format of the date. Must include \%Y for year,
-\%m for month, and \%d for day}
+\item{origin}{a Date or ethdate object, or something that can be coerced by
+\code{eth_date(origin, ...)}. Default: the Unix epoch of "1970-01-01" GC ("1962-04-23" EC).}
+
+\item{format}{format argument for character methods to parse a date.}
+
+\item{lang}{a language in which month names are written, if included in x. Use "amh" for month names written in Amharic alphabets,
+"lat" for Amharic month names written in Latin alphabets, and "en" for English month names.}
 }
 \value{
-Returns a vector with an 'ethDate' class that can further be used as an Ethiopian date.
+a vector of 'ethdate' objects corresponding to x.
 }
 \description{
-Convert or create an Ethiopian date.
+Convert an object to an Ethiopian date.
 }
 \details{
-\code{eth_date()} internally stores number of days since 1962-04-23 EC (equivalent to 1970-01-01 GC).
-Days before 1962-04-23 EC are represented as negative integers.
-This makes it easy to convert from and to base \code{Date} objects. This function does not
+\code{eth_date()} internally stores number of days since the Unix epoch of "1970-01-01" GC ("1962-04-23" EC).
+Days before "1962-04-23" EC are represented as negative integers.
+This makes it easy to convert from and to base \code{Date} objects. At the moment, this function does not
 support time and timezone.
 }
 \examples{
 eth_date(as.Date(0))
 }
 \seealso{
-\code{\link[=eth_make_date]{eth_make_date()}}
+\code{\link[=eth_make_date]{eth_make_date()}} \code{\link[=eth_parse_date]{eth_parse_date()}}
 }
 \author{
 Gutama Girja Urago

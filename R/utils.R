@@ -1,95 +1,29 @@
 
 
 
-
-#' Ethiopian Date Utils
+#' Utils
+#'
 #' @description
-#' Small functions that helps to extract parts of Ethiopian date objects.
+#' Small help functions.
 #'
 #'
-#' @param x a vector of an Ethiopian date object
-#' @param lang a language. 'amh' for Amharic, 'lat' for Amharic written in Latin alphabets and
-#' 'en' for English
-#' @param abbreviate Do you want to get an abbreviated month or weekday names?
+#' @param x an ethdate or numeric vector.
+#' @param ... further arguments to be passed to specific methods.
 #'
 #' @returns
-#' a vector
-#'
-#' @author Gutama Girja Urago
+#' `is_eth_leap()` returns a boolean vector, `as.Date()` returns Date object,
+#' `as.numeric()` returns number of date since 1970-01-01 GC (1962-04-23 EC), and
+#' `as.character()` returns formatted character date.
 #' @export
 #'
 #' @examples
-#' if (FALSE) {
-#' x <- eth_date("2017-01-01")
-#' eth_year(x)
-#' }
-eth_year <- function(x) {
-  if (!is_eth_date(x)) {
-    stop("`x` must be an Ethiopian date object.")
-  }
-  x <- eth_date_components(x)
-  sapply(x, \(x) x[["year"]])
-  }
-
-#' @export
-#' @rdname eth_year
-eth_month <- function(x) {
-  if (!is_eth_date(x)) {
-    stop("`x` must be an Ethiopian date object.")
-  }
-  x <- eth_date_components(x)
-  sapply(x, \(x) x[["month"]])
-}
-
-
-#' @export
-#' @rdname eth_year
-eth_monthname <- function(x, lang = c("amh", "lat", "en"),
-                          abbreviate = FALSE) {
-  lang <- match.arg(lang, c("amh", "lat", "en"))
-  if (!is_eth_date(x)) {
-    stop("`x` must be an Ethiopian date object.")
-  }
-  if (abbreviate) {
-    format(x, format = "%b", lang = lang)
-  } else {
-    format(x, format = "%B", lang = lang)
-  }
-}
-
-#' @export
-#' @rdname eth_year
-eth_day <- function(x) {
-  if (!is_eth_date(x)) {
-    stop("`x` must be an Ethiopian date object.")
-  }
-  x <- eth_date_components(x)
-  sapply(x, \(x) x[["day"]])
-}
-
-#' @export
-#' @rdname eth_year
-eth_weekday <- function(x, lang = c("amh", "lat", "en"),
-                      abbreviate = FALSE) {
-  lang <- match.arg(lang, c("amh", "lat", "en"))
-  if (!is_eth_date(x)) {
-    stop("`x` must be an Ethiopian date object.")
-  }
-  if (abbreviate) {
-    format(x, format = "%a", lang = lang)
-  } else {
-    format(x, format = "%A", lang = lang)
-  }
-}
-
-#' @export
-#' @rdname eth_year
+#' is_eth_leap(2011)
 is_eth_date <- function(x) {
   inherits(x, "ethdate")
 }
 
 #' @export
-#' @rdname eth_year
+#' @rdname is_eth_date
 is_eth_leap <- function(x) UseMethod("is_eth_leap")
 
 #' @export
@@ -103,6 +37,127 @@ is_eth_leap.ethdate <- function(x) {
   y <- sapply(x, \(x) x[["year"]])
   eth_leap_year(y)
 }
+
+#' @export
+#' @rdname is_eth_date
+as.Date.ethdate <- function(x, ...) {
+  x <- as.numeric(x)
+  as.Date(x)
+}
+
+#' @export
+#' @rdname is_eth_date
+as.double.ethdate <- function(x, ...) {
+  x <- unclass(x)
+  as.double(x)
+}
+
+#' @export
+#' @rdname is_eth_date
+as.character.ethdate <- function(x, ...) {
+  format(x, ...)
+}
+
+
+#' @export
+#' @rdname eth_year
+eth_today <- function(...) {
+  x <- eth_date(Sys.Date())
+  if (length(list(...)) == 0) {
+    return(x)
+  } else {
+    return(format(x, ...))
+  }
+  }
+
+
+#' @export
+#' @rdname eth_year
+eth_now <- function(...) {
+  s <- Sys.time()
+  attr(s,"tzone") <- "Africa/Addis_Ababa"
+  t <- format(s, format = "%I:%M:%S %p")
+  s <- format(eth_date(s), ...)
+  paste(s, t)
+}
+
+
+eth_show <- function(x = c("%B", "%b", "%A", "%a"),
+                     lang = c("amh", "lat", "en")) {
+
+  x <- match.arg(x, c(c("%B", "%b", "%A", "%a")))
+  lang <- match.arg(lang, c("amh", "lat", "en"))
+
+  m_names <- as.character(1:13)
+  d_names <- as.character(1:7)
+
+  if (x == "%B") {
+    if (lang == "amh") {
+      out <- months_amh_full
+      names(out) <- m_names
+      return(out)
+      }
+    if (lang == "lat") {
+      out <- months_lat_full
+      names(out) <- m_names
+      return(out)
+    }
+    if (lang == "en") {
+      out <- months_en_full
+      names(out) <- m_names
+      return(out)
+    }
+  } else if (x == "%b") {
+    if (lang == "amh") {
+      out <- months_amh_short
+      names(out) <- m_names
+      return(out)
+    }
+    if (lang == "lat"){
+      out <- months_lat_short
+      names(out) <- m_names
+      return(out)
+    }
+    if (lang == "en"){
+      out <- months_en_short
+      names(out) <- m_names
+      return(out)
+    }
+  } else if (x == "%A") {
+    if (lang == "amh") {
+      out <- weekdays_amh_full
+      names(out) <- d_names
+      return(out)
+    }
+    if (lang == "lat") {
+      out <- weekdays_lat_full
+      names(out) <- d_names
+      return(out)
+    }
+    if (lang == "en") {
+      out <- weekdays_en_full
+      names(out) <- d_names
+      return(out)
+    }
+  } else if (x == "%a") {
+    if (lang == "amh") {
+      out <- weekdays_amh_short
+      names(out) <- d_names
+      return(out)
+    }
+    if (lang == "lat") {
+      out <- weekdays_lat_short
+      names(out) <- d_names
+      return(out)
+    }
+    if (lang == "en") {
+      out <- weekdays_en_short
+      names(out) <- d_names
+      return(out)
+    }
+  }
+}
+
 
 # Classes ----
 
@@ -119,3 +174,5 @@ new_ethdiffday <- function(x = integer()) {
   }
   vctrs::new_vctr(x, class = "ethdiffday")
 }
+
+

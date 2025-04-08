@@ -124,29 +124,32 @@ IntegerVector eth_date_validate(IntegerVector year,
   int base_offset = 113;
   IntegerVector result(n);
 
+  int invalid = 0;
+
   for (int i = 0; i < n; i++) {
     if (year[i] == NA_INTEGER || month[i] == NA_INTEGER || day[i] == NA_INTEGER) {
       result[i] = NA_INTEGER;
+      invalid++;
       continue;
     }
     if (day[i] < 1 || day[i] > 30) {
-      warning("Invalid day detected; coercing to NA.");
       result[i] = NA_INTEGER;
+      invalid++;
       continue;
     }
     if (month[i] < 1 || month[i] > 13) {
-      warning("Invalid month detected; coercing to NA.");
       result[i] = NA_INTEGER;
+      invalid++;
       continue;
     }
     if (month[i] == 13 && day[i] > 5 && year[i] % 4 != 3) {
-      warning("Invalid day detected; coercing to NA.");
       result[i] = NA_INTEGER;
+      invalid++;
       continue;
     }
     if (month[i] == 13 && day[i] > 6) {
-      warning("Invalid day detected; coercing to NA.");
       result[i] = NA_INTEGER;
+      invalid++;
       continue;
     }
     int days = 0;
@@ -172,6 +175,11 @@ IntegerVector eth_date_validate(IntegerVector year,
       checkUserInterrupt();
     }
   }
+  if (invalid > 0) {
+    std::string message = "Detected " + std::to_string(invalid) + " invalid date" + (invalid == 1 ? "" : "s") + " and coerced to NA.";
+    warning(message);
+  }
+
   return result;
 }
 

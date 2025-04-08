@@ -90,4 +90,23 @@ test_that("Weekday names", {
 })
 
 
+# Month and weekday names
+
+
+for (x in c("%B", "%b", "%A", "%a")) {
+  for (lang in c("amh", "lat", "en")) {
+    test_name <- paste0("Format = ", x, "lang = ", lang)
+    test_that(test_name, {
+      expect_snapshot(eth_show(x, lang))
+    })
+  }
+}
+
+test_that("Error %C", {
+  expect_error(eth_show("%C"))
+})
+
+
+
+
 

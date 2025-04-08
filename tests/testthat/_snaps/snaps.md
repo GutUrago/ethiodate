@@ -144,3 +144,111 @@
       [3] "Time difference of 2 days"
        [ reached getOption("max.print") -- omitted 2 entries ]
 
+# Format = %Blang = amh
+
+    Code
+      eth_show(x, lang)
+    Output
+            1       2       3       4       5       6       7       8       9      10 
+      "መስከረም"  "ጥቅምት"   "ህዳር"  "ታህሳስ"    "ጥር"  "የካቲት"  "መጋቢት"  "ሚያዝያ"  "ግንቦት"    "ሰኔ" 
+           11      12      13 
+        "ሐምሌ"   "ነሐሴ"   "ጳጉሜ" 
+
+# Format = %Blang = lat
+
+    Code
+      eth_show(x, lang)
+    Output
+               1          2          3          4          5          6          7 
+      "Meskerem"   "Tikimt"    "Hidar"   "Tahsas"      "Tir"  "Yekatit"  "Megabit" 
+               8          9         10         11         12         13 
+       "Miyazya"   "Ginbot"     "Sene"    "Hamle"   "Nehase"   "Pagume" 
+
+# Format = %Blang = en
+
+    Code
+      eth_show(x, lang)
+    Output
+                1           2           3           4           5           6 
+      "September"   "October"  "November"  "December"   "January"  "February" 
+                7           8           9          10          11          12 
+          "March"     "April"       "May"      "June"      "July"    "August" 
+               13 
+         "Pagume" 
+
+# Format = %blang = amh
+
+    Code
+      eth_show(x, lang)
+    Output
+         1    2    3    4    5    6    7    8    9   10   11   12   13 
+      "መስ" "ጥቅ" "ህዳ" "ታህ" "ጥር" "የካ" "መጋ" "ሚያ" "ግን" "ሰኔ" "ሐም" "ነሐ" "ጳጉ" 
+
+# Format = %blang = lat
+
+    Code
+      eth_show(x, lang)
+    Output
+           1      2      3      4      5      6      7      8      9     10     11 
+      "Mesk"  "Tik"  "Hid"  "Tah"  "Tir"  "Yek"  "Meg"  "Miy"  "Gin"  "Sen"  "Ham" 
+          12     13 
+       "Neh"  "Pag" 
+
+# Format = %blang = en
+
+    Code
+      eth_show(x, lang)
+    Output
+          1     2     3     4     5     6     7     8     9    10    11    12    13 
+      "Sep" "Oct" "Nov" "Dec" "Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Pag" 
+
+# Format = %Alang = amh
+
+    Code
+      eth_show(x, lang)
+    Output
+           1      2      3      4      5      6      7 
+        "ሰኞ" "ማክሰኞ"  "ረቡዕ"  "ሐሙስ"  "ዓርብ"  "ቅዳሜ"  "እሁድ" 
+
+# Format = %Alang = lat
+
+    Code
+      eth_show(x, lang)
+    Output
+               1          2          3          4          5          6          7 
+         "Segno" "Maksegno"     "Rebu"    "Hamus"      "Arb"   "Kidame"     "Ehud" 
+
+# Format = %Alang = en
+
+    Code
+      eth_show(x, lang)
+    Output
+                1           2           3           4           5           6 
+         "Monday"   "Tuesday" "Wednesday"  "Thursday"    "Friday"  "Saturday" 
+                7 
+         "Sunday" 
+
+# Format = %alang = amh
+
+    Code
+      eth_show(x, lang)
+    Output
+         1    2    3    4    5    6    7 
+      "ሰኞ" "ማክ" "ረቡ" "ሐሙ" "ዓር" "ቅዳ" "እሁ" 
+
+# Format = %alang = lat
+
+    Code
+      eth_show(x, lang)
+    Output
+          1     2     3     4     5     6     7 
+      "Seg" "Mak" "Reb" "Ham" "Arb" "Kid" "Ehu" 
+
+# Format = %alang = en
+
+    Code
+      eth_show(x, lang)
+    Output
+          1     2     3     4     5     6     7 
+      "Mon" "Tue" "Wed" "Thu" "Fri" "Sat" "Sun" 
+

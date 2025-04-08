@@ -1,10 +1,11 @@
 
+
 #' @export
 format.ethdate <- function(x, format = "%Y-%m-%d",
                            lang = c("amh", "lat", "en"), ...) {
   lang <- match.arg(lang, c("amh", "lat", "en"))
   if (!is.character(format) | length(format) != 1L) {
-    stop("\"Format\" must be a characteter of length 1.")
+    stop("\"Format\" must be a characteter of length of 1.")
   }
   date_components <- eth_date_components(x)
   out <- eth_format_date(date_components, format, lang)
@@ -15,10 +16,11 @@ format.ethdate <- function(x, format = "%Y-%m-%d",
 #' @export
 print.ethdate <- function(x, max = NULL, ...) {
   if(is.null(max)) max <- getOption("max.print", 9999L)
-  if(max < length(x)) {
+  n <- length(x)
+  if(max < n) {
     print(format(x[seq_len(max)]), max=max, ...)
     cat(' [ reached getOption("max.print") -- omitted',
-        length(x) - max, 'entries ]\n')
+        n - max, 'entries ]\n')
   } else print(format(x), max=max, ...)
   invisible(x)
   }
@@ -29,10 +31,11 @@ print.ethdiffday <- function(x, max = NULL, ...) {
   if(is.null(max)) max <- getOption("max.print", 9999L)
   x <- unclass(x)
   x <- paste("Time difference of", x, "days")
-  if(max < length(x)) {
+  n <- length(x)
+  if(max < n) {
     print(format(x[seq_len(max)]), max=max, ...)
     cat(' [ reached getOption("max.print") -- omitted',
-        length(x) - max, 'entries ]\n')
+        n - max, 'entries ]\n')
   } else print(format(x), max=max, ...)
   invisible(x)
   }
