@@ -25,7 +25,7 @@ eth_today(...)
 eth_now(...)
 }
 \arguments{
-\item{x}{a vector of an Ethiopian date object}
+\item{x}{a vector of an Ethiopian date object.}
 
 \item{lang}{a language. 'amh' for Amharic, 'lat' for Amharic written in Latin alphabets and
 'en' for English}
