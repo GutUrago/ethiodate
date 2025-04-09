@@ -19,6 +19,7 @@ knitr::opts_chunk$set(
 [![R-CMD-check](https://github.com/GutUrago/ethiodate/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/GutUrago/ethiodate/actions/workflows/R-CMD-check.yaml)
 [![Codecov test coverage](https://codecov.io/gh/GutUrago/ethiodate/graph/badge.svg)](https://app.codecov.io/gh/GutUrago/ethiodate)
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+[![DOI](https://zenodo.org/badge/937977333.svg)](https://doi.org/10.5281/zenodo.15182197)
 <!-- badges: end -->
 
 This package provides a robust and efficient solution for working with Ethiopian dates. It can seamlessly convert to and from Gregorian dates. It ensures lightning-fast computations thanks to the `{Rcpp}` package that enables the integration of high-performance C++ code. It has built-in checks for leap years and the 13th month (Pagume).

@@ -10,6 +10,7 @@
 coverage](https://codecov.io/gh/GutUrago/ethiodate/graph/badge.svg)](https://app.codecov.io/gh/GutUrago/ethiodate)
 [![Lifecycle:
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+[![DOI](https://zenodo.org/badge/937977333.svg)](https://doi.org/10.5281/zenodo.15182197)
 <!-- badges: end -->
 
 This package provides a robust and efficient solution for working with
@@ -174,11 +175,11 @@ kableExtra::kable(sample_n(df, 5))
 
 |     date | date_gre   |   date_eth | date_gre2  |  date_eth2 |
 |---------:|:-----------|-----------:|:-----------|-----------:|
-| 20090202 | 2009-02-02 | 2001-05-25 | 2009-02-02 | 2001-05-25 |
-| 20081101 | 2008-11-01 | 2001-02-22 | 2008-11-01 | 2001-02-22 |
-| 20090405 | 2009-04-05 | 2001-07-27 | 2009-04-05 | 2001-07-27 |
-| 20090125 | 2009-01-25 | 2001-05-17 | 2009-01-25 | 2001-05-17 |
-| 20081029 | 2008-10-29 | 2001-02-19 | 2008-10-29 | 2001-02-19 |
+| 20090102 | 2009-01-02 | 2001-04-24 | 2009-01-02 | 2001-04-24 |
+| 20081210 | 2008-12-10 | 2001-04-01 | 2008-12-10 | 2001-04-01 |
+| 20090226 | 2009-02-26 | 2001-06-19 | 2009-02-26 | 2001-06-19 |
+| 20090401 | 2009-04-01 | 2001-07-23 | 2009-04-01 | 2001-07-23 |
+| 20081205 | 2008-12-05 | 2001-03-26 | 2008-12-05 | 2001-03-26 |
 
 Let’s confirm it’s consistency:
 
