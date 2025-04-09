@@ -104,7 +104,7 @@ test_that("NA components are NA", {
   expect_equal(eth_date_components(NA), x)
 })
 
-test_that("eth_date_validate", {
+test_that("eth_date_validate warnings", {
   expect_warning(eth_date_validate(2015, NA, NA))
   expect_warning(eth_date_validate(2015, 01, 40))
   expect_warning(eth_date_validate(2015, 15, 01))
@@ -114,4 +114,34 @@ test_that("eth_date_validate", {
 
 test_that("Origin", {
   expect_equal(eth_date(0, origin = eth_today()), eth_today())
+  expect_error(eth_date(0, origin = c(0, 2)))
+  expect_error(suppressWarnings(eth_date(0, origin = "ff")))
 })
+
+
+test_that("eth_parse_date errors", {
+  expect_error(eth_parse_date("2017-01-01", format = c("%Y-%m-%d", "%Y-%m-%d")))
+  expect_error(eth_parse_date(0, format = "%Y-%m-%d"))
+  expect_error(eth_parse_date("2017-01-01", format = "%Y-%d"))
+  expect_error(eth_parse_date("2017-01-01", format = "%m-%m-%d"))
+  expect_error(eth_parse_date("2017-01-01", format = "%Y-%d-%d"))
+  expect_error(eth_parse_date("2017-01-01", format = "%Y-%m-%m"))
+})
+
+test_that("eth_parse_date", {
+  expect_equal(eth_parse_date("20tah17", format = "%d%b%y"), eth_date("2017-04-20"))
+  expect_equal(eth_parse_date("20tahsas17", format = "%d%B%y"), eth_date("2017-04-20"))
+  expect_equal(eth_parse_date("20ታህ17", format = "%d%b%y", lang = "amh"), eth_date("2017-04-20"))
+  expect_equal(eth_parse_date("20ታህሳስ17", format = "%d%B%y", lang = "amh"), eth_date("2017-04-20"))
+  expect_equal(eth_parse_date("20dec17", format = "%d%b%y", lang = "en"), eth_date("2017-04-20"))
+  expect_equal(eth_parse_date("20December17", format = "%d%B%y", lang = "en"), eth_date("2017-04-20"))
+})
+
+test_that("default", {
+  expect_equal(eth_date.default(0), eth_date(0))
+
+})
+
+
+
+

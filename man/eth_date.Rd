@@ -13,7 +13,7 @@ eth_date(x, ...)
 
 \method{eth_date}{numeric}(x, origin = NULL, ...)
 
-\method{eth_date}{character}(x, format = "\%Y-\%m-\%d", lang = c("amh", "lat", "en"), ...)
+\method{eth_date}{character}(x, format = "\%Y-\%m-\%d", lang = c("lat", "amh", "en"), ...)
 
 \method{eth_date}{Date}(x, ...)
 
@@ -22,14 +22,14 @@ eth_date(x, ...)
 \method{eth_date}{POSIXt}(x, ...)
 }
 \arguments{
-\item{x}{a Date, POSIXct, POSIXt, numeric or character vector.}
+\item{x}{a numeric, character, Date, POSIXct or POSIXt vector.}
 
 \item{...}{further arguments to be passed to specific methods (see above).}
 
 \item{origin}{a Date or ethdate object, or something that can be coerced by
 \code{eth_date(origin, ...)}. Default: the Unix epoch of "1970-01-01" GC ("1962-04-23" EC).}
 
-\item{format}{format argument for character methods to parse a date.}
+\item{format}{format argument for character method to parse the date.}
 
 \item{lang}{a language in which month names are written, if included in x. Use "amh" for month names written in Amharic alphabets,
 "lat" for Amharic month names written in Latin alphabets, and "en" for English month names.}
@@ -43,11 +43,32 @@ Convert an object to an Ethiopian date.
 \details{
 \code{eth_date()} internally stores number of days since the Unix epoch of "1970-01-01" GC ("1962-04-23" EC).
 Days before "1962-04-23" EC are represented as negative integers.
-This makes it easy to convert from and to base \code{Date} objects. At the moment, this function does not
-support time and timezone.
+This makes it easy to convert from and to base \code{Date} objects.
+
+The conversion of numeric vectors assumes that the vector represents a number of days since
+the origin ("1962-04-23" EC if origin is NULL). For the date objects, it extract underlying
+numeric values and convert it to \code{ethiodate} object. To convert from POSIXct or POSIXt,
+it coerces these objects to base Date object and, then, apply conversion.
+
+To parse character vector, a valid format must be supplied. The default is "\%Y-\%m-\%d".
+please see the details section of \code{\link[base]{strptime}}.
 }
 \examples{
-eth_date(as.Date(0))
+
+eth_date(Sys.Date())
+eth_date(Sys.time())
+
+x <- 7
+eth_date(x)
+eth_date(x, origin = Sys.Date())
+eth_date(x, origin = "2017-01-01")
+eth_date(x, origin = "01-01-2017", format = "\%d-\%m-\%Y")
+
+s <- c("01/01/2013", "06/13/2011")
+eth_date(s, format = "\%d/\%m/\%Y")
+
+
+
 }
 \seealso{
 \code{\link[=eth_make_date]{eth_make_date()}} \code{\link[=eth_parse_date]{eth_parse_date()}}

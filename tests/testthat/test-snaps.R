@@ -70,10 +70,10 @@ test_that("Printing test", {
 
 test_that("Month names", {
   x <- eth_date(0)
-  expect_equal(eth_monthname(x), "ታህሳስ")
-  expect_equal(eth_monthname(x, abbreviate = T), "ታህ")
-  expect_equal(eth_monthname(x, "lat"), "Tahsas")
-  expect_equal(eth_monthname(x, "lat", abbreviate = T), "Tah")
+  expect_equal(eth_monthname(x), "Tahsas")
+  expect_equal(eth_monthname(x, abbreviate = T), "Tah")
+  expect_equal(eth_monthname(x, "amh"), "ታህሳስ")
+  expect_equal(eth_monthname(x, "amh", abbreviate = T), "ታህ")
   expect_equal(eth_monthname(x, "en"), "December")
   expect_equal(eth_monthname(x, "en", abbreviate = T), "Dec")
 })
@@ -81,10 +81,10 @@ test_that("Month names", {
 
 test_that("Weekday names", {
   x <- eth_date(0)
-  expect_equal(eth_weekday(x), "ሐሙስ")
-  expect_equal(eth_weekday(x, abbreviate = T), "ሐሙ")
-  expect_equal(eth_weekday(x, "lat"), "Hamus")
-  expect_equal(eth_weekday(x, "lat", abbreviate = T), "Ham")
+  expect_equal(eth_weekday(x), "Hamus")
+  expect_equal(eth_weekday(x, abbreviate = T), "Ham")
+  expect_equal(eth_weekday(x, "amh"), "ሐሙስ")
+  expect_equal(eth_weekday(x, "amh", abbreviate = T), "ሐሙ")
   expect_equal(eth_weekday(x, "en"), "Thursday")
   expect_equal(eth_weekday(x, "en", abbreviate = T), "Thu")
 })

@@ -9,7 +9,7 @@
 [![Codecov test
 coverage](https://codecov.io/gh/GutUrago/ethiodate/graph/badge.svg)](https://app.codecov.io/gh/GutUrago/ethiodate)
 [![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 <!-- badges: end -->
 
 This package provides a robust and efficient solution for working with
@@ -110,7 +110,7 @@ eth_date(as.Date("2025-01-01"))
 
 ## Date Arithmetic
 
-You can add or subtract scalar date to and from the `ethDate` object.
+You can add or subtract scalar date to and from the `ethdate` object.
 The scalar represent number of days.
 
 ``` r
@@ -144,13 +144,13 @@ format(x, format = "%B %d, %Y")
 ```
 
 ``` r
-format(x, format = "%B %d, %Y", lang = "lat")
-#> [1] "Meskerem 15, 2000"
+format(x, format = "%B %d, %Y", lang = "amh")
+#> [1] "መስከረም 15, 2000"
 ```
 
 ``` r
 format(eth_date(Sys.Date()), format = "This file was updated on %B %d, %Y EC.", lang = "en")
-#> [1] "This file was updated on March 17, 2017 EC."
+#> [1] "This file was updated on April 01, 2017 EC."
 ```
 
 ## Example
@@ -174,11 +174,11 @@ kableExtra::kable(sample_n(df, 5))
 
 |     date | date_gre   |   date_eth | date_gre2  |  date_eth2 |
 |---------:|:-----------|-----------:|:-----------|-----------:|
-| 20081223 | 2008-12-23 | 2001-04-14 | 2008-12-23 | 2001-04-14 |
-| 20090109 | 2009-01-09 | 2001-05-01 | 2009-01-09 | 2001-05-01 |
-| 20081203 | 2008-12-03 | 2001-03-24 | 2008-12-03 | 2001-03-24 |
-| 20090204 | 2009-02-04 | 2001-05-27 | 2009-02-04 | 2001-05-27 |
-| 20081109 | 2008-11-09 | 2001-02-30 | 2008-11-09 | 2001-02-30 |
+| 20090202 | 2009-02-02 | 2001-05-25 | 2009-02-02 | 2001-05-25 |
+| 20081101 | 2008-11-01 | 2001-02-22 | 2008-11-01 | 2001-02-22 |
+| 20090405 | 2009-04-05 | 2001-07-27 | 2009-04-05 | 2001-07-27 |
+| 20090125 | 2009-01-25 | 2001-05-17 | 2009-01-25 | 2001-05-17 |
+| 20081029 | 2008-10-29 | 2001-02-19 | 2008-10-29 | 2001-02-19 |
 
 Let’s confirm it’s consistency:
 

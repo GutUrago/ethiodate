@@ -11,7 +11,6 @@
 #' @param lang a language. 'amh' for Amharic, 'lat' for Amharic written in Latin alphabets and
 #' 'en' for English
 #' @param abbreviate Do you want to get an abbreviated month or weekday names?
-#' @param ... further arguments to be passed to specific methods.
 #'
 #' @returns
 #' a vector
@@ -20,10 +19,12 @@
 #' @export
 #'
 #' @examples
-#' if (FALSE) {
-#' x <- eth_date("2017-01-01")
-#' eth_year(x)
-#' }
+#' today <- eth_date(Sys.Date())
+#' eth_year(today)
+#' eth_month(today)
+#' eth_monthname(today)
+#' eth_day(today)
+#' eth_weekday(today)
 eth_year <- function(x) {
   if (!is_eth_date(x)) {
     stop("`x` must be an Ethiopian date object.")
@@ -45,9 +46,9 @@ eth_month <- function(x) {
 
 #' @export
 #' @rdname eth_year
-eth_monthname <- function(x, lang = c("amh", "lat", "en"),
+eth_monthname <- function(x, lang = c("lat", "amh", "en"),
                           abbreviate = FALSE) {
-  lang <- match.arg(lang, c("amh", "lat", "en"))
+  lang <- match.arg(lang, c("lat", "amh", "en"))
   if (!is_eth_date(x)) {
     stop("`x` must be an Ethiopian date object.")
   }
@@ -70,9 +71,9 @@ eth_day <- function(x) {
 
 #' @export
 #' @rdname eth_year
-eth_weekday <- function(x, lang = c("amh", "lat", "en"),
+eth_weekday <- function(x, lang = c("lat", "amh", "en"),
                         abbreviate = FALSE) {
-  lang <- match.arg(lang, c("amh", "lat", "en"))
+  lang <- match.arg(lang, c("lat", "amh", "en"))
   if (!is_eth_date(x)) {
     stop("`x` must be an Ethiopian date object.")
   }

@@ -4,7 +4,7 @@
 #' Utils
 #'
 #' @description
-#' Small help functions.
+#' Small helper functions.
 #'
 #'
 #' @param x an ethdate or numeric vector.
@@ -59,34 +59,38 @@ as.character.ethdate <- function(x, ...) {
 }
 
 
+
+
+
+#' Show
+#'
+#' @description
+#' Small functions that displays texts.
+#'
+#'
+#' @param x what you want to see.
+#' @param lang language of the text.
+#' @param ... arguments that passes to [format()]
+#'
+#' @returns
+#' a character vector.
+#'
+#' @author Gutama Girja Urago
+#'
+#'
 #' @export
-#' @rdname eth_year
-eth_today <- function(...) {
-  x <- eth_date(Sys.Date())
-  if (length(list(...)) == 0) {
-    return(x)
-  } else {
-    return(format(x, ...))
-  }
-  }
-
-
-#' @export
-#' @rdname eth_year
-eth_now <- function(...) {
-  s <- Sys.time()
-  attr(s,"tzone") <- "Africa/Addis_Ababa"
-  t <- format(s, format = "%I:%M:%S %p")
-  s <- format(eth_date(s), ...)
-  paste(s, t)
-}
-
-
+#'
+#' @examples
+#' eth_show()
+#' eth_show("%A", "amh")
+#' eth_today()
+#' eth_now()
+#'
 eth_show <- function(x = c("%B", "%b", "%A", "%a"),
-                     lang = c("amh", "lat", "en")) {
+                     lang = c("lat", "amh", "en")) {
 
   x <- match.arg(x, c(c("%B", "%b", "%A", "%a")))
-  lang <- match.arg(lang, c("amh", "lat", "en"))
+  lang <- match.arg(lang, c("lat", "amh", "en"))
 
   m_names <- as.character(1:13)
   d_names <- as.character(1:7)
@@ -157,6 +161,29 @@ eth_show <- function(x = c("%B", "%b", "%A", "%a"),
     }
   }
 }
+
+#' @export
+#' @rdname eth_show
+eth_today <- function(...) {
+  x <- eth_date(Sys.Date())
+  if (length(list(...)) == 0) {
+    return(x)
+  } else {
+    return(format(x, ...))
+  }
+}
+
+#' @export
+#' @rdname eth_show
+eth_now <- function(...) {
+  s <- Sys.time()
+  attr(s,"tzone") <- "Africa/Addis_Ababa"
+  t <- format(s, format = "%I:%M:%S %p")
+  s <- format(eth_date(s), ...)
+  paste(s, t)
+}
+
+
 
 
 # Classes ----

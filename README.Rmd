@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/GutUrago/ethiodate/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/GutUrago/ethiodate/actions/workflows/R-CMD-check.yaml)
 [![Codecov test coverage](https://codecov.io/gh/GutUrago/ethiodate/graph/badge.svg)](https://app.codecov.io/gh/GutUrago/ethiodate)
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 <!-- badges: end -->
 
 This package provides a robust and efficient solution for working with Ethiopian dates. It can seamlessly convert to and from Gregorian dates. It ensures lightning-fast computations thanks to the `{Rcpp}` package that enables the integration of high-performance C++ code. It has built-in checks for leap years and the 13th month (Pagume).
@@ -98,7 +98,7 @@ eth_date(as.Date("2025-01-01"))
 
 ## Date Arithmetic
 
-You can add or subtract scalar date to and from the `ethDate` object. The scalar represent number of days.
+You can add or subtract scalar date to and from the `ethdate` object. The scalar represent number of days.
 
 ```{r}
 date_1 <- eth_make_date(2017,01,01)
@@ -124,7 +124,7 @@ x <- eth_make_date(2000, 1, 15)
 format(x, format = "%B %d, %Y")
 ```
 ```{r more-format}
-format(x, format = "%B %d, %Y", lang = "lat")
+format(x, format = "%B %d, %Y", lang = "amh")
 ```
 
 
