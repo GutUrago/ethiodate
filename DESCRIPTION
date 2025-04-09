@@ -9,7 +9,7 @@ Authors@R: c(
       role = c("aut", "cre", "cph")
     )
   )
-Description: This package provides a robust and efficient solution for working 
+Description: A robust and efficient solution for working 
     with Ethiopian dates. It can seamlessly convert to and from Gregorian dates. 
     It ensures lightning-fast computations thanks to the `{Rcpp}` package that 
     enables the integration of high-performance C++ code. It has built-in checks 

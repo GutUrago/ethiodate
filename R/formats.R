@@ -2,8 +2,8 @@
 
 #' @export
 format.ethdate <- function(x, format = "%Y-%m-%d",
-                           lang = c("amh", "lat", "en"), ...) {
-  lang <- match.arg(lang, c("amh", "lat", "en"))
+                           lang = c("lat", "amh", "en"), ...) {
+  lang <- match.arg(lang, c("lat", "amh", "en"))
   if (!is.character(format) | length(format) != 1L) {
     stop("\"Format\" must be a characteter of length of 1.")
   }

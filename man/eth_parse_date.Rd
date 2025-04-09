@@ -4,12 +4,12 @@
 \alias{eth_parse_date}
 \title{Parse Ethiopian Date}
 \usage{
-eth_parse_date(x, format = "\%Y-\%m-\%d", lang = c("amh", "lat", "en"))
+eth_parse_date(x, format = "\%Y-\%m-\%d", lang = c("lat", "amh", "en"))
 }
 \arguments{
 \item{x}{a character vector.}
 
-\item{format}{a format in in which x is composed.}
+\item{format}{a format in in which x is composed. See \code{\link[base]{strptime}}.}
 
 \item{lang}{a language in which month names are written, if included in x. Use "amh" for month names written in Amharic alphabets,
 "lat" for Amharic month names written in Latin alphabets, and "en" for English month names.}
@@ -18,13 +18,15 @@ eth_parse_date(x, format = "\%Y-\%m-\%d", lang = c("amh", "lat", "en"))
 a vector of 'ethdate' objects.
 }
 \description{
-Parse Ethiopian date from character vector that has non-digit separator.
+Parse Ethiopian date from character vector that has a non-digit separator.
 }
 \details{
 x must include non-digit separator.
 }
 \examples{
 eth_parse_date("2017-01-01")
+s <- c("01/01/2013", "06/13/2011")
+eth_parse_date(s, format = "\%d/\%m/\%Y")
 }
 \seealso{
 \code{\link[=eth_date]{eth_date()}} \code{\link[=eth_make_date]{eth_make_date()}}

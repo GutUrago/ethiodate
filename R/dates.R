@@ -6,10 +6,10 @@
 #' Convert an object to an Ethiopian date.
 #'
 #'
-#' @param x a Date, POSIXct, POSIXt, numeric or character vector.
+#' @param x a numeric, character, Date, POSIXct or POSIXt vector.
 #' @param origin a Date or ethdate object, or something that can be coerced by
 #' `eth_date(origin, ...)`. Default: the Unix epoch of "1970-01-01" GC ("1962-04-23" EC).
-#' @param format format argument for character methods to parse a date.
+#' @param format format argument for character method to parse the date.
 #' @param lang a language in which month names are written, if included in x. Use "amh" for month names written in Amharic alphabets,
 #' "lat" for Amharic month names written in Latin alphabets, and "en" for English month names.
 #' @param ... further arguments to be passed to specific methods (see above).
@@ -17,8 +17,16 @@
 #' @details
 #' `eth_date()` internally stores number of days since the Unix epoch of "1970-01-01" GC ("1962-04-23" EC).
 #' Days before "1962-04-23" EC are represented as negative integers.
-#' This makes it easy to convert from and to base `Date` objects. At the moment, this function does not
-#' support time and timezone.
+#' This makes it easy to convert from and to base `Date` objects.
+#'
+#' The conversion of numeric vectors assumes that the vector represents a number of days since
+#' the origin ("1962-04-23" EC if origin is NULL). For the date objects, it extract underlying
+#' numeric values and convert it to `ethiodate` object. To convert from POSIXct or POSIXt,
+#' it coerces these objects to base Date object and, then, apply conversion.
+#'
+#' To parse character vector, a valid format must be supplied. The default is "%Y-%m-%d".
+#' please see the details section of \code{\link[base]{strptime}}.
+#'
 #'
 #' @seealso [eth_make_date()] [eth_parse_date()]
 #'
@@ -29,7 +37,21 @@
 #' @export
 #'
 #' @examples
-#' eth_date(as.Date(0))
+#'
+#' eth_date(Sys.Date())
+#' eth_date(Sys.time())
+#'
+#' x <- 7
+#' eth_date(x)
+#' eth_date(x, origin = Sys.Date())
+#' eth_date(x, origin = "2017-01-01")
+#' eth_date(x, origin = "01-01-2017", format = "%d-%m-%Y")
+#'
+#' s <- c("01/01/2013", "06/13/2011")
+#' eth_date(s, format = "%d/%m/%Y")
+#'
+#'
+#'
 eth_date <- function(x, ...) {
   UseMethod("eth_date")
 }
@@ -42,14 +64,13 @@ eth_date.default <- function(x, ...) {
 #' @rdname eth_date
 #' @export
 eth_date.numeric <- function(x, origin = NULL, ...) {
-
   if (length(origin) != 1L & !is.null(origin)) {
     stop("\"origin\" must be a vector of length 1 that is either a Date or ethdate object, or something that can be coerced to ethdate.")
   }
 
   if (!is.null(origin) & inherits(origin, "ethdate")) {
     origin <- as.numeric(origin)
-  } else if(!is.null(origin)) {
+  } else if (!is.null(origin)) {
     origin <- as.numeric(eth_date(origin, ...))
   } else {
     origin <- 0
@@ -59,13 +80,17 @@ eth_date.numeric <- function(x, origin = NULL, ...) {
     stop("Unable to coerce \"origin\" to ethdate.")
   }
 
-  new_ethdate(x) + origin
+  if (origin == 0) {
+    new_ethdate(x)
+  } else {
+    new_ethdate(x) + origin
+  }
 }
 
 #' @rdname eth_date
 #' @export
 eth_date.character <- function(x, format = "%Y-%m-%d",
-                               lang = c("amh", "lat", "en"), ...) {
+                               lang = c("lat", "amh", "en"), ...) {
   eth_parse_date(x, format, lang)
 }
 
@@ -93,10 +118,10 @@ eth_date.POSIXt <- function(x, ...) {
 
 
 
-#' Parse Ethiopian Date
+#' Make Ethiopian Date
 #'
 #' @description
-#' Parse Ethiopian date from year, month and day components.
+#' Make Ethiopian date from year, month and day components.
 #'
 #'
 #' @param year an integer vector of Ethiopian year.
@@ -104,7 +129,7 @@ eth_date.POSIXt <- function(x, ...) {
 #' @param day an integer vector of Ethiopian day.
 #'
 #' @details
-#' This function parses an Ethiopian date object from three vectors of an equal length.
+#' This function makes an Ethiopian date object from three integer vectors of an equal length.
 #' It validates the date and returns `NA` for invalid dates. It accounts for leap years.
 #'
 #'
@@ -133,11 +158,11 @@ eth_make_date <- function(year, month, day) {
 #' Parse Ethiopian Date
 #'
 #' @description
-#' Parse Ethiopian date from character vector that has non-digit separator.
+#' Parse Ethiopian date from character vector that has a non-digit separator.
 #'
 #'
 #' @param x a character vector.
-#' @param format a format in in which x is composed.
+#' @param format a format in in which x is composed. See \code{\link[base]{strptime}}.
 #' @param lang a language in which month names are written, if included in x. Use "amh" for month names written in Amharic alphabets,
 #' "lat" for Amharic month names written in Latin alphabets, and "en" for English month names.
 #'
@@ -156,9 +181,11 @@ eth_make_date <- function(year, month, day) {
 #'
 #' @examples
 #' eth_parse_date("2017-01-01")
+#' s <- c("01/01/2013", "06/13/2011")
+#' eth_parse_date(s, format = "%d/%m/%Y")
 eth_parse_date <- function(x, format = "%Y-%m-%d",
-                           lang = c("amh", "lat", "en")) {
-  lang <- match.arg(lang, c("amh", "lat", "en"))
+                           lang = c("lat", "amh", "en")) {
+  lang <- match.arg(lang, c("lat", "amh", "en"))
   if (!is.character(format) | length(format) != 1L) {
     stop("\"Format\" must be a characteter of length 1.")
   }

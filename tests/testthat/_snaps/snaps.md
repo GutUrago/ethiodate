@@ -93,7 +93,7 @@
     Code
       format(eth_date(0), format = "The origin is %B (%b) %m %A (%a) %d, %Y (%y)")
     Output
-      [1] "The origin is ታህሳስ (ታህ) 04 ሐሙስ (ሐሙ) 23, 1962 (62)"
+      [1] "The origin is Tahsas (Tah) 04 Hamus (Ham) 23, 1962 (62)"
 
 ---
 

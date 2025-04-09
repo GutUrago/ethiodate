@@ -29,7 +29,7 @@ is_eth_leap(x)
 \code{as.character()} returns formatted character date.
 }
 \description{
-Small help functions.
+Small helper functions.
 }
 \examples{
 is_eth_leap(2011)
