@@ -1,0 +1,9 @@
+bibentry(
+  bibtype  = "Manual",
+  title    = "ethiodate: Working with Ethiopian Dates in R",
+  author   = "Gutama Girja Urago",
+  url      = "https://guturago.github.io/ethiodate",
+  year     = "2025",
+  doi      = "10.5281/zenodo.15262092",
+  note     = "R package version 0.1.0"
+)

@@ -1,0 +1,16 @@
+url: https://guturago.github.io/ethiodate/
+template:
+  light-switch: yes
+  bootstrap: 5
+navbar:
+  structure:
+    right:
+    - search
+    - github
+    - lightswitch
+  components:
+    github:
+      icon: fa-github
+      href: https://github.com/GutUrago/ethiodate
+      aria-label: Github
+

@@ -1,0 +1,21 @@
+---
+title: "Introduction to ethiodate"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ethiodate}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(ethiodate)
+```
+ 
+ Here some text

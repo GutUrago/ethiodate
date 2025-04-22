@@ -62,7 +62,7 @@ as.character.ethdate <- function(x, ...) {
 
 
 
-#' Show
+#' See Month or Day Names
 #'
 #' @description
 #' Small functions that displays texts.

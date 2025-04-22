@@ -1,6 +1,6 @@
 Package: ethiodate
 Type: Package
-Title: Ethiopian Date Conversion and Arithmetic in R
+Title: Working with Ethiopian Dates in R
 Version: 0.1.0
 Authors@R: c(
     person(
@@ -25,6 +25,10 @@ Imports:
     stringr,
     vctrs
 Suggests: 
+    knitr,
+    rmarkdown,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
+URL: https://guturago.github.io/ethiodate/
+VignetteBuilder: knitr

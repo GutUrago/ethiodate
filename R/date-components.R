@@ -2,7 +2,7 @@
 
 
 
-#' Ethiopian Date Utils
+#' Ethiopian Date Components
 #' @description
 #' Small functions that helps to extract parts of Ethiopian date objects.
 #'

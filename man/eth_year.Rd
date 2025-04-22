@@ -6,7 +6,7 @@
 \alias{eth_monthname}
 \alias{eth_day}
 \alias{eth_weekday}
-\title{Ethiopian Date Utils}
+\title{Ethiopian Date Components}
 \usage{
 eth_year(x)
 

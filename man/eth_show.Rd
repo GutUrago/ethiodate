@@ -4,7 +4,7 @@
 \alias{eth_show}
 \alias{eth_today}
 \alias{eth_now}
-\title{Show}
+\title{See Month or Day Names}
 \usage{
 eth_show(x = c("\%B", "\%b", "\%A", "\%a"), lang = c("lat", "amh", "en"))
 
