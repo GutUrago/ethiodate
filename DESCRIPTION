@@ -1,0 +1,30 @@
+Package: ethiodate
+Type: Package
+Title: Ethiopian Date Conversion and Arithmetic in R
+Version: 0.1.0
+Authors@R: c(
+    person(
+      "Gutama Girja", "Urago",
+      email = "girjagutama@gmail.com",
+      role = c("aut", "cre", "cph")
+    )
+  )
+Description: A robust and efficient solution for working 
+    with Ethiopian dates. It can seamlessly convert to and from Gregorian dates. 
+    It ensures lightning-fast computations thanks to the `{Rcpp}` package that 
+    enables the integration of high-performance C++ code. It has built-in checks 
+    for leap years and the 13th month (Pagume).
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.2
+LinkingTo: 
+    Rcpp
+Imports: 
+    Rcpp,
+    stringr,
+    vctrs
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Roxygen: list(markdown = TRUE)
