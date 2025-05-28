@@ -19,7 +19,8 @@
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/parsing.html">Parse Ethiopian Dates</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/ggplot.html">ethiodate and ggplot2</a></li>
+    <li><a class="dropdown-item" href="../articles/parsing.html">Parse Ethiopian Dates</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -65,17 +66,18 @@
 
 
 <dt id="arg-lang">lang<a class="anchor" aria-label="anchor" href="#arg-lang"></a></dt>
-<dd><p>a language in which month names are written, if included in x. Use "amh" for month names written in Amharic alphabets,
-"lat" for Amharic month names written in Latin alphabets, and "en" for English month names.</p></dd>
+<dd><p>a language in which month names are written, if included in x.
+Use "lat" for Amharic month names written in Latin alphabets, "amh" for month names
+written in Amharic alphabets, and "en" for English month names.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>a vector of 'ethdate' objects.</p>
+    <p>a vector of  an'ethdate' object.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>x must include non-digit separator.</p>
+    <p>x must include a non-digit separator and exactly three components of the date (year, month, and day).</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -100,11 +102,11 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Gutama Girja Urago.</p>
+  <p>Developed by <a href="https://guturago.github.io/about.html" class="external-link">Gutama Girja Urago</a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer></div>

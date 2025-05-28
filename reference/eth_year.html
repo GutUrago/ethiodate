@@ -19,7 +19,8 @@
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
-  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/parsing.html">Parse Ethiopian Dates</a></li>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/ggplot.html">ethiodate and ggplot2</a></li>
+    <li><a class="dropdown-item" href="../articles/parsing.html">Parse Ethiopian Dates</a></li>
   </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
@@ -57,7 +58,9 @@
 <span></span>
 <span><span class="fu">eth_day</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span></span>
-<span><span class="fu">eth_weekday</span><span class="op">(</span><span class="va">x</span>, lang <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lat"</span>, <span class="st">"amh"</span>, <span class="st">"en"</span><span class="op">)</span>, abbreviate <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">eth_weekday</span><span class="op">(</span><span class="va">x</span>, lang <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"lat"</span>, <span class="st">"amh"</span>, <span class="st">"en"</span><span class="op">)</span>, abbreviate <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">eth_quarter</span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -69,7 +72,7 @@
 
 
 <dt id="arg-lang">lang<a class="anchor" aria-label="anchor" href="#arg-lang"></a></dt>
-<dd><p>a language. 'amh' for Amharic, 'lat' for Amharic written in Latin alphabets and
+<dd><p>a language. 'lat' for Amharic written in Latin alphabets, 'amh' for Amharic, and
 'en' for English</p></dd>
 
 
@@ -92,13 +95,13 @@
 <span class="r-in"><span><span class="fu">eth_year</span><span class="op">(</span><span class="va">today</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 2017</span>
 <span class="r-in"><span><span class="fu">eth_month</span><span class="op">(</span><span class="va">today</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 9</span>
 <span class="r-in"><span><span class="fu">eth_monthname</span><span class="op">(</span><span class="va">today</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Miyazya"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Ginbot"</span>
 <span class="r-in"><span><span class="fu">eth_day</span><span class="op">(</span><span class="va">today</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 28</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 20</span>
 <span class="r-in"><span><span class="fu">eth_weekday</span><span class="op">(</span><span class="va">today</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Maksegno"</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Rebu"</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
@@ -106,11 +109,11 @@
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Gutama Girja Urago.</p>
+  <p>Developed by <a href="https://guturago.github.io/about.html" class="external-link">Gutama Girja Urago</a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer></div>

@@ -39,7 +39,8 @@
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
-<li><a class="dropdown-item" href="../articles/parsing.html">Parse Ethiopian Dates</a></li>
+<li><a class="dropdown-item" href="../articles/ggplot.html">ethiodate and ggplot2</a></li>
+    <li><a class="dropdown-item" href="../articles/parsing.html">Parse Ethiopian Dates</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
@@ -78,160 +79,76 @@
 
     
     
-<p>The Ethiopian calendar is widely used in Ethiopia and differs
-significantly from the Gregorian calendar. It has 13 months: 12 months
-of 30 days and a 13th month (Pagumē) of 5 or 6 days, depending on the
-year.</p>
+<p><a href="https://en.wikipedia.org/wiki/Ethiopian_calendar" class="external-link">The
+Ethiopian calendar</a> is an official calendar in Ethiopia and differs
+significantly from <a href="https://en.wikipedia.org/wiki/Gregorian_calendar" class="external-link">the Gregorian
+calendar</a> system. The Ethiopian calendar is closely related to <a href="https://en.wikipedia.org/wiki/Coptic_calendar" class="external-link">the Coptic Egyptian
+calendar</a>, and both have 13 months: 12 months of 30 days and a 13th
+month (Pagumē) of 5 or 6 days, depending on the year. The word Pagumē
+comes from a Greek word that translates to ‘forgotten days’.</p>
+<p>The Ethiopian calendar system is 7-8 years behind the Gregorian
+calendar, and the new year occurs on September 11 or 12 depending on the
+year, whether leap or not. Unlike the Gregorian calendar system, leap
+years occur every four years without exception.</p>
 <p>The <code>ethiodate</code> package provides tools for parsing,
 converting, and working with Ethiopian dates in R. This vignette
 demonstrates how to parse Ethiopian dates from strings or numeric
 formats and convert them into <code>ethdate</code> objects.</p>
 <div class="section level2">
-<h2 id="parsing-ethiopian-dates">Parsing Ethiopian Dates<a class="anchor" aria-label="anchor" href="#parsing-ethiopian-dates"></a>
+<h2 id="the-integer-logic-of-ethiodate">The Integer Logic of ethiodate<a class="anchor" aria-label="anchor" href="#the-integer-logic-of-ethiodate"></a>
 </h2>
-<div class="section level3">
-<h3 id="from-character-strings">From Character Strings<a class="anchor" aria-label="anchor" href="#from-character-strings"></a>
-</h3>
-<p>You can parse Ethiopian dates from standard character representations
-like “2015-01-01” (Ethiopian calendar). Use
-<code><a href="../reference/eth_parse_date.html">eth_parse_date()</a></code>:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://guturago.github.io/ethiodate/">ethiodate</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/eth_parse_date.html">eth_parse_date</a></span><span class="op">(</span><span class="st">"2015-01-01"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2015-01-01"</span></span></code></pre></div>
-<p>You can also provide a vector of dates:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">eth_dates</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2015-01-01"</span>, <span class="st">"2015-02-15"</span>, <span class="st">"2015-13-05"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/eth_parse_date.html">eth_parse_date</a></span><span class="op">(</span><span class="va">eth_dates</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2015-01-01" "2015-02-15" "2015-13-05"</span></span></code></pre></div>
-<p>If you are parsing dates from string, you must provide correct
-formatting using <code>format</code> argument and the string must have
-consistent pattern. This argument accepts ISO 8601 formats, use
-<code><a href="https://rdrr.io/r/base/strptime.html" class="external-link">?strptime</a></code> for more.</p>
-<p><strong><em>Examples</em></strong></p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">x</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"01/17/2025"</span>, <span class="st">"05/12/2017"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/eth_parse_date.html">eth_parse_date</a></span><span class="op">(</span><span class="va">x</span>, format <span class="op">=</span> <span class="st">"%m/%d/%Y"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2025-01-17" "2017-05-12"</span></span></code></pre></div>
-<p>You can also parse date that contains month names if specify the
-exact format as follows:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/eth_parse_date.html">eth_parse_date</a></span><span class="op">(</span><span class="st">"Meskerem 25, 2017"</span>, format <span class="op">=</span> <span class="st">"%B %d, %Y"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2017-01-25"</span></span>
-<span><span class="fu"><a href="../reference/eth_parse_date.html">eth_parse_date</a></span><span class="op">(</span><span class="st">"መስከረም 25, 2017"</span>, format <span class="op">=</span> <span class="st">"%B %d, %Y"</span>, lang <span class="op">=</span> <span class="st">"amh"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2017-01-25"</span></span>
-<span><span class="fu"><a href="../reference/eth_parse_date.html">eth_parse_date</a></span><span class="op">(</span><span class="st">"Sep 25, 2017"</span>, format <span class="op">=</span> <span class="st">"%b %d, %Y"</span>, lang <span class="op">=</span> <span class="st">"en"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2017-01-25"</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="from-numeric">From Numeric<a class="anchor" aria-label="anchor" href="#from-numeric"></a>
-</h3>
-<p><code>ethate</code> is just a numeric vector, under the hood,
-representing number of days since 1970-01-01 GC (1962-04-12 EC). The
-date before the origin is represented by negative values. This makes it
-to seamlessly integrate features if base R Date object. For
-instance;</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># The same origin</span></span>
-<span><span class="fu"><a href="../reference/eth_parse_date.html">eth_parse_date</a></span><span class="op">(</span><span class="st">"1962-04-23"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">unclass</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"1970-01-01"</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">unclass</a></span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0</span></span></code></pre></div>
-<p>So, you can supply number of days from a custom origin to construct
-Ethiopian date object. If the origin is missing, the default is
-1962-04-23 EC. See <code><a href="../reference/eth_date.html">?eth_date</a></code> for more.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/eth_date.html">eth_date</a></span><span class="op">(</span><span class="fl">7</span>, origin <span class="op">=</span> <span class="fu"><a href="../reference/eth_show.html">eth_today</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2017-09-05"</span></span></code></pre></div>
-</div>
-<div class="section level3">
-<h3 id="from-components">From Components<a class="anchor" aria-label="anchor" href="#from-components"></a>
-</h3>
-<p>Constructing <code>ethdate</code> object from separate vector of
-year, month and day is supported.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/eth_make_date.html">eth_make_date</a></span><span class="op">(</span><span class="fl">2017</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2017-01-01"</span></span>
-<span></span>
-<span><span class="va">y</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2022</span>, <span class="fl">2025</span><span class="op">)</span></span>
-<span><span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">9</span><span class="op">)</span></span>
-<span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">15</span>, <span class="fl">19</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/eth_make_date.html">eth_make_date</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">m</span>, <span class="va">d</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2022-05-15" "2025-09-19"</span></span></code></pre></div>
-</div>
+<p>Just like R’s base <code>Date</code> class, the <code>ethdate</code>
+class represents dates as integers under the hood — specifically, the
+number of days since a fixed origin date. While <code>Date</code> uses
+the Gregorian origin “1970-01-01”, <code>ethdate</code> uses the
+Ethiopian equivalent of that date (i.e., the Ethiopian date that
+corresponds to Gregorian 1970-01-01) as its base. This design choice
+aligns the internal storage of <code>ethdate</code> with how base R
+handles dates, ensuring consistency and simplicity.</p>
+<p>Underneath, an <code>ethdate</code> object is just an integer with a
+class attribute. This means all the advantages of using integer-based
+date arithmetic — such as speed, simplicity, and compatibility — are
+preserved. Adding or subtracting a number from an <code>ethdate</code>
+gives a new date offset by that many days. Comparing two
+<code>ethdate</code> objects just boils down to integer comparisons. The
+internal simplicity of this representation enables intuitive and
+efficient date operations without complex calendar logic at the
+arithmetic level.</p>
+<p>This architecture also makes the <code>ethdate</code> class easily
+interoperable with many parts of R’s ecosystem. Since it’s based on
+integers, <code>ethdate</code> objects can be stored in data frames,
+used as keys in joins, and sorted naturally. When you convert to
+Gregorian using <code><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date()</a></code>, the underlying integer is
+interpreted correctly relative to the Gregorian calendar system. This
+separation of storage and presentation keeps the internals clean while
+allowing rich formatting and conversions when needed.</p>
+<p>Overall, by mimicking the design of base R’s <code>Date</code> class
+but anchoring it in the Ethiopian calendar, <code>ethdate</code>
+achieves both elegance and power: it’s lightweight, predictable, and
+optimized for calendar operations tailored to the Ethiopian context.</p>
 </div>
 <div class="section level2">
-<h2 id="invalid-and-missing-values">Invalid and Missing Values<a class="anchor" aria-label="anchor" href="#invalid-and-missing-values"></a>
+<h2 id="key-functions">Key Functions<a class="anchor" aria-label="anchor" href="#key-functions"></a>
 </h2>
-<p><code>ethiodate</code> validates every values before coercing it to
-<code>ethdate</code> object. For instance, 13th month has 6 days only
-during leap year. If you supply such erroneous values, you will
-<code>NA's</code> along with warnig message.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># 2011 is leap year -&gt; Correct</span></span>
-<span><span class="fu"><a href="../reference/eth_date.html">eth_date</a></span><span class="op">(</span><span class="st">"2011-13-6"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2011-13-06"</span></span>
-<span></span>
-<span><span class="co"># Incorrect</span></span>
-<span><span class="fu"><a href="../reference/eth_date.html">eth_date</a></span><span class="op">(</span><span class="st">"2012-13-6"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in eth_date_validate(year = year, month = month, day = day): Detected 1</span></span>
-<span><span class="co">#&gt; invalid date and coerced to NA.</span></span>
-<span><span class="co">#&gt; [1] NA</span></span></code></pre></div>
+<ul>
+<li>
+<code><a href="../reference/eth_date.html">eth_date()</a></code>: a generic function that casts vectors of
+other class to ethdate class.</li>
+<li>
+<code><a href="../reference/eth_parse_date.html">eth_parse_date()</a></code>: a function that parses date from
+strings.</li>
+<li>
+<code><a href="../reference/eth_make_date.html">eth_make_date()</a></code>: a function that makes a date from
+year, month, and day components of the date.</li>
+</ul>
 </div>
 <div class="section level2">
-<h2 id="conversion">Conversion<a class="anchor" aria-label="anchor" href="#conversion"></a>
+<h2 id="a-quick-guide">A Quick Guide<a class="anchor" aria-label="anchor" href="#a-quick-guide"></a>
 </h2>
-<p>Conversion between Ethiopian and Gregorian calendar is fully
-supported.</p>
-<p><strong><em>To Ethiopian</em></strong></p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">gre_date</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="st">"2025-01-15"</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/eth_date.html">eth_date</a></span><span class="op">(</span><span class="va">gre_date</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2017-05-07"</span></span></code></pre></div>
-<p><strong><em>To Gregorian</em></strong></p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">eth_dt</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/eth_date.html">eth_date</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></span><span class="op">(</span><span class="va">eth_dt</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "1970-01-01"</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="operations">Operations<a class="anchor" aria-label="anchor" href="#operations"></a>
-</h2>
-<p>As any other date objects, <code>ethdate</code> supports date
-operations. A unit any arithmetric operations is date.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Adding scalar days</span></span>
-<span><span class="fu"><a href="../reference/eth_date.html">eth_date</a></span><span class="op">(</span><span class="st">"2010-09-14"</span><span class="op">)</span> <span class="op">+</span> <span class="fl">6</span></span>
-<span><span class="co">#&gt; [1] "2010-09-20"</span></span>
-<span></span>
-<span><span class="co"># Subtraction</span></span>
-<span><span class="fu"><a href="../reference/eth_date.html">eth_date</a></span><span class="op">(</span><span class="st">"2010-09-14"</span><span class="op">)</span> <span class="op">-</span> <span class="fl">6</span></span>
-<span><span class="co">#&gt; [1] "2010-09-08"</span></span>
-<span></span>
-<span><span class="co"># Differences</span></span>
-<span><span class="fu"><a href="../reference/eth_date.html">eth_date</a></span><span class="op">(</span><span class="st">"2010-09-14"</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="../reference/eth_date.html">eth_date</a></span><span class="op">(</span><span class="st">"2010-09-10"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "Time difference of 4 days"</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="formatting">Formatting<a class="anchor" aria-label="anchor" href="#formatting"></a>
-</h2>
-<p>You can format <code>ethdate</code> object like any other date
-objects.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="fu"><a href="../reference/eth_show.html">eth_today</a></span><span class="op">(</span><span class="op">)</span>, format <span class="op">=</span> <span class="st">"This documents was updated on %B %d, %Y EC."</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "This documents was updated on Miyazya 28, 2017 EC."</span></span></code></pre></div>
-</div>
-<div class="section level2">
-<h2 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
-</h2>
-<p>Parsing Ethiopian dates is a crucial step in analyzing data collected
-in the Ethiopian calendar system. The <code>ethiodate</code> package
-provides a consistent and robust interface for converting string
-representations of Ethiopian dates into properly classed objects ready
-for further analysis or conversion.</p>
-<p>For more functionality, see <code><a href="../reference/eth_date.html">?eth_date</a></code>,
-<code><a href="../reference/eth_parse_date.html">?eth_parse_date</a></code>, <code><a href="../reference/eth_make_date.html">?eth_make_date</a></code>, and the rest
-of the package documentation.</p>
+<ul>
+<li><a href="parsing.html">Parsing Ethiopian Dates</a></li>
+<li><a href="ggplot.html">ethiodate and ggplot2</a></li>
+</ul>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
     </nav></aside>
@@ -240,11 +157,11 @@ of the package documentation.</p>
 
 
     <footer><div class="pkgdown-footer-left">
-  <p>Developed by Gutama Girja Urago.</p>
+  <p>Developed by <a href="https://guturago.github.io/about.html" class="external-link">Gutama Girja Urago</a>.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.2.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
 </div>
 
     </footer>
