@@ -95,7 +95,7 @@ cpieth |>
   filter(eyear > 2005 & eyear < 2015) |> 
   ggplot(aes(x = emonth, y = cpi, group = eyear, color = factor(eyear))) +
   geom_line() +
-  scale_x_continuous(breaks = 1:13, labels = eth_show(lang = "amh")) +
+  scale_x_continuous(breaks = 1:13, labels = eth_show(lang = "lat")) +
   scale_y_continuous(labels = scales::label_percent(scale = 1)) +
   labs(title = "CPI Seasonality by Ethiopian Year",
        x = "Month", y = "CPI", color = "Year") +
@@ -117,7 +117,7 @@ cpieth |>
   ggplot(aes(x = factor(emonth), y = factor(eyear), fill = cpi)) +
   geom_tile(color = "white") +
   scale_fill_viridis_c(labels = scales::label_percent(scale = 1)) +
-  scale_x_discrete(labels = eth_show("%b", "amh")) +
+  scale_x_discrete(labels = eth_show("%b", "lat")) +
   labs(title = "Monthly CPI Heatmap",
        x = "Ethiopian Month", y = "Ethiopian Year", fill = "CPI") +
   theme_bw()
