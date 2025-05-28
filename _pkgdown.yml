@@ -7,6 +7,9 @@ authors:
 template:
   light-switch: yes
   bootstrap: 5
+  includes:
+    in_header: pkgdown/extra-header.html
+
 navbar:
   structure:
     right:

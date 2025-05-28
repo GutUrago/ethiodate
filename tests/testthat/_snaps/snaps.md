@@ -108,15 +108,6 @@
       [1] "1962-04-24" "1962-04-25" "1962-04-26"
        [ reached getOption("max.print") -- omitted 2 entries ]
 
----
-
-    Code
-      print(eth_date(1:5) - eth_date(1), max = 3)
-    Output
-      Time differences in days
-      [1] 0 1 2
-       [ reached 'max' / getOption("max.print") -- omitted 2 entries ]
-
 # Format = %Blang = amh
 
     Code
