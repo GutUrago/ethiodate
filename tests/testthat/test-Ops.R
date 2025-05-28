@@ -148,7 +148,7 @@ test_that("vec_math.ethdifftime supports standard math ops", {
 test_that("summary.ethdifftime returns summary of difftime", {
   x <- new_ethdifftime(c(1, 2, NA))
   res <- summary(x)
-  expect_s3_class(res, "difftime")
+  expect_s3_class(res, c("summaryDefault", "difftime"))
   expect_named(res, c("Min.", "1st Qu.", "Median", "Mean", "3rd Qu.", "Max."))
 })
 
