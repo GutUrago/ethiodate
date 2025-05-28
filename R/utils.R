@@ -8,12 +8,17 @@
 #'
 #'
 #' @param x an ethdate or numeric vector.
+#' @param format a format for character date.
+#' @param lang a language.
 #' @param ... further arguments to be passed to specific methods.
 #'
 #' @returns
-#' `is_eth_leap()` returns a boolean vector, `as.Date()` returns Date object,
+#' `is_eth_leap()` returns a boolean vector,
+#' `as.Date()` returns a Date object,
 #' `as.numeric()` returns number of date since 1970-01-01 GC (1962-04-23 EC), and
 #' `as.character()` returns formatted character date.
+#'
+#'
 #' @export
 #'
 #' @examples
@@ -47,15 +52,25 @@ as.Date.ethdate <- function(x, ...) {
 
 #' @export
 #' @rdname is_eth_date
-as.double.ethdate <- function(x, ...) {
-  x <- unclass(x)
-  as.double(x)
-}
+as.double.ethdate <- function(x, ...) as.double(vctrs::vec_data(x))
+
 
 #' @export
 #' @rdname is_eth_date
-as.character.ethdate <- function(x, ...) {
-  format(x, ...)
+as.character.ethdate <- function(x, ...) format(x, ...)
+
+#' @export
+#' @rdname is_eth_date
+format.ethdate <- function(x, format = "%Y-%m-%d",
+                           lang = c("lat", "amh", "en"), ...) {
+  lang <- match.arg(lang, c("lat", "amh", "en"))
+  if (!is.character(format) | length(format) != 1L) {
+    stop("\"Format\" must be a characteter of length of 1.")
+  }
+  date_components <- eth_date_components(x)
+  out <- eth_format_date(date_components, format, lang)
+  names(out) <- names(x)
+  out
 }
 
 
@@ -72,8 +87,11 @@ as.character.ethdate <- function(x, ...) {
 #' @param lang language of the text.
 #' @param ... arguments that passes to [format()]
 #'
+#' @details
+#' `eth_show()` displays the underlying month and weekday names that is used by [eth_parse_date()].
+#'
 #' @returns
-#' a character vector.
+#' Except for `eth_date()`, which returns an `ethdate` object, other functions return a character vector.
 #'
 #' @author Gutama Girja Urago
 #'
@@ -186,20 +204,5 @@ eth_now <- function(...) {
 
 
 
-# Classes ----
-
-new_ethdate <- function(x = integer()) {
-  if (!is.numeric(x)) {
-    stop("`x` must be an integer vector.")
-  }
-  vctrs::new_vctr(x, class = "ethdate")
-}
-
-new_ethdiffday <- function(x = integer()) {
-  if (!is.numeric(x)) {
-    stop("`x` must be an integer vector.")
-  }
-  vctrs::new_vctr(x, class = "ethdiffday")
-}
 
 

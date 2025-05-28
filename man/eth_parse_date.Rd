@@ -11,17 +11,18 @@ eth_parse_date(x, format = "\%Y-\%m-\%d", lang = c("lat", "amh", "en"))
 
 \item{format}{a format in in which x is composed. See \code{\link[base]{strptime}}.}
 
-\item{lang}{a language in which month names are written, if included in x. Use "amh" for month names written in Amharic alphabets,
-"lat" for Amharic month names written in Latin alphabets, and "en" for English month names.}
+\item{lang}{a language in which month names are written, if included in x.
+Use "lat" for Amharic month names written in Latin alphabets, "amh" for month names
+written in Amharic alphabets, and "en" for English month names.}
 }
 \value{
-a vector of 'ethdate' objects.
+a vector of  an'ethdate' object.
 }
 \description{
 Parse Ethiopian date from character vector that has a non-digit separator.
 }
 \details{
-x must include non-digit separator.
+x must include a non-digit separator and exactly three components of the date (year, month, and day).
 }
 \examples{
 eth_parse_date("2017-01-01")

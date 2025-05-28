@@ -7,31 +7,33 @@
 #'
 #'
 #' @param x a numeric, character, Date, POSIXct or POSIXt vector.
-#' @param origin a Date or ethdate object, or something that can be coerced by
+#' @param origin a ethdate or Date object, or something that can be coerced by
 #' `eth_date(origin, ...)`. Default: the Unix epoch of "1970-01-01" GC ("1962-04-23" EC).
 #' @param format format argument for character method to parse the date.
-#' @param lang a language in which month names are written, if included in x. Use "amh" for month names written in Amharic alphabets,
-#' "lat" for Amharic month names written in Latin alphabets, and "en" for English month names.
+#' @param lang a language in which month names are written, if included in x.
+#' Use "lat" for Amharic month names written in Latin alphabets, "amh" for month names
+#' written in Amharic alphabets, and "en" for English month names.
 #' @param ... further arguments to be passed to specific methods (see above).
 #'
 #' @details
-#' `eth_date()` internally stores number of days since the Unix epoch of "1970-01-01" GC ("1962-04-23" EC).
+#' `eth_date()` internally stores the number of days as an integer since the Unix epoch of "1970-01-01" GC ("1962-04-23" EC).
 #' Days before "1962-04-23" EC are represented as negative integers.
 #' This makes it easy to convert from and to base `Date` objects.
 #'
 #' The conversion of numeric vectors assumes that the vector represents a number of days since
-#' the origin ("1962-04-23" EC if origin is NULL). For the date objects, it extract underlying
-#' numeric values and convert it to `ethiodate` object. To convert from POSIXct or POSIXt,
-#' it coerces these objects to base Date object and, then, apply conversion.
+#' the origin ("1962-04-23" EC if origin is NULL). For the date objects, it extracts underlying
+#' numeric values and convert it to an `ethiodate` object. To convert from POSIXct or POSIXt,
+#' it coerces these objects to base Date objects and then applies the conversion.
 #'
-#' To parse character vector, a valid format must be supplied. The default is "%Y-%m-%d".
-#' please see the details section of \code{\link[base]{strptime}}.
+#' To parse a character vector, a valid format must be supplied. The default is "%Y-%m-%d".
+#' Please see the details section of \code{\link[base]{strptime}}. Factors can also be coerced
+#' to `ethdate` after being internally converted to character.
 #'
 #'
 #' @seealso [eth_make_date()] [eth_parse_date()]
 #'
 #' @returns
-#' a vector of 'ethdate' objects corresponding to x.
+#' a vector of an 'ethdate' object corresponding to x.
 #'
 #' @author Gutama Girja Urago
 #' @export
@@ -44,6 +46,7 @@
 #' x <- 7
 #' eth_date(x)
 #' eth_date(x, origin = Sys.Date())
+#' eth_date(x, origin = eth_today())
 #' eth_date(x, origin = "2017-01-01")
 #' eth_date(x, origin = "01-01-2017", format = "%d-%m-%Y")
 #'
@@ -116,6 +119,13 @@ eth_date.POSIXt <- function(x, ...) {
   eth_date(x)
 }
 
+#' @rdname eth_date
+#' @export
+eth_date.factor <- function(x, ...) eth_date(as.character(x), ...)
+
+
+
+
 
 
 #' Make Ethiopian Date
@@ -134,7 +144,7 @@ eth_date.POSIXt <- function(x, ...) {
 #'
 #'
 #' @returns
-#' a vector of 'ethdate' objects.
+#' a vector of an 'ethdate' object.
 #'
 #'
 #' @author Gutama Girja Urago
@@ -163,15 +173,16 @@ eth_make_date <- function(year, month, day) {
 #'
 #' @param x a character vector.
 #' @param format a format in in which x is composed. See \code{\link[base]{strptime}}.
-#' @param lang a language in which month names are written, if included in x. Use "amh" for month names written in Amharic alphabets,
-#' "lat" for Amharic month names written in Latin alphabets, and "en" for English month names.
+#' @param lang a language in which month names are written, if included in x.
+#' Use "lat" for Amharic month names written in Latin alphabets, "amh" for month names
+#' written in Amharic alphabets, and "en" for English month names.
 #'
 #' @details
-#' x must include non-digit separator.
+#' x must include a non-digit separator and exactly three components of the date (year, month, and day).
 #'
 #'
 #' @returns
-#' a vector of 'ethdate' objects.
+#' a vector of  an'ethdate' object.
 #'
 #' @author Gutama Girja Urago
 #'

@@ -2,7 +2,7 @@
 title: "Introduction to ethiodate"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{ethiodate}
+  %\VignetteIndexEntry{Introduction to ethiodate}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -15,141 +15,32 @@ knitr::opts_chunk$set(
 ```
 
 
-The Ethiopian calendar is widely used in Ethiopia and differs significantly from the Gregorian calendar. It has 13 months: 12 months of 30 days and a 13th month (Pagumē) of 5 or 6 days, depending on the year.
+[The Ethiopian calendar](https://en.wikipedia.org/wiki/Ethiopian_calendar) is an official calendar in Ethiopia and differs significantly from [the Gregorian calendar](https://en.wikipedia.org/wiki/Gregorian_calendar) system. The Ethiopian calendar is closely related to [the Coptic Egyptian calendar](https://en.wikipedia.org/wiki/Coptic_calendar), and both have 13 months: 12 months of 30 days and a 13th month (Pagumē) of 5 or 6 days, depending on the year. The word Pagumē comes from a Greek word that translates to 'forgotten days'.
+
+The Ethiopian calendar system is 7-8 years behind the Gregorian calendar, and the new year occurs on September 11 or 12 depending on the year, whether leap or not. Unlike the Gregorian calendar system, leap years occur every four years without exception.
 
 The `ethiodate` package provides tools for parsing, converting, and working with Ethiopian dates in R. This vignette demonstrates how to parse Ethiopian dates from strings or numeric formats and convert them into `ethdate` objects.
 
+# The Integer Logic of ethiodate
 
-# Parsing Ethiopian Dates
+Just like R’s base `Date` class, the `ethdate` class represents dates as integers under the hood — specifically, the number of days since a fixed origin date. While `Date` uses the Gregorian origin "1970-01-01", `ethdate` uses the Ethiopian equivalent of that date (i.e., the Ethiopian date that corresponds to Gregorian 1970-01-01) as its base. This design choice aligns the internal storage of `ethdate` with how base R handles dates, ensuring consistency and simplicity.
 
-## From Character Strings
+Underneath, an `ethdate` object is just an integer with a class attribute. This means all the advantages of using integer-based date arithmetic — such as speed, simplicity, and compatibility — are preserved. Adding or subtracting a number from an `ethdate` gives a new date offset by that many days. Comparing two `ethdate` objects just boils down to integer comparisons. The internal simplicity of this representation enables intuitive and efficient date operations without complex calendar logic at the arithmetic level.
 
-You can parse Ethiopian dates from standard character representations like "2015-01-01" (Ethiopian calendar). Use `eth_parse_date()`:
+This architecture also makes the `ethdate` class easily interoperable with many parts of R's ecosystem. Since it's based on integers, `ethdate` objects can be stored in data frames, used as keys in joins, and sorted naturally. When you convert to Gregorian using `as.Date()`, the underlying integer is interpreted correctly relative to the Gregorian calendar system. This separation of storage and presentation keeps the internals clean while allowing rich formatting and conversions when needed.
 
+Overall, by mimicking the design of base R's `Date` class but anchoring it in the Ethiopian calendar, `ethdate` achieves both elegance and power: it’s lightweight, predictable, and optimized for calendar operations tailored to the Ethiopian context.
 
-```{r setup}
-library(ethiodate)
-eth_parse_date("2015-01-01")
-```
+# Key Functions
 
-You can also provide a vector of dates:
-
-
-```{r}
-eth_dates <- c("2015-01-01", "2015-02-15", "2015-13-05")
-eth_parse_date(eth_dates)
-```
-
-If you are parsing dates from string, you must provide correct formatting using `format` argument and the string must have consistent pattern. This argument accepts ISO 8601 formats, use `?strptime` for more.
-
-***Examples***
-
-```{r}
-x <- c("01/17/2025", "05/12/2017")
-eth_parse_date(x, format = "%m/%d/%Y")
-```
-
-You can also parse date that contains month names if specify the exact format as follows:
-
-```{r}
-eth_parse_date("Meskerem 25, 2017", format = "%B %d, %Y")
-eth_parse_date("መስከረም 25, 2017", format = "%B %d, %Y", lang = "amh")
-eth_parse_date("Sep 25, 2017", format = "%b %d, %Y", lang = "en")
-```
+- `eth_date()`: a generic function that casts vectors of other class to ethdate class. 
+- `eth_parse_date()`: a function that parses date from strings.
+- `eth_make_date()`: a function that makes a date from year, month, and day components of the date.
 
 
-## From Numeric
 
-`ethate` is just a numeric vector, under the hood, representing number of days since 1970-01-01 GC (1962-04-12 EC). The date before the origin is represented by negative values. This makes it to seamlessly integrate features if base R Date object. For instance;
+# A Quick Guide
 
-
-```{r}
-# The same origin
-eth_parse_date("1962-04-23") |> unclass()
-as.Date("1970-01-01") |> unclass()
-```
-
-So, you can supply number of days from a custom origin to construct Ethiopian date object. If the origin is missing, the default is 1962-04-23 EC. See `?eth_date` for more.
-
-```{r}
-eth_date(7, origin = eth_today())
-```
-
-## From Components
-
-Constructing `ethdate` object from separate vector of year, month and day is supported.
-
-```{r}
-eth_make_date(2017, 1, 1)
-
-y <- c(2022, 2025)
-m <- c(5, 9)
-d <- c(15, 19)
-eth_make_date(y, m, d)
-
-```
-
-# Invalid and Missing Values
-
-`ethiodate` validates every values before coercing it to `ethdate` object. For instance, 13th month has 6 days only during leap year. If you supply such erroneous values, you will `NA's` along with warnig message.
-
-```{r}
-# 2011 is leap year -> Correct
-eth_date("2011-13-6")
-
-# Incorrect
-eth_date("2012-13-6")
-```
-
-# Conversion
-
-Conversion between Ethiopian and Gregorian calendar is fully supported. 
-
-***To Ethiopian***
-
-```{r}
-gre_date <- as.Date("2025-01-15")
-eth_date(gre_date)
-```
-
-***To Gregorian***
-
-```{r}
-eth_dt <- eth_date(0)
-as.Date(eth_dt)
-```
-
-
-# Operations
-
-As any other date objects, `ethdate` supports date operations. A unit any arithmetric operations is date. 
-
-```{r}
-# Adding scalar days
-eth_date("2010-09-14") + 6
-
-# Subtraction
-eth_date("2010-09-14") - 6
-
-# Differences
-eth_date("2010-09-14") - eth_date("2010-09-10")
-
-```
-
-# Formatting
-
-You can format `ethdate` object like any other date objects. 
-
-```{r}
-format(eth_today(), format = "This documents was updated on %B %d, %Y EC.")
-```
-
-
-# Conclusion
-
-Parsing Ethiopian dates is a crucial step in analyzing data collected in the Ethiopian calendar system. The `ethiodate` package provides a consistent and robust interface for converting string representations of Ethiopian dates into properly classed objects ready for further analysis or conversion.
-
-For more functionality, see `?eth_date`, `?eth_parse_date`, `?eth_make_date`, and the rest of the package documentation.
-
-
+- [Parsing Ethiopian Dates](parsing.html)
+- [ethiodate and ggplot2](ggplot.html)
 

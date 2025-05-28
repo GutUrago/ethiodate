@@ -8,7 +8,7 @@
 #'
 #'
 #' @param x a vector of an Ethiopian date object
-#' @param lang a language. 'amh' for Amharic, 'lat' for Amharic written in Latin alphabets and
+#' @param lang a language. 'lat' for Amharic written in Latin alphabets, 'amh' for Amharic, and
 #' 'en' for English
 #' @param abbreviate Do you want to get an abbreviated month or weekday names?
 #'
@@ -83,3 +83,16 @@ eth_weekday <- function(x, lang = c("lat", "amh", "en"),
     format(x, format = "%A", lang = lang)
   }
 }
+
+#' @export
+#' @rdname eth_year
+eth_quarter <- function(x) {
+  x <- eth_month(x)
+  Q <- ifelse(x < 4, 1,
+              ifelse(x < 7, 2,
+                     ifelse(x < 10, 3, 4)))
+
+  ifelse(is.na(Q), NA_character_, paste0("Q", Q) )
+}
+
+

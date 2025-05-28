@@ -1,21 +1,3 @@
-# Summary works for NAs too
-
-    Code
-      summary(eth_date(0:10))
-    Output
-              Min.      1st Qu.       Median         Mean      3rd Qu.         Max. 
-      "1962-04-23" "1962-04-25" "1962-04-28" "1962-04-28" "1962-04-30" "1962-05-03" 
-
----
-
-    Code
-      summary(eth_date(c(NA, 0:10, NA)))
-    Output
-              Min.      1st Qu.       Median         Mean      3rd Qu.         Max. 
-      "1962-04-23" "1962-04-25" "1962-04-28" "1962-04-28" "1962-04-30" "1962-05-03" 
-              NA's 
-               "2" 
-
 # eth_components works only on ethDate
 
     Code
@@ -77,16 +59,8 @@
     Code
       eth_date(0) + eth_date(0)
     Condition
-      Error in `+.ethdate`:
-      ! binary + is not defined for "ethdate" objects
-
----
-
-    Code
-      1 - eth_date(0)
-    Condition
-      Error in `-.ethdate`:
-      ! can only subtract from "ethdate" objects
+      Error in `vec_arith()`:
+      ! <ethdate> + <ethdate> is not permitted
 
 # Formattig test
 
@@ -123,9 +97,8 @@
     Code
       print(eth_date(1:5) - eth_date(1))
     Output
-      [1] "Time difference of 0 days" "Time difference of 1 days"
-      [3] "Time difference of 2 days" "Time difference of 3 days"
-      [5] "Time difference of 4 days"
+      Time differences in days
+      [1] 0 1 2 3 4
 
 ---
 
@@ -140,9 +113,9 @@
     Code
       print(eth_date(1:5) - eth_date(1), max = 3)
     Output
-      [1] "Time difference of 0 days" "Time difference of 1 days"
-      [3] "Time difference of 2 days"
-       [ reached getOption("max.print") -- omitted 2 entries ]
+      Time differences in days
+      [1] 0 1 2
+       [ reached 'max' / getOption("max.print") -- omitted 2 entries ]
 
 # Format = %Blang = amh
 

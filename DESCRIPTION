@@ -1,19 +1,18 @@
 Package: ethiodate
 Type: Package
-Title: Working with Ethiopian Dates in R
+Title: Working with Ethiopian Dates
 Version: 0.1.0
 Authors@R: c(
     person(
       "Gutama Girja", "Urago",
       email = "girjagutama@gmail.com",
-      role = c("aut", "cre", "cph")
+      role = c("aut", "cre", "cph"),
+      comment = c(ORCID = "0000-0001-5588-2301")
     )
   )
-Description: A robust and efficient solution for working 
-    with Ethiopian dates. It can seamlessly convert to and from Gregorian dates. 
-    It ensures lightning-fast computations thanks to the `{Rcpp}` package that 
-    enables the integration of high-performance C++ code. It has built-in checks 
-    for leap years and the 13th month (Pagume).
+Description: A robust and efficient solution for working with Ethiopian dates. It can seamlessly convert to and from Gregorian dates. 
+    It is designed to be compatible with the 'tidyverse' data workflow, including plotting with 'ggplot2'.
+    It ensures lightning-fast computations by integrating high-performance 'C++' code through 'Rcpp' package.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -25,10 +24,15 @@ Imports:
     stringr,
     vctrs
 Suggests: 
+    dplyr,
+    ggplot2,
     knitr,
     rmarkdown,
+    scales,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
 URL: https://guturago.github.io/ethiodate/
 VignetteBuilder: knitr
+Depends: 
+    R (>= 4.1.0)

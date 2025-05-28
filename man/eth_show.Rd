@@ -20,10 +20,13 @@ eth_now(...)
 \item{...}{arguments that passes to \code{\link[=format]{format()}}}
 }
 \value{
-a character vector.
+Except for \code{eth_date()}, which returns an \code{ethdate} object, other functions return a character vector.
 }
 \description{
 Small functions that displays texts.
+}
+\details{
+\code{eth_show()} displays the underlying month and weekday names that is used by \code{\link[=eth_parse_date]{eth_parse_date()}}.
 }
 \examples{
 eth_show()

@@ -6,6 +6,7 @@
 \alias{eth_monthname}
 \alias{eth_day}
 \alias{eth_weekday}
+\alias{eth_quarter}
 \title{Ethiopian Date Components}
 \usage{
 eth_year(x)
@@ -17,11 +18,13 @@ eth_monthname(x, lang = c("lat", "amh", "en"), abbreviate = FALSE)
 eth_day(x)
 
 eth_weekday(x, lang = c("lat", "amh", "en"), abbreviate = FALSE)
+
+eth_quarter(x)
 }
 \arguments{
 \item{x}{a vector of an Ethiopian date object}
 
-\item{lang}{a language. 'amh' for Amharic, 'lat' for Amharic written in Latin alphabets and
+\item{lang}{a language. 'lat' for Amharic written in Latin alphabets, 'amh' for Amharic, and
 'en' for English}
 
 \item{abbreviate}{Do you want to get an abbreviated month or weekday names?}

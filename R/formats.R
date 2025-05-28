@@ -1,17 +1,5 @@
 
 
-#' @export
-format.ethdate <- function(x, format = "%Y-%m-%d",
-                           lang = c("lat", "amh", "en"), ...) {
-  lang <- match.arg(lang, c("lat", "amh", "en"))
-  if (!is.character(format) | length(format) != 1L) {
-    stop("\"Format\" must be a characteter of length of 1.")
-  }
-  date_components <- eth_date_components(x)
-  out <- eth_format_date(date_components, format, lang)
-  names(out) <- names(x)
-  out
-}
 
 #' @export
 print.ethdate <- function(x, max = NULL, ...) {
@@ -27,18 +15,12 @@ print.ethdate <- function(x, max = NULL, ...) {
 
 
 #' @export
-print.ethdiffday <- function(x, max = NULL, ...) {
-  if(is.null(max)) max <- getOption("max.print", 9999L)
-  x <- unclass(x)
-  x <- paste("Time difference of", x, "days")
-  n <- length(x)
-  if(max < n) {
-    print(format(x[seq_len(max)]), max=max, ...)
-    cat(' [ reached getOption("max.print") -- omitted',
-        n - max, 'entries ]\n')
-  } else print(format(x), max=max, ...)
-  invisible(x)
+print.ethdifftime <- function(x, max = NULL, ...) {
+  x <- vctrs::vec_data(x)
+  x <- as.difftime(x, units = "days")
+  print(x, max = max, ...)
   }
+
 
 # Formats and names ----
 

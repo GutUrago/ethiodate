@@ -14,7 +14,7 @@ eth_make_date(year, month, day)
 \item{day}{an integer vector of Ethiopian day.}
 }
 \value{
-a vector of 'ethdate' objects.
+a vector of an 'ethdate' object.
 }
 \description{
 Make Ethiopian date from year, month and day components.

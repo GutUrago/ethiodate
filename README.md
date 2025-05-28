@@ -6,6 +6,12 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/GutUrago/ethiodate/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/GutUrago/ethiodate/actions/workflows/R-CMD-check.yaml)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/ethiodate)](https://cran.r-project.org/package=ethiodate)
+[![cran
+checks](https://badges.cranchecks.info/worst/ethiodate.svg)](https://cran.r-project.org/web/checks/check_results_ethiodate.html)
+[![minimal R
+version](https://img.shields.io/badge/R%3E%3D-4.1.0-6666ff.svg)](https://cran.r-project.org/)
 [![Codecov test
 coverage](https://codecov.io/gh/GutUrago/ethiodate/graph/badge.svg)](https://app.codecov.io/gh/GutUrago/ethiodate)
 [![Lifecycle:
@@ -19,34 +25,39 @@ with base R `Date` objects. It can seamlessly convert to and from
 Gregorian dates, regardless of the way you record them. It supports
 almost all important parsing techniques used for a base R Date object.
 If you have ever worked with a `Date` object, you can do the same with
-Ethiopian dates. This package ensures lightning-fast computations thanks
-to the `{Rcpp}` package that enables the integration of high-performance
-C++ code. It has built-in checks for leap years and the 13th month
-(Pagume), which makes this package crucial.
+Ethiopian dates. It is designed to work smoothly with the `{tidyverse}`,
+including `{ggplot2}`, `{dplyr}`, `{tibble}`, and `{lubridate}`, making
+it ideal for data manipulation pipelines. This package ensures
+lightning-fast computations thanks to the `{Rcpp}` package that enables
+the integration of high-performance C++ code. It has built-in checks for
+leap years and the 13th month (Pagume), which makes this package
+crucial.
 
 ## Key Features:
 
 - **Custom Date Object:** You can convert your date recorded in any
   style to custom `ethdate` object.
 - **Seamless Date Conversion:** Effortlessly convert Ethiopian dates to
-  and from Gregorian dates.
+  and from Gregorian dates with precision.
 - **High-Speed Computation:** Written in C++ for maximum efficiency.
-- **Date Arithmetic:** Perform date additions and subtractions with
-  precision.
+- **Date Arithmetic:** Perform date arithmetic operations.
 - **Day-Based Units:** Dates are represented as the number of days since
   1963-04-23 EC (1970-01-01 GC) to simplify conversion between
   calendars.
-
-<!--
-🚀 **Upcoming Features:** Future versions will extend support for time and time zones.
--->
+- **Integration with `{ggplot2}`:** Designed to smoothly work with
+  `{ggplot2}`. <!--
+  🚀 **Upcoming Features:** Future versions will extend support for time and time zones.
+  -->
 
 ## Installation
 
 You can install the development version of `ethiodate` package like so:
 
 ``` r
-# install.packages("devtools")
+# Install the current version on CRAN
+install.packages("ethiodate")
+
+# Install a stable development version from GitHub (requires compilation)
 devtools::install_github("GutUrago/ethiodate")
 ```
 
@@ -56,16 +67,18 @@ This package is for you if you have ever faced the following conditions,
 where;
 
 - You recorded Ethiopian year, month and days as a separate variable and
-  not sure if the combination is valid date?
+  not sure if the combination is valid date.
 - You recorded Ethiopian date as “dd-mm-yy”, “yy/mm/dd”, … etc, and you
-  can’t perform any operations beyond string operations?
+  can’t perform any operations beyond string operations.
 - You have Ethiopian dates in any of above listed format and want to
-  convert it to Gregorian dates?
+  convert it to Gregorian dates.
 - You have Gregorian dates object and want to obtain equivalent
-  Ethiopian dates?
-- You want to do some arithmetic operations with Ethiopian dates?
+  Ethiopian dates.
+- You want to do some arithmetic operations with Ethiopian dates.
+- You want to build and present nicely formatted plots for time trends
+  in local context.
 
-**Here are a few examples:**
+**Examples:**
 
 ``` r
 library(ethiodate)
@@ -77,16 +90,10 @@ data.frame(
   eth_day = c(25, 12, 6, 8, 17, 30)
 ) |> 
   mutate(
-    eth_date = eth_make_date(eth_year, eth_month, eth_day), # Make `ethdate` object
-    gre_date = as.Date(eth_date), # Convert to Gregorian date
-    eth_dayname = eth_weekday(eth_date, lang = "en"), # Weekday name EC
-    gre_dayname = weekdays(gre_date), # Weekday name GC
-    eth_date2 = eth_date(gre_date), # From GC to EC
-    eth_str = glue::glue("{eth_year}/{eth_month}/{eth_day}"), # Make string
-    eth_prsd = eth_parse_date(eth_str, format = "%Y/%m/%d"), # Parse string
-    eth_year2 = eth_year(eth_date), # Extract components
-    eth_month2 = eth_month(eth_date),
-    eth_day2 = eth_day(eth_date)
+    eth_date = eth_make_date(eth_year, eth_month, eth_day),
+    gre_date = as.Date(eth_date),
+    eth_dayname = eth_weekday(eth_date, lang = "en"), 
+    gre_dayname = weekdays(gre_date) 
   )
 #>   eth_year eth_month eth_day   eth_date   gre_date eth_dayname gre_dayname
 #> 1     2000         8      25 2000-08-25 2008-05-03    Saturday    Saturday
@@ -95,11 +102,4 @@ data.frame(
 #> 4     2020         5       8 2020-05-08 2028-01-17      Monday      Monday
 #> 5     1950         7      17 1950-07-17 1958-03-26   Wednesday   Wednesday
 #> 6     2030         5      30 2030-05-30 2038-02-07      Sunday      Sunday
-#>    eth_date2   eth_str   eth_prsd eth_year2 eth_month2 eth_day2
-#> 1 2000-08-25 2000/8/25 2000-08-25      2000          8       25
-#> 2 2007-02-12 2007/2/12 2007-02-12      2007          2       12
-#> 3 2015-13-06 2015/13/6 2015-13-06      2015         13        6
-#> 4 2020-05-08  2020/5/8 2020-05-08      2020          5        8
-#> 5 1950-07-17 1950/7/17 1950-07-17      1950          7       17
-#> 6 2030-05-30 2030/5/30 2030-05-30      2030          5       30
 ```

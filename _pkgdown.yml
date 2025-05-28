@@ -1,4 +1,9 @@
 url: https://guturago.github.io/ethiodate/
+
+authors:
+  Gutama Girja Urago:
+    href: https://guturago.github.io/about.html
+
 template:
   light-switch: yes
   bootstrap: 5
@@ -13,4 +18,60 @@ navbar:
       icon: fa-github
       href: https://github.com/GutUrago/ethiodate
       aria-label: Github
+deploy:
+  branch: gh-pages
+  remote: origin
 
+reference:
+  - title: Create
+    desc: >
+      Create an ethdate object from numeric, character, or other date classes
+    contents:
+    - eth_date
+    - eth_make_date
+    - eth_parse_date
+
+  - title: Extract
+    desc: >
+      Extract date components from ethdate objects
+    contents:
+    - eth_year
+    - eth_month
+    - eth_monthname
+    - eth_day
+    - eth_weekday
+    - eth_quarter
+
+  - title: Plot
+    desc: >
+      Plot ethdate object with ggplot2
+    contents:
+    - scale_x_ethdate
+    - scale_y_ethdate
+    - eth_breaks
+    - eth_labels
+
+  - title: Show
+    desc: >
+      Show month or day names
+    contents:
+    - eth_show
+    - eth_today
+    - eth_now
+
+  - title: Utils
+    desc: >
+      S3 class helpers
+    contents:
+    - is_eth_date
+    - is_eth_leap
+    - as.Date.ethdate
+    - as.character.ethdate
+    - as.double.ethdate
+    - format.ethdate
+
+  - title: Data
+    desc: >
+      Monthly FAO Food Price Index 2001-2023 for Ethiopia
+    contents:
+    - cpieth

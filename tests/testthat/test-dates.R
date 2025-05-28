@@ -19,7 +19,7 @@ df$gre_leap <- as.numeric(format(df$gre_d, "%Y")) %% 4 == 0 & (as.numeric(format
 df$eth_y <- eth_year(df$eth_d)
 df$eth_m <- eth_month(df$eth_d)
 df$eth_d1 <- eth_day(df$eth_d)
-# df$eth_new_d <- eth_make_date(df$eth_y, df$eth_m, df$eth_d1)
+df$eth_new_d <- suppressWarnings(eth_make_date(df$eth_y, df$eth_m, df$eth_d1))
 
 df$eth_as_date <- as.Date(df$eth_d)
 df$eth_from_gre <- eth_date(df$gre_d)
@@ -48,9 +48,9 @@ test_that("Ethiopia has more leap years", {
   expect_gt(sum(df$eth_leap, na.rm = T), sum(df$gre_leap, na.rm = T))
 })
 
-# test_that("Extract components and make date again", {
-#   expect_equal(df$eth_d, df$eth_new_d)
-# })
+test_that("Extract components and make date again", {
+  expect_equal(df$eth_d, df$eth_new_d)
+})
 
 test_that("Conversion to date", {
   expect_equal(df$eth_as_date, df$gre_d)
@@ -139,8 +139,20 @@ test_that("eth_parse_date", {
 
 test_that("default", {
   expect_equal(eth_date.default(0), eth_date(0))
-
 })
+
+
+test_that("factor", {
+  expect_equal(eth_date(factor("2017-01-01")), eth_date("2017-01-01"))
+})
+
+
+test_that("factor", {
+  qs <- c("Q1", "Q2", "Q3", "Q4", NA)
+  dt <- suppressWarnings(eth_date(c("2017-01-01", "2017-04-15", "2017-08-29", "2017-13-05", NA)))
+  expect_equal(eth_quarter(dt), qs)
+})
+
 
 
 

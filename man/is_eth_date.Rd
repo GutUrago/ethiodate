@@ -6,6 +6,7 @@
 \alias{as.Date.ethdate}
 \alias{as.double.ethdate}
 \alias{as.character.ethdate}
+\alias{format.ethdate}
 \title{Utils}
 \usage{
 is_eth_date(x)
@@ -17,14 +18,21 @@ is_eth_leap(x)
 \method{as.double}{ethdate}(x, ...)
 
 \method{as.character}{ethdate}(x, ...)
+
+\method{format}{ethdate}(x, format = "\%Y-\%m-\%d", lang = c("lat", "amh", "en"), ...)
 }
 \arguments{
 \item{x}{an ethdate or numeric vector.}
 
 \item{...}{further arguments to be passed to specific methods.}
+
+\item{format}{a format for character date.}
+
+\item{lang}{a language.}
 }
 \value{
-\code{is_eth_leap()} returns a boolean vector, \code{as.Date()} returns Date object,
+\code{is_eth_leap()} returns a boolean vector,
+\code{as.Date()} returns a Date object,
 \code{as.numeric()} returns number of date since 1970-01-01 GC (1962-04-23 EC), and
 \code{as.character()} returns formatted character date.
 }
