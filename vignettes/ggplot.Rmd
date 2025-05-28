@@ -28,6 +28,7 @@ This vignette walks through advanced use of ethiodate with ggplot2, using the bu
 library(ethiodate)
 library(ggplot2)
 library(dplyr)
+theme_set(theme_minimal(base_family = "Noto Sans Ethiopic"))
 head(cpieth)
 ```
 
