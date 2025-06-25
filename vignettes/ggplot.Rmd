@@ -16,12 +16,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
-library(showtext)
-library(sysfonts)
-font_add_google("Noto Serif Ethiopic")
-showtext_auto()
-```
 
 # Introduction
 
@@ -35,12 +29,6 @@ This vignette walks through advanced use of ethiodate with ggplot2, using the bu
 library(ethiodate)
 library(ggplot2)
 library(dplyr)
-
-library(showtext)
-library(sysfonts)
-font_add_google("Noto Serif Ethiopic")
-showtext_auto()
-
 head(cpieth)
 ```
 
@@ -107,14 +95,12 @@ p1 <- cpieth |>
   filter(eyear > 2005 & eyear < 2015) |> 
   ggplot(aes(x = emonth, y = cpi, group = eyear, color = factor(eyear))) +
   geom_line() +
-  scale_x_continuous(breaks = 1:13, labels = eth_show(lang = "amh")) +
+  scale_x_continuous(breaks = 1:13, labels = eth_show(lang = "lat")) +
   scale_y_continuous(labels = scales::label_percent(scale = 1)) +
   labs(title = "CPI Seasonality by Ethiopian Year",
        x = "Month", y = "CPI", color = "Year") +
   theme_bw() + 
-  theme(axis.text.x = element_text(
-    family = "Noto Serif Ethiopic",
-    angle = 45, vjust = 0.9, hjust = 1, colour = "black"))
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.9, hjust = 1, colour = "black"))
 
 p1
 ```
@@ -132,11 +118,11 @@ p2 <- cpieth |>
   ggplot(aes(x = factor(emonth), y = factor(eyear), fill = cpi)) +
   geom_tile(color = "white") +
   scale_fill_viridis_c(labels = scales::label_percent(scale = 1)) +
-  scale_x_discrete(labels = eth_show("%b", "amh")) +
+  scale_x_discrete(labels = eth_show("%b", "lat")) +
   labs(title = "Monthly CPI Heatmap",
        x = "Ethiopian Month", y = "Ethiopian Year", fill = "CPI") +
   theme_bw() + 
-  theme(axis.text.x = element_text(family = "Noto Serif Ethiopic", colour = "black"))
+  theme(axis.text.x = element_text(colour = "black"))
 
 p2
 ```
