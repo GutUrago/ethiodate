@@ -16,6 +16,11 @@ knitr::opts_chunk$set(
 )
 ```
 
+```{r, echo=FALSE}
+# To save plots of Amharic fonts
+dir.create("figures", showWarnings = FALSE)
+```
+
 # Introduction
 
 The ethiodate package provides a modern infrastructure for working with Ethiopian calendar dates in R. One of its powerful features is the ability to use `ethdate` objects seamlessly within the `{ggplot2}` ecosystem for data visualization.
