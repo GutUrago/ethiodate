@@ -25,11 +25,14 @@ Imports:
     stringr,
     vctrs
 Suggests: 
+    curl,
     dplyr,
     ggplot2,
     knitr,
     rmarkdown,
     scales,
+    showtext,
+    sysfonts,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
