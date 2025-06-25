@@ -2,6 +2,7 @@ Package: ethiodate
 Type: Package
 Title: Working with Ethiopian Dates
 Version: 0.2.0
+Date: 2025-05-24
 Authors@R: c(
     person(
       "Gutama Girja", "Urago",
@@ -32,7 +33,8 @@ Suggests:
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Roxygen: list(markdown = TRUE)
-URL: https://guturago.github.io/ethiodate/
+URL: https://guturago.github.io/ethiodate/, https://github.com/guturago/ethiodate
+BugReports: https://github.com/guturago/ethiodate/issues
 VignetteBuilder: knitr
 Depends: 
     R (>= 4.1.0)
