@@ -21,6 +21,7 @@ RoxygenNote: 7.3.2
 LinkingTo: 
     Rcpp
 Imports: 
+    cli,
     Rcpp,
     stringr,
     vctrs
@@ -36,5 +37,3 @@ Roxygen: list(markdown = TRUE)
 URL: https://guturago.github.io/ethiodate/, https://github.com/guturago/ethiodate
 BugReports: https://github.com/guturago/ethiodate/issues
 VignetteBuilder: knitr
-Depends: 
-    R (>= 4.1.0)

@@ -2,6 +2,9 @@
 % Please edit documentation in R/dates.R
 \name{eth_date}
 \alias{eth_date}
+\alias{as.ethdate}
+\alias{as_ethdate}
+\alias{eth_date.default}
 \alias{eth_date.numeric}
 \alias{eth_date.character}
 \alias{eth_date.Date}
@@ -10,9 +13,15 @@
 \alias{eth_date.factor}
 \title{Create an Ethiopian Date Object}
 \usage{
+as.ethdate(x, ...)
+
+as_ethdate(x, ...)
+
 eth_date(x, ...)
 
-\method{eth_date}{numeric}(x, origin = NULL, ...)
+\method{eth_date}{default}(x, ...)
+
+\method{eth_date}{numeric}(x, origin, ...)
 
 \method{eth_date}{character}(x, format = "\%Y-\%m-\%d", lang = c("lat", "amh", "en"), ...)
 

@@ -26,8 +26,8 @@ vec_arith.ethdate.ethdate <- function(op, x, y, ...) {
 vec_arith.ethdate.numeric <- function(op, x, y, ...) {
   switch(
     op,
-    "-" = eth_date(vctrs::vec_arith_base(op, x, y)),
-    "+" = eth_date(vctrs::vec_arith_base(op, x, y)),
+    "-" = new_ethdate(vctrs::vec_arith_base(op, x, y)),
+    "+" = new_ethdate(vctrs::vec_arith_base(op, x, y)),
     vctrs::stop_incompatible_op(op, x, y)
   )
 }
@@ -39,7 +39,7 @@ vec_arith.ethdate.numeric <- function(op, x, y, ...) {
 vec_arith.numeric.ethdate <- function(op, x, y, ...) {
   switch(
     op,
-    "+" = eth_date(vctrs::vec_arith_base(op, x, y)),
+    "+" = new_ethdate(vctrs::vec_arith_base(op, x, y)),
     vctrs::stop_incompatible_op(op, x, y)
   )
 }
@@ -50,8 +50,8 @@ vec_arith.numeric.ethdate <- function(op, x, y, ...) {
 vec_arith.ethdate.ethdifftime <- function(op, x, y, ...) {
   switch(
     op,
-    "-" = eth_date(vctrs::vec_arith_base(op, x, y)),
-    "+" = eth_date(vctrs::vec_arith_base(op, x, y)),
+    "-" = new_ethdate(vctrs::vec_arith_base(op, x, y)),
+    "+" = new_ethdate(vctrs::vec_arith_base(op, x, y)),
     vctrs::stop_incompatible_op(op, x, y)
   )
 }
@@ -71,7 +71,7 @@ vec_math.ethdate <- function(.fn, .x, ...) {
     `is.nan` = vctrs::vec_math_base(.fn, .x, ...),
     `is.finite` = vctrs::vec_math_base(.fn, .x, ...),
     `is.infinite` = vctrs::vec_math_base(.fn, .x, ...),
-    stop(paste("Unsupported function for ethdate:", .fn))
+    cli::cli_abort("Unsupported function for {.cls ethdate}: {.fn {.fn}}.")
   )
 }
 

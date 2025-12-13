@@ -22,12 +22,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // eth_date_components
-List eth_date_components(IntegerVector x);
+List eth_date_components(DoubleVector x);
 RcppExport SEXP _ethiodate_eth_date_components(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< IntegerVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< DoubleVector >::type x(xSEXP);
     rcpp_result_gen = Rcpp::wrap(eth_date_components(x));
     return rcpp_result_gen;
 END_RCPP
