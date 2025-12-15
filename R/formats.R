@@ -16,13 +16,6 @@ print.ethdate <- function(x, max = NULL, ...) {
   }
 
 
-#' #' @export
-#' print.ethdifftime <- function(x, max = NULL, ...) {
-#'   x <- as.difftime(vctrs::vec_data(x), units = "days")
-#'   print(x, max = max, ...)
-#'   }
-
-
 # Formats and names ----
 
 #' @export

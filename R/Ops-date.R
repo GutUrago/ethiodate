@@ -57,7 +57,6 @@ vec_arith.ethdate.ethdifftime <- function(op, x, y, ...) {
 }
 
 
-
 # Math ----
 
 
@@ -71,7 +70,7 @@ vec_math.ethdate <- function(.fn, .x, ...) {
     `is.nan` = vctrs::vec_math_base(.fn, .x, ...),
     `is.finite` = vctrs::vec_math_base(.fn, .x, ...),
     `is.infinite` = vctrs::vec_math_base(.fn, .x, ...),
-    cli::cli_abort("Unsupported function for {.cls ethdate}: {.fn {.fn}}.")
+    cli::cli_abort("Unsupported function for {.cls ethdate}: {.fn {(.fn)}}.")
   )
 }
 
@@ -139,7 +138,12 @@ seq.ethdate <- function(from, to = NULL, by = NULL,
 # Cut ----
 
 #' @export
-cut.ethdate <- function(x, breaks, labels = NULL, ...) {
+cut.ethdate <- function(x,
+                        breaks,
+                        labels = NULL,
+                        include.lowest = TRUE,
+                        right = TRUE,
+                        ...) {
   if (!inherits(x, "ethdate")) stop("'x' must be an 'ethdate' object")
 
   x_num <- as.numeric(x)

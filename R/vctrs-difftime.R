@@ -12,7 +12,6 @@ new_ethdifftime <- function(x = double()) {
 #' @exportS3Method vctrs::vec_ptype2
 vec_ptype2.ethdifftime.ethdifftime <- function(x, y, ...) new_ethdifftime()
 
-
 #' @exportS3Method vctrs::vec_ptype2
 vec_ptype2.ethdifftime.double <- function(x, y, ...) new_ethdifftime()
 

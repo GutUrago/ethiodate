@@ -8,11 +8,7 @@
 \alias{as.double.ethdate}
 \alias{as.integer.ethdate}
 \alias{as.character.ethdate}
-\title{#' @export
-print.ethdifftime <- function(x, max = NULL, ...) {
-x <- as.difftime(vctrs::vec_data(x), units = "days")
-print(x, max = max, ...)
-}}
+\title{Utils}
 \usage{
 \method{format}{ethdate}(x, format = "\%Y-\%m-\%d", lang = c("lat", "amh", "en"), ...)
 
