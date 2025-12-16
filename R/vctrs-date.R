@@ -59,7 +59,7 @@ vec_cast.ethdate.double <- function(x, to, ...) new_ethdate(x)
 vec_cast.double.ethdate <- function(x, to, ...) as.double(vctrs::vec_data(x))
 
 #' @exportS3Method vctrs::vec_cast
-vec_cast.ethdate.character <- function(x, to, ...) as_ethdate(x, ...)
+vec_cast.ethdate.character <- function(x, to, ...) eth_date(x, ...)
 
 #' @exportS3Method vctrs::vec_cast
 vec_cast.character.ethdate <- function(x, to, ...) as.character(x, ...)

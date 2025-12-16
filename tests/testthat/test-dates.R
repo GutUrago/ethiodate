@@ -127,7 +127,14 @@ test_that("factor", {
   expect_equal(eth_quarter(dt), qs)
 })
 
-
+test_that("NULL and NA", {
+  expect_no_error(eth_date(0))
+  expect_no_error(eth_date.default(NULL))
+  expect_no_error(eth_date.default(NA))
+  expect_error(eth_date.default(TRUE))
+  expect_equal(eth_monthname(4), "Tahsas")
+  expect_no_error(as.integer(eth_date(0)))
+})
 
 
 

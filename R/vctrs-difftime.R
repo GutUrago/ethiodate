@@ -3,7 +3,7 @@
 # Class ----
 
 new_ethdifftime <- function(x = double()) {
-  vctrs::new_vctr(as.double(x), units = "days", class = c("ethdifftime", "difftime"))
+  vctrs::new_vctr(as.double(x), units = "days", class = "ethdifftime")
 }
 
 

@@ -1,10 +1,10 @@
 
 # Summary -----
 
-# test_that("Summary works for NAs too", {
-#   expect_snapshot(summary(eth_date(0:10)))
-#   expect_snapshot(summary(eth_date(c(NA, 0:10, NA))))
-# })
+test_that("Summary works for NAs too", {
+  expect_snapshot(summary(eth_date(0:10)))
+  expect_snapshot(summary(eth_date(c(NA, 0:10, NA))))
+})
 
 
 
@@ -18,15 +18,10 @@ test_that("eth_components works only on ethDate", {
   expect_snapshot(eth_day(0), error = TRUE)
 })
 
-test_that("eth_make works only for numeric and equal length vectors", {
-  expect_snapshot(eth_make_date(1960:1970, 1:10, 10:20), error = TRUE)
-  expect_snapshot(eth_make_date(1960:1970, 1:11, rep("x", 11)), error = TRUE)
-})
-
 
 test_that("Ops error testing", {
   expect_snapshot(eth_date(0) + eth_date(0), error = TRUE)
-  #expect_snapshot(1-eth_date(0), error = TRUE)
+  expect_snapshot(1-eth_date(0), error = TRUE)
 
 })
 
@@ -49,7 +44,8 @@ test_that("Formattig test", {
     lang = "en"
   ))
   expect_equal(format(eth_date(c(1, NA))), c("1962-04-24", NA))
-  expect_error(format(eth_date(0), c("%Y", "%y")))
+  expect_no_error(format(eth_date(0), c("%Y", "%y")))
+  expect_snapshot(format(eth_date(2), format = 2), error = TRUE)
 })
 
 
@@ -63,7 +59,8 @@ test_that("Printing test", {
 
 test_that("Printing test", {
   expect_snapshot(print(eth_date(1:5), max=3))
-  #expect_snapshot(print(eth_date(1:5) - eth_date(1), max=3))
+  expect_snapshot(print(eth_date(1:5) - eth_date(1), max=3))
+  expect_snapshot(print(eth_date(NULL)))
 })
 
 # Month and weekday names ----
@@ -106,6 +103,12 @@ test_that("Error %C", {
   expect_error(eth_show("%C"))
 })
 
+
+# Components
+test_that("Wrong component error", {
+  expect_snapshot(get_component(2, "invalid"), error = TRUE)
+  expect_snapshot(eth_make_date("2019", 2, 8), error = TRUE)
+})
 
 
 

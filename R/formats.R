@@ -15,6 +15,12 @@ print.ethdate <- function(x, max = NULL, ...) {
   invisible(x)
   }
 
+#' @export
+print.ethdifftime <- function(x, max = NULL, ...){
+  x <- vctrs::vec_data(x)
+  x <- as.difftime(x, units = "days")
+  print(x, max = max, ...)
+}
 
 # Formats and names ----
 

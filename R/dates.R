@@ -9,7 +9,7 @@
 #'
 #'
 #' @param x a numeric, character, Date, POSIXct or POSIXt vector.
-#' @param origin a ethdate or Date object, or something that can be coerced by
+#' @param origin a ethdate, Date object, or something that can be coerced by
 #' `eth_date(origin, ...)`. Default: the Unix epoch of "1970-01-01" GC ("1962-04-23" EC).
 #' @param format format argument for character method to parse the date.
 #' @param lang a language in which month names are written, if included in x.
@@ -18,8 +18,8 @@
 #' @param ... further arguments to be passed to specific methods (see above).
 #'
 #' @details
-#' `eth_date()` internally stores the number of days as an integer since the Unix epoch of "1970-01-01" GC ("1962-04-23" EC).
-#' Days before "1962-04-23" EC are represented as negative integers.
+#' `eth_date()` internally stores the number of days as double since the Unix epoch of "1970-01-01" GC ("1962-04-23" EC).
+#' Days before "1962-04-23" EC are represented as negative numbers.
 #' This makes it easy to convert from and to base `Date` objects.
 #'
 #' The conversion of numeric vectors assumes that the vector represents a number of days since
@@ -57,16 +57,6 @@
 #'
 #'
 #'
-#' @rdname eth_date
-#' @export
-as.ethdate <- function(x, ...) eth_date(x, ...)
-
-#' @rdname eth_date
-#' @export
-as_ethdate <- function(x, ...) eth_date(x, ...)
-
-#' @rdname eth_date
-#' @export
 eth_date <- function(x, ...) {
   UseMethod("eth_date")
 }
@@ -83,7 +73,7 @@ eth_date.default <- function(x, ...) {
 #' @rdname eth_date
 #' @export
 eth_date.numeric <- function(x, origin, ...) {
-  origin <- if (!missing(origin)) as.numeric(as_ethdate(origin, ...)) else 0
+  origin <- if (!missing(origin)) as.numeric(eth_date(origin, ...)) else 0
   rv <- recycle_vctr(x = x, origin = origin)
   x <- rv[["x"]]
   origin <- rv[["origin"]]

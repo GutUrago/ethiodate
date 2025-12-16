@@ -1,18 +1,40 @@
+# Summary works for NAs too
+
+    Code
+      summary(eth_date(0:10))
+    Output
+              Min.      1st Qu.       Median         Mean      3rd Qu.         Max. 
+      "1962-04-23" "1962-04-25" "1962-04-28" "1962-04-28" "1962-04-30" "1962-05-03" 
+
+---
+
+    Code
+      summary(eth_date(c(NA, 0:10, NA)))
+    Output
+              Min.      1st Qu.       Median         Mean      3rd Qu.         Max. 
+      "1962-04-23" "1962-04-25" "1962-04-28" "1962-04-28" "1962-04-30" "1962-05-03" 
+              NA's 
+               "2" 
+
 # eth_components works only on ethDate
 
     Code
       eth_year(0)
     Condition
-      Error in `eth_year()`:
-      ! `x` must be an Ethiopian date object.
+      Error in `get_component()`:
+      x The input `x` must be <ethdate>.
+      i Current type of `x` is <numeric>.
+      i Please use the constructor function `as_ethdate()` to create the object.
 
 ---
 
     Code
       eth_month(0)
     Condition
-      Error in `eth_month()`:
-      ! `x` must be an Ethiopian date object.
+      Error in `get_component()`:
+      x The input `x` must be <ethdate>.
+      i Current type of `x` is <numeric>.
+      i Please use the constructor function `as_ethdate()` to create the object.
 
 ---
 
@@ -20,7 +42,8 @@
       eth_monthname(0)
     Condition
       Error in `eth_monthname()`:
-      ! `x` must be an Ethiopian date object.
+      x The input `x` must be <ethdate>.
+      i Current type of `x` is <numeric>.
 
 ---
 
@@ -28,31 +51,18 @@
       eth_weekday(0)
     Condition
       Error in `eth_weekday()`:
-      ! `x` must be an Ethiopian date object.
+      x The input `x` must be <ethdate>.
+      i Current type of `x` is <numeric>.
 
 ---
 
     Code
       eth_day(0)
     Condition
-      Error in `eth_day()`:
-      ! `x` must be an Ethiopian date object.
-
-# eth_make works only for numeric and equal length vectors
-
-    Code
-      eth_make_date(1960:1970, 1:10, 10:20)
-    Condition
-      Error:
-      ! Year, month, and day must be integer vectors of the same length.
-
----
-
-    Code
-      eth_make_date(1960:1970, 1:11, rep("x", 11))
-    Condition
-      Error in `eth_make_date()`:
-      ! Year, month, and day must be integer vectors.
+      Error in `get_component()`:
+      x The input `x` must be <ethdate>.
+      i Current type of `x` is <numeric>.
+      i Please use the constructor function `as_ethdate()` to create the object.
 
 # Ops error testing
 
@@ -61,6 +71,14 @@
     Condition
       Error in `vec_arith()`:
       ! <ethdate> + <ethdate> is not permitted
+
+---
+
+    Code
+      1 - eth_date(0)
+    Condition
+      Error in `vec_arith()`:
+      ! <double> - <ethdate> is not permitted
 
 # Formattig test
 
@@ -85,6 +103,14 @@
     Output
       [1] "The origin is December (Dec) 04 Thursday (Thu) 23, 1962 (62)"
 
+---
+
+    Code
+      format(eth_date(2), format = 2)
+    Condition
+      Error in `format()`:
+      ! Format must be <character>, not <numeric>.
+
 # Printing test
 
     Code
@@ -107,6 +133,22 @@
     Output
       [1] "1962-04-24" "1962-04-25" "1962-04-26"
        [ reached getOption("max.print") -- omitted 2 entries ]
+
+---
+
+    Code
+      print(eth_date(1:5) - eth_date(1), max = 3)
+    Output
+      Time differences in days
+      [1] 0 1 2
+       [ reached 'max' / getOption("max.print") -- omitted 2 entries ]
+
+---
+
+    Code
+      print(eth_date(NULL))
+    Output
+      ethdate of length 0
 
 # Format = %Blang = amh
 
@@ -215,4 +257,22 @@
     Output
           1     2     3     4     5     6     7 
       "Mon" "Tue" "Wed" "Thu" "Fri" "Sat" "Sun" 
+
+# Wrong component error
+
+    Code
+      get_component(2, "invalid")
+    Condition
+      Error in `get_component()`:
+      x Invalid component "invalid".
+      i The input `component` must be one of: year, month, day, td, wx.
+
+---
+
+    Code
+      eth_make_date("2019", 2, 8)
+    Condition
+      Error in `eth_make_date()`:
+      ! All arguments must be <numeric>.
+      x Got types - year: <character>, month: <numeric>, day: <numeric>.
 
