@@ -1,3 +1,5 @@
+# ethiodate 0.2.1
+
 # ethiodate 0.2.0
 
 ## New Features

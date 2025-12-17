@@ -1,7 +1,7 @@
 Package: ethiodate
 Type: Package
 Title: Working with Ethiopian Dates
-Version: 0.2.0
+Version: 0.2.1
 Date: 2025-05-24
 Authors@R: c(
     person(
