@@ -110,6 +110,9 @@ test_that("Wrong component error", {
   expect_snapshot(eth_make_date("2019", 2, 8), error = TRUE)
 })
 
-
+test_that("Print.ethdifftime", {
+  expect_snapshot(new_ethdifftime(NULL))
+  expect_snapshot(new_ethdifftime(1))
+})
 
 

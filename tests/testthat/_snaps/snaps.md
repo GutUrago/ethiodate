@@ -276,3 +276,17 @@
       ! All arguments must be <numeric>.
       x Got types - year: <character>, month: <numeric>, day: <numeric>.
 
+# Print.ethdifftime
+
+    Code
+      new_ethdifftime(NULL)
+    Output
+      ethdifftime of length 0
+
+---
+
+    Code
+      new_ethdifftime(1)
+    Output
+      Time difference of 1 days
+
