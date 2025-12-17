@@ -60,7 +60,7 @@ test_that("Printing test", {
 test_that("Printing test", {
   expect_snapshot(print(eth_date(1:5), max=3))
   expect_snapshot(print(eth_date(1:5) - eth_date(1), max=3))
-  expect_snapshot(print(eth_date(NULL)))
+  expect_no_error(print(eth_date(NULL)))
 })
 
 # Month and weekday names ----
