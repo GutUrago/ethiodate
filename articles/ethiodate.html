@@ -39,7 +39,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ethiodate</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -109,33 +109,33 @@ converting, and working with Ethiopian dates in R. This vignette
 demonstrates how to parse Ethiopian dates from strings or numeric
 formats and convert them into <code>ethdate</code> objects.</p>
 <div class="section level2">
-<h2 id="the-integer-logic-of-ethiodate">The Integer Logic of ethiodate<a class="anchor" aria-label="anchor" href="#the-integer-logic-of-ethiodate"></a>
+<h2 id="the-numeric-logic-of-ethiodate">The Numeric Logic of ethiodate<a class="anchor" aria-label="anchor" href="#the-numeric-logic-of-ethiodate"></a>
 </h2>
 <p>Just like R’s base <code>Date</code> class, the <code>ethdate</code>
-class represents dates as integers under the hood — specifically, the
+class represents dates as number under the hood — specifically, the
 number of days since a fixed origin date. While <code>Date</code> uses
 the Gregorian origin “1970-01-01”, <code>ethdate</code> uses the
 Ethiopian equivalent of that date (i.e., the Ethiopian date that
 corresponds to Gregorian 1970-01-01) as its base. This design choice
 aligns the internal storage of <code>ethdate</code> with how base R
 handles dates, ensuring consistency and simplicity.</p>
-<p>Underneath, an <code>ethdate</code> object is just an integer with a
-class attribute. This means all the advantages of using integer-based
+<p>Underneath, an <code>ethdate</code> object is just a double with a
+class attribute. This means all the advantages of using number-based
 date arithmetic — such as speed, simplicity, and compatibility — are
 preserved. Adding or subtracting a number from an <code>ethdate</code>
 gives a new date offset by that many days. Comparing two
-<code>ethdate</code> objects just boils down to integer comparisons. The
+<code>ethdate</code> objects just boils down to numeric comparisons. The
 internal simplicity of this representation enables intuitive and
 efficient date operations without complex calendar logic at the
 arithmetic level.</p>
 <p>This architecture also makes the <code>ethdate</code> class easily
 interoperable with many parts of R’s ecosystem. Since it’s based on
-integers, <code>ethdate</code> objects can be stored in data frames,
-used as keys in joins, and sorted naturally. When you convert to
-Gregorian using <code><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date()</a></code>, the underlying integer is
-interpreted correctly relative to the Gregorian calendar system. This
-separation of storage and presentation keeps the internals clean while
-allowing rich formatting and conversions when needed.</p>
+numeric, <code>ethdate</code> objects can be stored in data frames, used
+as keys in joins, and sorted naturally. When you convert to Gregorian
+using <code><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date()</a></code>, the underlying integer is interpreted
+correctly relative to the Gregorian calendar system. This separation of
+storage and presentation keeps the internals clean while allowing rich
+formatting and conversions when needed.</p>
 <p>Overall, by mimicking the design of base R’s <code>Date</code> class
 but anchoring it in the Ethiopian calendar, <code>ethdate</code>
 achieves both elegance and power: it’s lightweight, predictable, and
@@ -175,7 +175,7 @@ year, month, and day components of the date.</li>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

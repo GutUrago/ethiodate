@@ -39,7 +39,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ethiodate</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -191,11 +191,11 @@ origin is provided, it defaults to the standard 1962-04-23 EC.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create an ethdate object 7 days after today</span></span>
 <span><span class="fu"><a href="../reference/eth_date.html">eth_date</a></span><span class="op">(</span><span class="fl">7</span>, origin <span class="op">=</span> <span class="fu"><a href="../reference/eth_show.html">eth_today</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2017-10-25"</span></span>
+<span><span class="co">#&gt; [1] "2018-04-16"</span></span>
 <span></span>
 <span><span class="co"># Create an ethdate object 7 days before today</span></span>
 <span><span class="fu"><a href="../reference/eth_date.html">eth_date</a></span><span class="op">(</span><span class="op">-</span><span class="fl">7</span>, origin <span class="op">=</span> <span class="fu"><a href="../reference/eth_show.html">eth_today</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "2017-10-11"</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "2018-04-02"</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="from-components">From Components<a class="anchor" aria-label="anchor" href="#from-components"></a>
@@ -234,14 +234,10 @@ integrity.</p>
 <span></span>
 <span><span class="co"># 2012 is not a leap year in EC, so Pagume 6 is invalid</span></span>
 <span><span class="fu"><a href="../reference/eth_date.html">eth_date</a></span><span class="op">(</span><span class="st">"2012-13-06"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in eth_date_validate(year = year, month = month, day = day): Detected 1</span></span>
-<span><span class="co">#&gt; invalid date and coerced to NA.</span></span>
 <span><span class="co">#&gt; [1] NA</span></span>
 <span></span>
 <span><span class="co"># Attempting to create a date with month 14</span></span>
 <span><span class="fu"><a href="../reference/eth_make_date.html">eth_make_date</a></span><span class="op">(</span><span class="fl">2016</span>, <span class="fl">14</span>, <span class="fl">1</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning in eth_date_validate(year = year, month = month, day = day): Detected 1</span></span>
-<span><span class="co">#&gt; invalid date and coerced to NA.</span></span>
 <span><span class="co">#&gt; [1] NA</span></span></code></pre></div>
 <p>Missing values (<code>NA</code>) in the input will result in
 <code>NA</code> in the output.</p>
@@ -309,15 +305,15 @@ format codes to customize the output.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Format today's date in a custom string</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="fu"><a href="../reference/eth_show.html">eth_today</a></span><span class="op">(</span><span class="op">)</span>, format <span class="op">=</span> <span class="st">"This document was updated on %B %d, %Y EC."</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "This document was updated on Sene 18, 2017 EC."</span></span>
+<span><span class="co">#&gt; [1] "This document was updated on Tahsas 09, 2018 EC."</span></span>
 <span></span>
 <span><span class="co"># Format with day of the week and year</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="fu"><a href="../reference/eth_show.html">eth_today</a></span><span class="op">(</span><span class="op">)</span>, format <span class="op">=</span> <span class="st">"Today is %A, %B %d, %Y."</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "Today is Rebu, Sene 18, 2017."</span></span>
+<span><span class="co">#&gt; [1] "Today is Hamus, Tahsas 09, 2018."</span></span>
 <span></span>
 <span><span class="co"># Format in Amharic</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/format.html" class="external-link">format</a></span><span class="op">(</span><span class="fu"><a href="../reference/eth_show.html">eth_today</a></span><span class="op">(</span><span class="op">)</span>, format <span class="op">=</span> <span class="st">"%A، %B %d ቀን %Y ዓ.ም."</span>, lang <span class="op">=</span> <span class="st">"amh"</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] "ረቡዕ، ሰኔ 18 ቀን 2017 ዓ.ም."</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] "ሐሙስ، ታህሳስ 09 ቀን 2018 ዓ.ም."</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="conclusion">Conclusion<a class="anchor" aria-label="anchor" href="#conclusion"></a>
@@ -347,7 +343,7 @@ documentation.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.3.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>

@@ -1,0 +1,71 @@
+# Introduction to ethiodate
+
+[The Ethiopian
+calendar](https://en.wikipedia.org/wiki/Ethiopian_calendar) is an
+official calendar in Ethiopia and differs significantly from [the
+Gregorian calendar](https://en.wikipedia.org/wiki/Gregorian_calendar)
+system. The Ethiopian calendar is closely related to [the Coptic
+Egyptian calendar](https://en.wikipedia.org/wiki/Coptic_calendar), and
+both have 13 months: 12 months of 30 days and a 13th month (Pagumē) of 5
+or 6 days, depending on the year. The word Pagumē comes from a Greek
+word that translates to ‘forgotten days’.
+
+The Ethiopian calendar system is 7-8 years behind the Gregorian
+calendar, and the new year occurs on September 11 or 12 depending on the
+year, whether leap or not. Unlike the Gregorian calendar system, leap
+years occur every four years without exception.
+
+The `ethiodate` package provides tools for parsing, converting, and
+working with Ethiopian dates in R. This vignette demonstrates how to
+parse Ethiopian dates from strings or numeric formats and convert them
+into `ethdate` objects.
+
+## The Numeric Logic of ethiodate
+
+Just like R’s base `Date` class, the `ethdate` class represents dates as
+number under the hood — specifically, the number of days since a fixed
+origin date. While `Date` uses the Gregorian origin “1970-01-01”,
+`ethdate` uses the Ethiopian equivalent of that date (i.e., the
+Ethiopian date that corresponds to Gregorian 1970-01-01) as its base.
+This design choice aligns the internal storage of `ethdate` with how
+base R handles dates, ensuring consistency and simplicity.
+
+Underneath, an `ethdate` object is just a double with a class attribute.
+This means all the advantages of using number-based date arithmetic —
+such as speed, simplicity, and compatibility — are preserved. Adding or
+subtracting a number from an `ethdate` gives a new date offset by that
+many days. Comparing two `ethdate` objects just boils down to numeric
+comparisons. The internal simplicity of this representation enables
+intuitive and efficient date operations without complex calendar logic
+at the arithmetic level.
+
+This architecture also makes the `ethdate` class easily interoperable
+with many parts of R’s ecosystem. Since it’s based on numeric, `ethdate`
+objects can be stored in data frames, used as keys in joins, and sorted
+naturally. When you convert to Gregorian using
+[`as.Date()`](https://rdrr.io/r/base/as.Date.html), the underlying
+integer is interpreted correctly relative to the Gregorian calendar
+system. This separation of storage and presentation keeps the internals
+clean while allowing rich formatting and conversions when needed.
+
+Overall, by mimicking the design of base R’s `Date` class but anchoring
+it in the Ethiopian calendar, `ethdate` achieves both elegance and
+power: it’s lightweight, predictable, and optimized for calendar
+operations tailored to the Ethiopian context.
+
+## Key Functions
+
+- [`eth_date()`](https://guturago.github.io/ethiodate/reference/eth_date.md):
+  a generic function that casts vectors of other class to ethdate class.
+- [`eth_parse_date()`](https://guturago.github.io/ethiodate/reference/eth_parse_date.md):
+  a function that parses date from strings.
+- [`eth_make_date()`](https://guturago.github.io/ethiodate/reference/eth_make_date.md):
+  a function that makes a date from year, month, and day components of
+  the date.
+
+## A Quick Guide
+
+- [Parsing Ethiopian
+  Dates](https://guturago.github.io/ethiodate/articles/parsing.md)
+- [ethiodate and
+  ggplot2](https://guturago.github.io/ethiodate/articles/ggplot.md)
