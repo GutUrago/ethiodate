@@ -12,14 +12,14 @@ Source:
 [`inst/CITATION`](https://github.com/guturago/ethiodate/blob/main/inst/CITATION)
 
 Urago (2025). ethiodate: Working with Ethiopian Dates in R. R package
-version 0.2.1. doi:10.5281/zenodo.15262092.
+version 0.3.0. doi:10.5281/zenodo.15262092.
 https://guturago.github.io/ethiodate/.
 
     @Manual{,
       title = {ethiodate: Working with Ethiopian Dates in R},
       author = {Gutama Girja Urago},
       year = {2025},
-      note = {R package version 0.2.1},
+      note = {R package version 0.3.0},
       doi = {10.5281/zenodo.15262092},
       url = {https://guturago.github.io/ethiodate/},
     }

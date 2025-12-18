@@ -1,6 +1,18 @@
 # Changelog
 
+## ethiodate 0.3.0
+
+- [`eth_monthname()`](https://guturago.github.io/ethiodate/reference/eth_year.md)
+  now accepts numeric months as input.
+- Introduced recycling vector lengths to support different formats and
+  origins.
+- Switched internal data storage from integer to double for better
+  precision.
+
 ## ethiodate 0.2.1
+
+- Enhanced error messages with `cli` to make it more informative and
+  user-friendly.
 
 ## ethiodate 0.2.0
 
