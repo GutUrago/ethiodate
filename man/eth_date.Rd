@@ -2,6 +2,7 @@
 % Please edit documentation in R/dates.R
 \name{eth_date}
 \alias{eth_date}
+\alias{eth_date.default}
 \alias{eth_date.numeric}
 \alias{eth_date.character}
 \alias{eth_date.Date}
@@ -12,7 +13,9 @@
 \usage{
 eth_date(x, ...)
 
-\method{eth_date}{numeric}(x, origin = NULL, ...)
+\method{eth_date}{default}(x, ...)
+
+\method{eth_date}{numeric}(x, origin, ...)
 
 \method{eth_date}{character}(x, format = "\%Y-\%m-\%d", lang = c("lat", "amh", "en"), ...)
 
@@ -29,7 +32,7 @@ eth_date(x, ...)
 
 \item{...}{further arguments to be passed to specific methods (see above).}
 
-\item{origin}{a ethdate or Date object, or something that can be coerced by
+\item{origin}{a ethdate, Date object, or something that can be coerced by
 \code{eth_date(origin, ...)}. Default: the Unix epoch of "1970-01-01" GC ("1962-04-23" EC).}
 
 \item{format}{format argument for character method to parse the date.}
@@ -45,8 +48,8 @@ a vector of an 'ethdate' object corresponding to x.
 Convert an object to an Ethiopian date.
 }
 \details{
-\code{eth_date()} internally stores the number of days as an integer since the Unix epoch of "1970-01-01" GC ("1962-04-23" EC).
-Days before "1962-04-23" EC are represented as negative integers.
+\code{eth_date()} internally stores the number of days as double since the Unix epoch of "1970-01-01" GC ("1962-04-23" EC).
+Days before "1962-04-23" EC are represented as negative numbers.
 This makes it easy to convert from and to base \code{Date} objects.
 
 The conversion of numeric vectors assumes that the vector represents a number of days since

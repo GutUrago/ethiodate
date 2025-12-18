@@ -1,8 +1,8 @@
 Package: ethiodate
 Type: Package
 Title: Working with Ethiopian Dates
-Version: 0.2.0
-Date: 2025-05-24
+Version: 0.2.1
+Date: 2025-12-18
 Authors@R: c(
     person(
       "Gutama Girja", "Urago",
@@ -17,10 +17,11 @@ Description: A robust and efficient solution for working with Ethiopian dates. I
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 LinkingTo: 
     Rcpp
 Imports: 
+    cli,
     Rcpp,
     stringr,
     vctrs
@@ -36,5 +37,3 @@ Roxygen: list(markdown = TRUE)
 URL: https://guturago.github.io/ethiodate/, https://github.com/guturago/ethiodate
 BugReports: https://github.com/guturago/ethiodate/issues
 VignetteBuilder: knitr
-Depends: 
-    R (>= 4.1.0)

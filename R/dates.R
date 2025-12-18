@@ -2,12 +2,14 @@
 
 #' Create an Ethiopian Date Object
 #'
+#' @name eth_date
+#'
 #' @description
 #' Convert an object to an Ethiopian date.
 #'
 #'
 #' @param x a numeric, character, Date, POSIXct or POSIXt vector.
-#' @param origin a ethdate or Date object, or something that can be coerced by
+#' @param origin a ethdate, Date object, or something that can be coerced by
 #' `eth_date(origin, ...)`. Default: the Unix epoch of "1970-01-01" GC ("1962-04-23" EC).
 #' @param format format argument for character method to parse the date.
 #' @param lang a language in which month names are written, if included in x.
@@ -16,8 +18,8 @@
 #' @param ... further arguments to be passed to specific methods (see above).
 #'
 #' @details
-#' `eth_date()` internally stores the number of days as an integer since the Unix epoch of "1970-01-01" GC ("1962-04-23" EC).
-#' Days before "1962-04-23" EC are represented as negative integers.
+#' `eth_date()` internally stores the number of days as double since the Unix epoch of "1970-01-01" GC ("1962-04-23" EC).
+#' Days before "1962-04-23" EC are represented as negative numbers.
 #' This makes it easy to convert from and to base `Date` objects.
 #'
 #' The conversion of numeric vectors assumes that the vector represents a number of days since
@@ -59,35 +61,23 @@ eth_date <- function(x, ...) {
   UseMethod("eth_date")
 }
 
+#' @rdname eth_date
 #' @export
 eth_date.default <- function(x, ...) {
-  new_ethdate(x)
+  if (inherits(x, "ethdate")) x
+  else if (is.null(x)) new_ethdate()
+  else if (is.logical(x) && all(is.na(x))) new_ethdate(x)
+  else cli::cli_abort("Do not know how to convert {.cls {class(x)}} to {.cls ethdate}.")
 }
 
 #' @rdname eth_date
 #' @export
-eth_date.numeric <- function(x, origin = NULL, ...) {
-  if (length(origin) != 1L & !is.null(origin)) {
-    stop("\"origin\" must be a vector of length 1 that is either a Date or ethdate object, or something that can be coerced to ethdate.")
-  }
-
-  if (!is.null(origin) & inherits(origin, "ethdate")) {
-    origin <- as.numeric(origin)
-  } else if (!is.null(origin)) {
-    origin <- as.numeric(eth_date(origin, ...))
-  } else {
-    origin <- 0
-  }
-
-  if (is.na(origin)) {
-    stop("Unable to coerce \"origin\" to ethdate.")
-  }
-
-  if (origin == 0) {
-    new_ethdate(x)
-  } else {
-    new_ethdate(x) + origin
-  }
+eth_date.numeric <- function(x, origin, ...) {
+  origin <- if (!missing(origin)) as.numeric(eth_date(origin, ...)) else 0
+  rv <- recycle_vctr(x = x, origin = origin)
+  x <- rv[["x"]]
+  origin <- rv[["origin"]]
+  new_ethdate(x + origin)
 }
 
 #' @rdname eth_date
@@ -97,33 +87,27 @@ eth_date.character <- function(x, format = "%Y-%m-%d",
   eth_parse_date(x, format, lang)
 }
 
-
 #' @rdname eth_date
 #' @export
 eth_date.Date <- function(x, ...) {
-  x <- as.numeric(x)
   new_ethdate(x)
 }
 
 #' @rdname eth_date
 #' @export
 eth_date.POSIXct <- function(x, ...) {
-  x <- as.Date(x)
-  eth_date(x)
+  new_ethdate(as.Date(x))
 }
 
 #' @rdname eth_date
 #' @export
 eth_date.POSIXt <- function(x, ...) {
-  x <- as.Date(x)
-  eth_date(x)
+  new_ethdate(as.Date(x))
 }
 
 #' @rdname eth_date
 #' @export
 eth_date.factor <- function(x, ...) eth_date(as.character(x), ...)
-
-
 
 
 
@@ -156,12 +140,25 @@ eth_date.factor <- function(x, ...) eth_date(as.character(x), ...)
 #' @examples
 #' eth_make_date(2017, 01, 15)
 eth_make_date <- function(year, month, day) {
-  if (!is.numeric(year) | !is.numeric(month) | !is.numeric(day)) {
-    stop("Year, month, and day must be integer vectors.")
+
+  if (!is.numeric(year) || !is.numeric(month) || !is.numeric(day)) {
+    cli::cli_abort(
+      c(
+        "All arguments must be {.cls numeric}.",
+        "x" = "Got types - year: {.cls {class(year)}}, month: {.cls {class(month)}}, day: {.cls {class(day)}}."
+      )
+    )
   }
+
+  rv <- recycle_vctr(year = year, month = month, day = day)
+  year <- rv[["year"]]
+  month <- rv[["month"]]
+  day <- rv[["day"]]
+
   x <- eth_date_validate(year = year, month = month, day = day)
   new_ethdate(x)
 }
+
 
 
 

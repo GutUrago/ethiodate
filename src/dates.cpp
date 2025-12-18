@@ -30,7 +30,7 @@ IntegerVector weekday_index(IntegerVector x) {
 
 
 // [[Rcpp::export]]
-List eth_date_components(IntegerVector x) {
+List eth_date_components(DoubleVector x) {
   int base_year = 1962;
   int base_month = 4;
   int base_offset = 23;
@@ -39,35 +39,61 @@ List eth_date_components(IntegerVector x) {
 
   for (int i = 0; i < n; i++) {
 
-    if (x[i] == NA_INTEGER) {
+    double x_val = x[i];
+
+    // 1. NA
+    if (R_IsNA(x_val)) {
       result[i] = List::create(
-        Named("year") = NA_INTEGER,
+        Named("year")  = NA_INTEGER,
         Named("month") = NA_INTEGER,
-        Named("day") = NA_INTEGER,
-        Named("td") = NA_INTEGER,
-        Named("wx") = NA_INTEGER
+        Named("day")   = NA_INTEGER,
+        Named("td")    = NA_REAL,
+        Named("wx")    = NA_INTEGER
       );
       continue;
     }
 
-    int days = x[i] + base_offset;
+    // 2. NaN
+    if (R_IsNaN(x_val)) {
+      result[i] = List::create(
+        Named("year")  = NA_INTEGER,
+        Named("month") = NA_INTEGER,
+        Named("day")   = NA_INTEGER,
+        Named("td")    = x_val,
+        Named("wx")    = NA_INTEGER
+      );
+      continue;
+    }
+
+    // 3. Inf / -Inf
+    if (!R_finite(x_val)) {
+      result[i] = List::create(
+        Named("year")  = NA_INTEGER,
+        Named("month") = NA_INTEGER,
+        Named("day")   = NA_INTEGER,
+        Named("td")    = x_val,
+        Named("wx")    = NA_INTEGER
+      );
+      continue;
+    }
+
+    // 4. Finite values
+
+    int days_int = static_cast<int>(x_val);
+    double td = x_val;
+
+    int days = days_int + base_offset;
     int year = base_year;
     int month = base_month;
 
-    int td = x[i];
-
     int wx = 0;
-    if (x[i] > 0) {
-      wx = (x[i] + 4) % 7;
-      if (wx == 0) {
-        wx = 7;
-      }
+    if (days_int > 0) {
+      wx = (days_int + 4) % 7;
+      if (wx == 0) wx = 7;
     } else {
-      int mod_val = ((x[i] % 7) + 7) % 7;
+      int mod_val = ((days_int % 7) + 7) % 7;
       wx = mod_val + 4;
-      if (wx > 7) {
-        wx -= 7;
-      }
+      if (wx > 7) wx -= 7;
     }
 
     while (days > 30 || days <= 0) {
@@ -96,17 +122,20 @@ List eth_date_components(IntegerVector x) {
         }
       }
     }
+
     result[i] = List::create(
-      Named("year") = year,
+      Named("year")  = year,
       Named("month") = month,
-      Named("day") = days,
-      Named("td") = td,
-      Named("wx") = wx
+      Named("day")   = days,
+      Named("td")    = td,
+      Named("wx")    = wx
     );
+
     if (i % 1000 == 0) {
-      checkUserInterrupt();
+      Rcpp::checkUserInterrupt();
     }
   }
+
   return result;
 }
 
@@ -115,10 +144,6 @@ List eth_date_components(IntegerVector x) {
 IntegerVector eth_date_validate(IntegerVector year,
                                 IntegerVector month,
                                 IntegerVector day) {
-
-  if (year.size() != month.size() || year.size() != day.size()) {
-    stop("Year, month, and day must be integer vectors of the same length.");
-  }
 
   int n = year.size();
   int base_offset = 113;
@@ -175,7 +200,7 @@ IntegerVector eth_date_validate(IntegerVector year,
       checkUserInterrupt();
     }
   }
-  if (invalid > 0) {
+  if ((invalid > 0) & (n > invalid)) {
     std::string message = "Detected " + std::to_string(invalid) + " invalid date" + (invalid == 1 ? "" : "s") + " and coerced to NA.";
     warning(message);
   }

@@ -3,49 +3,79 @@
 
 #' @export
 print.ethdate <- function(x, max = NULL, ...) {
+
   if(is.null(max)) max <- getOption("max.print", 9999L)
   n <- length(x)
   if(max < n) {
     print(format(x[seq_len(max)]), max=max, ...)
     cat(' [ reached getOption("max.print") -- omitted',
         n - max, 'entries ]\n')
-  } else print(format(x), max=max, ...)
+  } else if (n) print(format(x), max=max, ...)
+  else cat(class(x)[1L], "of length 0\n")
   invisible(x)
   }
 
-
 #' @export
-print.ethdifftime <- function(x, max = NULL, ...) {
-  x <- vctrs::vec_data(x)
-  x <- as.difftime(x, units = "days")
-  print(x, max = max, ...)
+print.ethdifftime <- function (x, digits = getOption("digits"), ...)
+{
+  if (!length(x))
+    cat(class(x)[1L], "of length 0\n")
+  else if (is.array(x) || length(x) > 1L) {
+    cat("Time differences in ", attr(x, "units"), "\n",
+        sep = "")
+    y <- unclass(x)
+    attr(y, "units") <- NULL
+    print(y, digits = digits, ...)
   }
-
+  else cat("Time difference of ", format(unclass(x), digits = digits),
+           " ", attr(x, "units"), "\n", sep = "")
+  invisible(x)
+}
 
 # Formats and names ----
 
+#' @export
+#' @rdname is_eth_date
+format.ethdate <- function(x, format = "%Y-%m-%d",
+                           lang = c("lat", "amh", "en"), ...) {
+
+  lang <- match.arg(lang)
+
+  if (!is.character(format)) {
+    cli::cli_abort("Format must be {.cls character}, not {.cls {class(format)}}.")
+  }
+
+  out <- eth_format_date(x, format, lang)
+  names(out) <- names(x)
+  out
+}
+
+
+
 eth_format_date <- function(x, format, lang, ...) {
 
-  year <- sapply(x, \(x) x[["year"]])
-  month <- sapply(x, \(x) x[["month"]])
-  day <- sapply(x, \(x) x[["day"]])
-  td <- sapply(x, \(x) x[["td"]])
-  wx <- sapply(x, \(x) x[["wx"]])
+  rv <- recycle_vctr(x = x, format = format)
+  x <- rv[["x"]]
+  formatted <- rv[["format"]]
 
-  cont_Y <- grepl("%Y", format)
-  cont_y <- grepl("%y", format)
-  cont_m <- grepl("%m", format)
-  cont_d <- grepl("%d", format)
-  cont_A <- grepl("%A", format)
-  cont_a <- grepl("%a", format)
-  cont_B <- grepl("%B", format)
-  cont_b <- grepl("%b", format)
+  year <- get_component(x, "year")
+  month <- get_component(x, "month")
+  day <- get_component(x, "day")
+  td <- get_component(x, "td")
+  wx <- get_component(x, "wx")
 
-  formatted <- rep(format, length.out = length(year))
+  cont_Y <- any(grepl("%Y", format))
+  cont_y <- any(grepl("%y", format))
+  cont_m <- any(grepl("%m", format))
+  cont_d <- any(grepl("%d", format))
+  cont_A <- any(grepl("%A", format))
+  cont_a <- any(grepl("%a", format))
+  cont_B <- any(grepl("%B", format))
+  cont_b <- any(grepl("%b", format))
 
   for (i in seq_along(year)) {
     if (is.na(year[i])) {
-      formatted[i] <- NA_character_
+      formatted[i] <- as.character(td[i])
       next
     }
     if (cont_Y) {

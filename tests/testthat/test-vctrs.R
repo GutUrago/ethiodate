@@ -13,7 +13,7 @@ test_that("new_ethdate constructor works", {
   expect_s3_class(z, "ethdate")
   expect_equal(vctrs::vec_data(z), c(1L, 2L, 3L))
 
-  expect_error(new_ethdate("a"), "`x` must be an integer vector.")
+  expect_warning(new_ethdate("a"), "NAs introduced")
 })
 
 test_that("vec_ptype2.ethdate.* works as expected", {
@@ -22,10 +22,10 @@ test_that("vec_ptype2.ethdate.* works as expected", {
   expect_s3_class(vctrs::vec_ptype2(e, e), "ethdate")
   expect_type(vctrs::vec_ptype2(e, 1.0), "double")
   expect_type(vctrs::vec_ptype2(1.0, e), "double")
-  expect_type(vctrs::vec_ptype2(e, 1L), "integer")
-  expect_type(vctrs::vec_ptype2(1L, e), "integer")
-  expect_type(vctrs::vec_ptype2(e, "a"), "character")
-  expect_type(vctrs::vec_ptype2("a", e), "character")
+  expect_type(vctrs::vec_ptype2(e, 1L), "double")
+  expect_type(vctrs::vec_ptype2(1L, e), "double")
+  expect_type(vctrs::vec_ptype2(e, "a"), "double")
+  expect_type(vctrs::vec_ptype2("a", e), "double")
 
   result1 <- vctrs::vec_ptype2(e, TRUE)
   result2 <- vctrs::vec_ptype2(TRUE, e)
@@ -49,7 +49,7 @@ test_that("vec_cast.ethdate.* works as expected", {
 
   expect_s3_class(vctrs::vec_cast(TRUE, to = e), "ethdate")
   expect_equal(vctrs::vec_data(vctrs::vec_cast(TRUE, to = e)), NA_integer_)
-  expect_equal(vctrs::vec_cast(e, to = logical()), 1:3)
+  expect_equal(vctrs::vec_cast(e, to = logical()), c(TRUE, TRUE, TRUE))
 })
 
 test_that("vec_proxy_compare.ethdate returns integer vector", {
@@ -76,9 +76,9 @@ test_that("new_ethdifftime constructor works", {
   expect_equal(attr(x, "units"), "days")
 
   x2 <- new_ethdifftime(c(1, 2.5, 3))
-  expect_equal(vctrs::vec_data(x2), c(1L, 2L, 3L))
+  expect_equal(vctrs::vec_data(x2), c(1, 2.5, 3))
 
-  expect_error(new_ethdifftime("a"), "`x` must be an integer vector.")
+  expect_warning(new_ethdifftime("a"), "NAs introduced")
 })
 
 test_that("vec_ptype2.ethdifftime.* works as expected", {
@@ -87,8 +87,8 @@ test_that("vec_ptype2.ethdifftime.* works as expected", {
   expect_s3_class(vctrs::vec_ptype2(e, e), "ethdifftime")
   expect_type(vctrs::vec_ptype2(e, 1.0), "double")
   expect_type(vctrs::vec_ptype2(1.0, e), "double")
-  expect_type(vctrs::vec_ptype2(e, 1L), "integer")
-  expect_type(vctrs::vec_ptype2(1L, e), "integer")
+  expect_type(vctrs::vec_ptype2(e, 1L), "double")
+  expect_type(vctrs::vec_ptype2(1L, e), "double")
   expect_type(vctrs::vec_ptype2(e, "a"), "character")
   expect_type(vctrs::vec_ptype2("a", e), "character")
 
@@ -114,7 +114,28 @@ test_that("vec_cast.ethdifftime.* works as expected", {
     vctrs::vec_cast(e, to = character()),
     as.character(1:3)
   )
+
+  expect_no_error(c(new_ethdifftime(2), NA))
+  expect_no_error(c(NA, new_ethdifftime(2), NA))
+
 })
+
+test_that("logical -> ethdifftime cast returns NA ethdifftime", {
+  x <- c(TRUE, FALSE, NA)
+
+  out <- vctrs::vec_cast(x, new_ethdifftime())
+
+  expect_s3_class(out, "ethdifftime")
+  expect_length(out, length(x))
+  expect_true(all(is.na(vctrs::vec_data(out))))
+  expect_no_error(vctrs::vec_cast(out, logical()))
+
+})
+
+
+
+
+
 
 test_that("vec_proxy_compare.ethdifftime returns difftime object", {
   e <- new_ethdifftime(1:3)

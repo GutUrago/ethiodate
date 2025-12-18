@@ -38,42 +38,29 @@ is_eth_leap.numeric <- function(x) {
 
 #' @export
 is_eth_leap.ethdate <- function(x) {
-  x <- eth_date_components(x)
-  y <- sapply(x, \(x) x[["year"]])
-  eth_leap_year(y)
+  x <- get_component(x, "year")
+  eth_leap_year(x)
 }
 
 #' @export
 #' @rdname is_eth_date
 as.Date.ethdate <- function(x, ...) {
-  x <- as.numeric(x)
-  as.Date(x)
+  as.Date(as.numeric(x))
 }
 
 #' @export
 #' @rdname is_eth_date
-as.double.ethdate <- function(x, ...) as.double(vctrs::vec_data(x))
+as.double.ethdate <- function(x, ...) vctrs::vec_data(x)
+
+
+#' @export
+#' @rdname is_eth_date
+as.integer.ethdate <- function(x, ...) as.integer(vctrs::vec_data(x))
 
 
 #' @export
 #' @rdname is_eth_date
 as.character.ethdate <- function(x, ...) format(x, ...)
-
-#' @export
-#' @rdname is_eth_date
-format.ethdate <- function(x, format = "%Y-%m-%d",
-                           lang = c("lat", "amh", "en"), ...) {
-  lang <- match.arg(lang, c("lat", "amh", "en"))
-  if (!is.character(format) | length(format) != 1L) {
-    stop("\"Format\" must be a characteter of length of 1.")
-  }
-  date_components <- eth_date_components(x)
-  out <- eth_format_date(date_components, format, lang)
-  names(out) <- names(x)
-  out
-}
-
-
 
 
 
@@ -107,8 +94,8 @@ format.ethdate <- function(x, format = "%Y-%m-%d",
 eth_show <- function(x = c("%B", "%b", "%A", "%a"),
                      lang = c("lat", "amh", "en")) {
 
-  x <- match.arg(x, c(c("%B", "%b", "%A", "%a")))
-  lang <- match.arg(lang, c("lat", "amh", "en"))
+  x <- match.arg(x)
+  lang <- match.arg(lang)
 
   m_names <- as.character(1:13)
   d_names <- as.character(1:7)
@@ -184,7 +171,7 @@ eth_show <- function(x = c("%B", "%b", "%A", "%a"),
 #' @rdname eth_show
 eth_today <- function(...) {
   x <- eth_date(Sys.Date())
-  if (length(list(...)) == 0) {
+  if (...length() == 0) {
     return(x)
   } else {
     return(format(x, ...))
@@ -194,11 +181,14 @@ eth_today <- function(...) {
 #' @export
 #' @rdname eth_show
 eth_now <- function(...) {
+
   s <- Sys.time()
-  attr(s,"tzone") <- "Africa/Addis_Ababa"
-  t <- format(s, format = "%I:%M:%S %p")
-  s <- format(eth_date(s), ...)
-  paste(s, t)
+  s <- as.POSIXct(s, tz = "Africa/Addis_Ababa")
+
+  t <- format(s, "%I:%M:%S %p")
+  d <- format(eth_date(s), ...)
+
+  paste(d, t)
 }
 
 

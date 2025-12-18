@@ -26,31 +26,35 @@
 #' eth_day(today)
 #' eth_weekday(today)
 eth_year <- function(x) {
-  if (!is_eth_date(x)) {
-    stop("`x` must be an Ethiopian date object.")
-  }
-  x <- eth_date_components(x)
-  sapply(x, \(x) x[["year"]])
+  get_component(x, "year")
 }
 
 #' @export
 #' @rdname eth_year
 eth_month <- function(x) {
-  if (!is_eth_date(x)) {
-    stop("`x` must be an Ethiopian date object.")
-  }
-  x <- eth_date_components(x)
-  sapply(x, \(x) x[["month"]])
+  get_component(x, "month")
 }
 
-
+all(c(1, NA) > 0, na.rm = TRUE)
 #' @export
 #' @rdname eth_year
 eth_monthname <- function(x, lang = c("lat", "amh", "en"),
                           abbreviate = FALSE) {
-  lang <- match.arg(lang, c("lat", "amh", "en"))
+  lang <- match.arg(lang)
   if (!is_eth_date(x)) {
-    stop("`x` must be an Ethiopian date object.")
+    valid <- FALSE
+    if (is.numeric(x)) {
+      valid <- all(x > 0 & x < 14, na.rm = TRUE)
+      if (valid) x <- eth_make_date(2017, x, 1)
+    }
+    if (!valid) {
+      cli::cli_abort(
+        c(
+          "x" = "The input {.var x} must be {.cls ethdate}.",
+          "i" = "Current type of {.var x} is {.cls {class(x)}}."
+        )
+      )
+    }
   }
   if (abbreviate) {
     format(x, format = "%b", lang = lang)
@@ -62,20 +66,21 @@ eth_monthname <- function(x, lang = c("lat", "amh", "en"),
 #' @export
 #' @rdname eth_year
 eth_day <- function(x) {
-  if (!is_eth_date(x)) {
-    stop("`x` must be an Ethiopian date object.")
-  }
-  x <- eth_date_components(x)
-  sapply(x, \(x) x[["day"]])
+  get_component(x, "day")
 }
 
 #' @export
 #' @rdname eth_year
 eth_weekday <- function(x, lang = c("lat", "amh", "en"),
                         abbreviate = FALSE) {
-  lang <- match.arg(lang, c("lat", "amh", "en"))
+  lang <- match.arg(lang)
   if (!is_eth_date(x)) {
-    stop("`x` must be an Ethiopian date object.")
+    cli::cli_abort(
+      c(
+        "x" = "The input {.var x} must be {.cls ethdate}.",
+        "i" = "Current type of {.var x} is {.cls {class(x)}}."
+      )
+    )
   }
   if (abbreviate) {
     format(x, format = "%a", lang = lang)
