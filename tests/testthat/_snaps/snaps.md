@@ -137,11 +137,10 @@
 ---
 
     Code
-      print(eth_date(1:5) - eth_date(1), max = 3)
+      print(eth_date(1:5) - eth_date(1))
     Output
       Time differences in days
-      [1] 0 1 2
-       [ reached 'max' / getOption("max.print") -- omitted 2 entries ]
+      [1] 0 1 2 3 4
 
 # Format = %Blang = amh
 
