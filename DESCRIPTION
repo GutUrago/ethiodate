@@ -2,7 +2,7 @@ Package: ethiodate
 Type: Package
 Title: Working with Ethiopian Dates
 Version: 0.2.1
-Date: 2025-05-24
+Date: 2025-12-18
 Authors@R: c(
     person(
       "Gutama Girja", "Urago",

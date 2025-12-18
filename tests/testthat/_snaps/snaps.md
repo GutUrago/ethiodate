@@ -143,13 +143,6 @@
       [1] 0 1 2
        [ reached 'max' / getOption("max.print") -- omitted 2 entries ]
 
----
-
-    Code
-      print(eth_date(NULL))
-    Output
-      ethdate of length 0
-
 # Format = %Blang = amh
 
     Code
