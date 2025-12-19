@@ -1,11 +1,11 @@
 citHeader("To cite ethiodate in publications, please use:")
 
 
-meta <- packageDescription("ethiodate")
 year <- sub("-.*", "", meta$Date)
 note <- sprintf("R package version %s", meta$Version)
 bibentry(
   bibtype = "Manual",
+  key     = "rethiodate",
   title   = "ethiodate: Working with Ethiopian Dates in R",
   author  = person("Gutama Girja", "Urago"),
   year    = year,
