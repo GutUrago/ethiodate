@@ -52,7 +52,7 @@ eth_month(today)
 eth_monthname(today)
 #> [1] "Tahsas"
 eth_day(today)
-#> [1] 9
+#> [1] 12
 eth_weekday(today)
-#> [1] "Hamus"
+#> [1] "Ehud"
 ```

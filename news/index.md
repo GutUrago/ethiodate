@@ -2,6 +2,8 @@
 
 ## ethiodate 0.3.0
 
+CRAN release: 2025-12-19
+
 - [`eth_monthname()`](https://guturago.github.io/ethiodate/reference/eth_year.md)
   now accepts numeric months as input.
 - Introduced recycling vector lengths to support different formats and
