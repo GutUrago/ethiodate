@@ -1,3 +1,7 @@
+# ethiodate 0.3.1
+
+Fix summary.ethdate() and its tests to be robust to R >= 4.6.0
+
 # ethiodate 0.3.0
 
 * `eth_monthname()` now accepts numeric months as input.
