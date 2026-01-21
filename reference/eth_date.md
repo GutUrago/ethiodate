@@ -91,17 +91,17 @@ Gutama Girja Urago
 
 ``` r
 eth_date(Sys.Date())
-#> [1] "2018-04-12"
+#> [1] "2018-05-13"
 eth_date(Sys.time())
-#> [1] "2018-04-12"
+#> [1] "2018-05-13"
 
 x <- 7
 eth_date(x)
 #> [1] "1962-04-30"
 eth_date(x, origin = Sys.Date())
-#> [1] "2018-04-19"
+#> [1] "2018-05-20"
 eth_date(x, origin = eth_today())
-#> [1] "2018-04-19"
+#> [1] "2018-05-20"
 eth_date(x, origin = "2017-01-01")
 #> [1] "2017-01-08"
 eth_date(x, origin = "01-01-2017", format = "%d-%m-%Y")

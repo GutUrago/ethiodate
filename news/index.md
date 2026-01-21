@@ -1,5 +1,9 @@
 # Changelog
 
+## ethiodate 0.3.1
+
+Fix summary.ethdate() and its tests to be robust to R \>= 4.6.0
+
 ## ethiodate 0.3.0
 
 CRAN release: 2025-12-19

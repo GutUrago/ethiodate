@@ -113,11 +113,11 @@ origin date. If no origin is provided, it defaults to the standard
 ``` r
 # Create an ethdate object 7 days after today
 eth_date(7, origin = eth_today())
-#> [1] "2018-04-19"
+#> [1] "2018-05-20"
 
 # Create an ethdate object 7 days before today
 eth_date(-7, origin = eth_today())
-#> [1] "2018-04-05"
+#> [1] "2018-05-06"
 ```
 
 ### From Components
@@ -242,15 +242,15 @@ customize the output.
 ``` r
 # Format today's date in a custom string
 format(eth_today(), format = "This document was updated on %B %d, %Y EC.")
-#> [1] "This document was updated on Tahsas 12, 2018 EC."
+#> [1] "This document was updated on Tir 13, 2018 EC."
 
 # Format with day of the week and year
 format(eth_today(), format = "Today is %A, %B %d, %Y.")
-#> [1] "Today is Ehud, Tahsas 12, 2018."
+#> [1] "Today is Rebu, Tir 13, 2018."
 
 # Format in Amharic
 format(eth_today(), format = "%A، %B %d ቀን %Y ዓ.ም.", lang = "amh")
-#> [1] "እሁድ، ታህሳስ 12 ቀን 2018 ዓ.ም."
+#> [1] "ረቡዕ، ጥር 13 ቀን 2018 ዓ.ም."
 ```
 
 ## Conclusion

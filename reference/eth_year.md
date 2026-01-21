@@ -48,11 +48,11 @@ today <- eth_date(Sys.Date())
 eth_year(today)
 #> [1] 2018
 eth_month(today)
-#> [1] 4
+#> [1] 5
 eth_monthname(today)
-#> [1] "Tahsas"
+#> [1] "Tir"
 eth_day(today)
-#> [1] 12
+#> [1] 13
 eth_weekday(today)
-#> [1] "Ehud"
+#> [1] "Rebu"
 ```
