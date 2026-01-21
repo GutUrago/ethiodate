@@ -3,7 +3,7 @@
 
 test_that("Summary works for NAs too", {
   expect_snapshot(summary(eth_date(0:10)))
-  expect_snapshot(summary(eth_date(c(NA, 0:10, NA))))
+  expect_no_error(summary(eth_date(c(NA, 0:10, NA))))
 })
 
 

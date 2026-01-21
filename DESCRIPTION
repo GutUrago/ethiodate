@@ -1,8 +1,8 @@
 Package: ethiodate
 Type: Package
 Title: Working with Ethiopian Dates
-Version: 0.3.0
-Date: 2025-12-18
+Version: 0.3.1
+Date: 2026-01-21
 Authors@R: c(
     person(
       "Gutama Girja", "Urago",
@@ -18,6 +18,8 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.3
+Depends:
+    R (>= 3.5.0)
 LinkingTo: 
     Rcpp
 Imports: 

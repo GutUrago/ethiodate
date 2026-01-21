@@ -82,10 +82,10 @@ summary.ethdate <- function(object, digits = 12L, ...) {
 
   x <- summary.default(unclass(object), digits = digits, ...)
   stat_names <- names(x)
-  if(m <- match("NA's", names(x), 0)) {
-    NAs <- as.character(as.integer(x[m]))
-    x <- as.character(new_ethdate(x[-m]))
-    x <- c(x, "NA's" = NAs)
+  if(length(x) == 7) {
+    NAs <- as.character(as.integer(x[7]))
+    x <- as.character(new_ethdate(x[-7]))
+    x <- c(x, NAs)
   } else {
     x <- as.character(new_ethdate(x))
     }
