@@ -11,7 +11,7 @@ status](https://www.r-pkg.org/badges/version/ethiodate)](https://cran.r-project.
 [![cran
 checks](https://badges.cranchecks.info/worst/ethiodate.svg)](https://cran.r-project.org/web/checks/check_results_ethiodate.html)
 [![minimal R
-version](https://img.shields.io/badge/R%3E%3D-4.1.0-6666ff.svg)](https://cran.r-project.org/)
+version](https://img.shields.io/badge/R%3E%3D-3.5.0-6666ff.svg)](https://cran.r-project.org/)
 [![Codecov test
 coverage](https://codecov.io/gh/GutUrago/ethiodate/graph/badge.svg)](https://app.codecov.io/gh/GutUrago/ethiodate)
 [![Lifecycle:
